@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomMaterialAlertDialog" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="android:layoutDirection">rtl</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogBody</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButtonText</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonText</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AlertDialogNeutralButtonText</item>
+        <item name="shapeAppearanceOverlay">
+            @style/Base.ShapeAppearanceOverlay.MaterialAlertDialog.MaterialComponents
+        </item>
+    </style>
+
+    <style name="Base.ShapeAppearanceOverlay.MaterialAlertDialog.MaterialComponents" parent="">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="AlertDialogTitle" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:fontFamily">@font/shabnam</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AlertDialogBody" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:fontFamily">@font/shabnam</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AlertDialogButtonText" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:fontFamily">@font/shabnam</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/primary10</item>
+        <item name="rippleColor">@color/custom_gray</item>
+    </style>
+
+    <style name="AlertDialogNeutralButtonText" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:fontFamily">@font/shabnam</item>
+        <item name="android:textSize">14sp</item>
+        <!--        <item name="android:gravity">center</item>-->
+        <item name="android:textColor">@color/custom_red</item>
+        <item name="rippleColor">@color/custom_red_ripple</item>
+    </style>
+
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#246C2C</item>
+    </style>
+</resources>
