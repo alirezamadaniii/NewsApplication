@@ -102,7 +102,7 @@ dependencies {
     //    rounded imageview
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    //slider
-    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+//    //slider
+//    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 }
 

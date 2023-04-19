@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/homeFragment"
+    android:title="خانه"
+    android:icon="@drawable/outline_home_24"/>
+
+    <item
+        android:id="@+id/loginFragment"
+        android:title="پروفایل"
+        android:icon="@drawable/outline_person_24"/>
+
+
+    <item
+        android:id="@+id/savedNewsFragment"
+        android:title="اخبار ذخیره شده"
+        android:icon="@drawable/outline_bookmark_border_24"/>
+
+    <item
+        android:id="@+id/settingFragment"
+        android:title="تنظیمات"
+        android:icon="@drawable/outline_settings_24"/>
+
+
+</menu>

@@ -10,13 +10,9 @@ import com.majazi.newsapplication.databinding.ItemHomeBinding
 class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: ItemHomeBinding) : RecyclerView.ViewHolder(binding.root){
-
-
-
         fun bind() {
-            binding.imageViewExplore.setImageResource(R.drawable.ic_launcher_background)
+            binding.imageViewExplore.setImageResource(R.color.gray)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
