@@ -5,5 +5,5 @@ import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.repository.NewsRepository
 
 class GetNewsUseCase (private val newsRepository: NewsRepository){
-    suspend fun execute():Resource<HomeNews>? = newsRepository.getNews()
+    suspend fun execute():Resource<HomeNews> = newsRepository.getNews()
 }
