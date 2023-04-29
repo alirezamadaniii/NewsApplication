@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.home
+package com.majazi.newsapplication.peresentation.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,8 +11,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
-import com.majazi.newsapplication.ui.adapter.HomeAdapter
-import com.majazi.newsapplication.ui.adapter.SpannedGridLayoutManager
+import com.majazi.newsapplication.peresentation.ui.adapter.HomeAdapter
+import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
 
 class HomeFragment : Fragment() {
 
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         onclick()
         binding.materialTextView.isSelected = true
         setupSpannedGridLayout()
-        val adapter=HomeAdapter()
+        val adapter= HomeAdapter()
         binding.recyHome.adapter =adapter
     }
 

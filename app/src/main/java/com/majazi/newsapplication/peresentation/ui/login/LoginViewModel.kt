@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.login
+package com.majazi.newsapplication.peresentation.ui.login
 
 import androidx.lifecycle.ViewModel
 

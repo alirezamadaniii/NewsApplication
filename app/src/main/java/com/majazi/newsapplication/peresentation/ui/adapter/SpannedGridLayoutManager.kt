@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.adapter
+package com.majazi.newsapplication.peresentation.ui.adapter
 
 import android.content.Context
 import android.graphics.PointF

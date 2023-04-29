@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.home
+package com.majazi.newsapplication.peresentation.ui.home
 
 import androidx.lifecycle.ViewModel
 

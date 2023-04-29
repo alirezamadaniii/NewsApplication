@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.search
+package com.majazi.newsapplication.peresentation.ui.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

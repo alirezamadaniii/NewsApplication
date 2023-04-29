@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.ui.profile
+package com.majazi.newsapplication.peresentation.ui.profile
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle

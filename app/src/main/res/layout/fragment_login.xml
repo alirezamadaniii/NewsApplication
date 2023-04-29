@@ -13,13 +13,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.login.LoginFragment">
+    tools:context=".peresentation.ui.login.LoginFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageView2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_250sdp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
