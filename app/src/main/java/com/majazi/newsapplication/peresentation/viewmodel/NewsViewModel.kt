@@ -11,9 +11,11 @@ import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+//@HiltViewModel
 class NewsViewModel(
     private val app:Application,
     private val getNewsUseCase: GetNewsUseCase

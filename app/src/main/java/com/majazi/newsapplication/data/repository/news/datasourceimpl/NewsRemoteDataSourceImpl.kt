@@ -7,7 +7,7 @@ import retrofit2.Response
 
 class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDataSource {
     override suspend fun getNews(): Response<HomeNews> {
-        return apiService.getNewsHome("fa","f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+        return apiService.getNewsHome("fa")
     }
 
 }

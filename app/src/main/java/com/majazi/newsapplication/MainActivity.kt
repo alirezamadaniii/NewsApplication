@@ -4,15 +4,28 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.majazi.newsapplication.databinding.ActivityMainBinding
+import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
+import com.majazi.newsapplication.peresentation.viewmodel.NewsViewModel
+import com.majazi.newsapplication.peresentation.viewmodel.NewsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var factory: NewsViewModelFactory
+    @Inject
+    lateinit var newsAdapter: HomeNewsAdapter
+    lateinit var viewModel: NewsViewModel
+
     private lateinit var binding:ActivityMainBinding
     private lateinit var  navController:NavController
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
         initBottomNavigation()
+
+        viewModel = ViewModelProvider(this,factory).get(NewsViewModel::class.java)
     }
 
     private fun initBottomNavigation(){
@@ -52,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
 
 

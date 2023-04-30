@@ -5,18 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
+import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
-import com.majazi.newsapplication.peresentation.ui.adapter.HomeAdapter
+import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
+import com.majazi.newsapplication.peresentation.viewmodel.NewsViewModel
 
 class HomeFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: NewsViewModel
+    private lateinit var newsAdapter: HomeNewsAdapter
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -32,9 +35,51 @@ class HomeFragment : Fragment() {
 
         onclick()
         binding.materialTextView.isSelected = true
+
+        viewModel = (activity as MainActivity).viewModel
+        newsAdapter = (activity as MainActivity).newsAdapter
+        initRecyclerView()
+        viewNewsList()
+
+    }
+
+    private fun viewNewsList() {
+       viewModel.getNews()
+        viewModel.news.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let {
+                        newsAdapter.differ.submitList(it.data.toList())
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerView() {
         setupSpannedGridLayout()
-        val adapter= HomeAdapter()
-        binding.recyHome.adapter =adapter
+        binding.recyHome.adapter = newsAdapter
+    }
+
+
+    private fun showProgressBar(){
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
     private fun onclick() {
@@ -61,5 +106,4 @@ class HomeFragment : Fragment() {
         )
         binding.recyHome.layoutManager =manager
     }
-
 }

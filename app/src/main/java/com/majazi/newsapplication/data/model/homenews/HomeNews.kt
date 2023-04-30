@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class HomeNews(
     @SerializedName("data")
-    val `data`: List<Data>,
+    val `data`: List<ItemNews>,
     @SerializedName("message")
     val message: String,
     @SerializedName("success")

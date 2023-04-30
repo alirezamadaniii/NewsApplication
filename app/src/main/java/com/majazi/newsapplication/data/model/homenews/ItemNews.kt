@@ -3,7 +3,7 @@ package com.majazi.newsapplication.data.model.homenews
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class ItemNews(
     @SerializedName("category_name")
     val categoryName: String,
     @SerializedName("id")
