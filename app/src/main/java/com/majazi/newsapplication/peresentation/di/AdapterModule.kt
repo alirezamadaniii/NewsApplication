@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
+import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +15,11 @@ class AdapterModule {
     @Provides
     fun provideNewsAdapter():HomeNewsAdapter{
         return HomeNewsAdapter()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNewsListAdapter():NewsListAdapter{
+        return NewsListAdapter()
     }
 }

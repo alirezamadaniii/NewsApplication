@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
-import com.majazi.newsapplication.peresentation.viewmodel.NewsViewModel
+import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
+import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
+import kotlin.math.log
 
 class HomeFragment : Fragment() {
 
@@ -38,6 +42,15 @@ class HomeFragment : Fragment() {
 
         viewModel = (activity as MainActivity).viewModel
         newsAdapter = (activity as MainActivity).newsAdapter
+        newsAdapter.setOnItemClick {
+           val bundle =Bundle().apply {
+               putString("post_id",it.id.toString())
+           }
+            findNavController().navigate(
+                R.id.action_homeFragment_to_listNewsFragment,
+                bundle
+            )
+        }
         initRecyclerView()
         viewNewsList()
 
@@ -67,6 +80,8 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun initRecyclerView() {
         setupSpannedGridLayout()

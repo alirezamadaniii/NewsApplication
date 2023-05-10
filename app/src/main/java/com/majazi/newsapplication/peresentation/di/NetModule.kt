@@ -9,16 +9,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 class NetModule {
 
+
     @Singleton
     @Provides
     fun provideRetrofit():Retrofit{
+
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://10.3.10.172/api/v10/")
+            .baseUrl("http://10.3.10.172:8080/api/v10/")
             .build()
     }
 

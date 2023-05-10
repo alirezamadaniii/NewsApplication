@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.peresentation.viewmodel
+package com.majazi.newsapplication.peresentation.viewmodel.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

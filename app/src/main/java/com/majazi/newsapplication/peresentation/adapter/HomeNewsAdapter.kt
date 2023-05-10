@@ -1,10 +1,8 @@
 package com.majazi.newsapplication.peresentation.adapter
 
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.AsyncListUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -50,8 +48,19 @@ class HomeNewsAdapter: RecyclerView.Adapter<HomeNewsAdapter.NewsViewHolder>() {
           Glide.with(binding.imageViewExplore.context)
               .load(itemNews.image)
               .into(binding.imageViewExplore)
+
+            binding.root.setOnClickListener {
+                onItemClick?.let {
+                    it(itemNews)
+                }
+            }
         }
     }
 
+    private var onItemClick :((ItemNews)->Unit)?=null
+
+    fun setOnItemClick(listener:(ItemNews)->Unit){
+        onItemClick = listener
+    }
 
 }

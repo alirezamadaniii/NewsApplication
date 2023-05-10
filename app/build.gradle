@@ -196,5 +196,20 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
 
     implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+
+    // moshi
+    implementation("com.squareup.moshi:moshi:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
+
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.4'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4'
+    implementation('com.github.ihsanbal:LoggingInterceptor:3.1.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 }
 

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listNewsFragment"
+            app:destination="@id/listNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -41,4 +44,27 @@
         android:id="@+id/loginFragment"
         android:name="com.majazi.newsapplication.peresentation.ui.login.LoginFragment"
         android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/listNewsFragment"
+        android:name="com.majazi.newsapplication.peresentation.ui.ListNewsFragment"
+        android:label="ListNewsFragment" >
+        <argument
+            android:name="post_id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
+        <action
+            android:id="@+id/action_listNewsFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailNewsFragment"
+        android:name="com.majazi.newsapplication.peresentation.ui.detailNews.DetailNewsFragment"
+        android:label="DetailNewsFragment" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
+    </fragment>
 </navigation>
