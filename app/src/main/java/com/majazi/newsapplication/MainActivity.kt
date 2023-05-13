@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.majazi.newsapplication.databinding.ActivityMainBinding
+import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var newsListAdapter: NewsListAdapter
     @Inject
     lateinit var newsAdapter: HomeNewsAdapter
+    @Inject
+    lateinit var detailNewsAdapter:DetailNewsAdapter
 
 
 

@@ -17,8 +17,7 @@ import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
-import kotlin.math.log
+
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +30,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
+        binding.materialTextView.isSelected = true
         return binding.root
     }
 
@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onclick()
-        binding.materialTextView.isSelected = true
+
 
         viewModel = (activity as MainActivity).viewModel
         newsAdapter = (activity as MainActivity).newsAdapter
@@ -121,4 +121,6 @@ class HomeFragment : Fragment() {
         )
         binding.recyHome.layoutManager =manager
     }
+
+
 }

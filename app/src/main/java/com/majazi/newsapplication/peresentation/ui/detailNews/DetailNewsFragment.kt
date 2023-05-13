@@ -2,29 +2,28 @@ package com.majazi.newsapplication.peresentation.ui.detailNews
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
-import com.majazi.newsapplication.databinding.FragmentListNewsBinding
-import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
-import com.majazi.newsapplication.peresentation.ui.ListNewsFragmentArgs
+import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
 
 
 class DetailNewsFragment : Fragment() {
     private lateinit var binding: FragmentDetailNewsBinding
     private val args : DetailNewsFragmentArgs by navArgs()
     private lateinit var viewModel: DetailNewsViewModel
+    private lateinit var detailNewsAdapter: DetailNewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,8 +38,16 @@ class DetailNewsFragment : Fragment() {
 
         getBundle()
         viewModel = (activity as MainActivity).detailNewsViewModel
+        detailNewsAdapter = (activity as MainActivity).detailNewsAdapter
         viewNewsList()
+        backPreesed()
 
+    }
+
+    private fun backPreesed() {
+        binding.toolbarDetail.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 
@@ -61,6 +68,9 @@ class DetailNewsFragment : Fragment() {
                         Glide.with(binding.imgHeaderNews.context)
                             .load(it.image.og_image)
                             .into(binding.imgHeaderNews)
+
+                        binding.recyDetail.adapter = detailNewsAdapter
+                        detailNewsAdapter.differ.submitList(it.additional_contents)
                     }
                 }
 
@@ -81,7 +91,13 @@ class DetailNewsFragment : Fragment() {
 
     private fun setupWebView(html:String) {
         binding.webViewDetail.settings.javaScriptEnabled = true
-        binding.webViewDetail.loadData(html,"text/html; charset=utf-8", "UTF-8")
+
+        //add font
+        val pish =
+            "<html><head><style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/font/shabnam.ttf\")}body {direction : rtl;font-family: MyFont;font-size: medium;text-align: justify;}</style></head><body>"
+        val pas = "</body></html>"
+        val myHtmlString = pish + html + pas
+        binding.webViewDetail.loadDataWithBaseURL(null, myHtmlString, "text/html", "UTF-8", null)
     }
 
 

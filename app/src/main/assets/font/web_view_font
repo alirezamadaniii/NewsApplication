@@ -1,0 +1,17 @@
+<html>
+<head>
+<style type="text/css">
+@font-face {
+    font-family: MyFont;
+    src: url("file:///android_asset/fonts/shabnam_bold.otf")
+}
+body {
+    font-family: MyFont;
+
+}
+</style>
+</head>
+<body>
+Your text can go here! Your text can go here! Your text can go here!
+</body>
+</html>
