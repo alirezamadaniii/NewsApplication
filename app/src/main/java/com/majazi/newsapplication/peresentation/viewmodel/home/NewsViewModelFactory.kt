@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 
 class NewsViewModelFactory(
     private val app:Application,

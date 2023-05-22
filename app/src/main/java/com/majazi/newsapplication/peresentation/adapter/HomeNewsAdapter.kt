@@ -45,6 +45,7 @@ class HomeNewsAdapter: RecyclerView.Adapter<HomeNewsAdapter.NewsViewHolder>() {
 
     inner class  NewsViewHolder(val binding: ItemHomeBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(itemNews:ItemNews){
+            binding.txtCategoryHome.text = itemNews.categoryName
           Glide.with(binding.imageViewExplore.context)
               .load(itemNews.image)
               .into(binding.imageViewExplore)

@@ -1,5 +1,8 @@
 package com.majazi.newsapplication.peresentation.di
 
+import android.app.Application
+import android.content.Context
+import com.majazi.newsapplication.BaseApplication
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
@@ -26,7 +29,7 @@ class AdapterModule {
 
     @Singleton
     @Provides
-    fun provideDetailNewsAdapter():DetailNewsAdapter{
-        return DetailNewsAdapter()
+    fun provideDetailNewsAdapter(context: Application):DetailNewsAdapter{
+        return DetailNewsAdapter(context)
     }
 }

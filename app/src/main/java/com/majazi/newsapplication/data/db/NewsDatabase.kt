@@ -2,11 +2,16 @@ package com.majazi.newsapplication.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.newslist.Data
 
-//@Database(
-//    entities = [],
-//    version = 1,
-//    exportSchema = false)
-//abstract class NewsDatabase :RoomDatabase(){
-//    abstract fun newsDao():NewsDao
-//}
+@Database(
+    entities = [Data::class],
+    version = 1,
+    exportSchema = false)
+@TypeConverters(Converters::class)
+abstract class NewsDatabase :RoomDatabase(){
+    abstract fun newsDao():NewsDao
+}

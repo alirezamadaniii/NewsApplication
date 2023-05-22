@@ -53,6 +53,10 @@ class ListNewsFragment : Fragment() {
                 bundle
             )
         }
+
+        newsAdapter.setOnSavedButtonClick {
+            viewModel.saveNews(it)
+        }
     }
 
 

@@ -1,9 +1,10 @@
 package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.domien.repository.NewsRepository
-import com.majazi.newsapplication.domien.usecase.GetDetailNews
+import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +36,16 @@ class UseCaseModule {
     @Provides
     fun provideGetDetailNewsUseCase(
         newsRepository: NewsRepository
-    ):GetDetailNews{
-        return GetDetailNews(newsRepository)
+    ):GetDetailNewsUseCase{
+        return GetDetailNewsUseCase(newsRepository)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideSaveNewsUseCase(
+        newsRepository: NewsRepository
+    ):SaveNewsUseCase{
+        return SaveNewsUseCase(newsRepository)
     }
 }

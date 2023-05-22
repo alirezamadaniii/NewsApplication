@@ -2,14 +2,18 @@ package com.majazi.newsapplication.data.repository.news
 
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.homenews.HomeNews
+import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import retrofit2.Response
 
 class NewsRepositoryImpl(
-    private val remoteDataSource: NewsRemoteDataSource
+    private val remoteDataSource: NewsRemoteDataSource,
+    private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
     override suspend fun getNews(): Resource<HomeNews> {
         return responseToResource(remoteDataSource.getNews())
@@ -22,6 +26,12 @@ class NewsRepositoryImpl(
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
         return responseToResourceDetailNews(remoteDataSource.getDetailNews(id))
     }
+
+    override suspend fun saveNews(data: Data) {
+        localDataSource.saveNewsToDB(data)
+    }
+
+
 
     private fun responseToResource(response: Response<HomeNews>):Resource<HomeNews>{
         if (response.isSuccessful){

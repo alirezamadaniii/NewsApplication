@@ -1,9 +1,10 @@
 package com.majazi.newsapplication.peresentation.di
 
 import android.app.Application
-import com.majazi.newsapplication.domien.usecase.GetDetailNews
+import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewsListViewModelFactory
@@ -26,19 +27,20 @@ class FactoryModule {
     ): NewsViewModelFactory {
         return NewsViewModelFactory(
             application,
-            getNewsUseCase
-        )
+            getNewsUseCase)
     }
 
     @Singleton
     @Provides
     fun provideNewsListViewModelFactory(
         application: Application,
-        getNewsListUseCase: GetNewsListUseCase
+        getNewsListUseCase: GetNewsListUseCase,
+        saveNewsUseCase: SaveNewsUseCase
     ): NewsListViewModelFactory {
         return NewsListViewModelFactory(
             application,
-            getNewsListUseCase
+            getNewsListUseCase,
+            saveNewsUseCase
         )
     }
 
@@ -46,11 +48,11 @@ class FactoryModule {
     @Provides
     fun provideDetailNewsViewModelFactory(
         application: Application,
-        getDetailNews: GetDetailNews
+        getDetailNewsUseCase: GetDetailNewsUseCase
     ): DetailNewsFactory {
         return DetailNewsFactory(
             application,
-            getDetailNews
+            getDetailNewsUseCase
         )
     }
 

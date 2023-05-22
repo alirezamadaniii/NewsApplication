@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.data.repository.news.NewsRepositoryImpl
+import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import dagger.Module
@@ -17,8 +18,11 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideNewsRepository(
-        newsRemoteDataSource: NewsRemoteDataSource
+        newsRemoteDataSource: NewsRemoteDataSource,
+    newsLocalDataSource: NewsLocalDataSource
     ):NewsRepository{
-        return NewsRepositoryImpl(newsRemoteDataSource)
+        return NewsRepositoryImpl(
+            newsRemoteDataSource,
+            newsLocalDataSource)
     }
 }

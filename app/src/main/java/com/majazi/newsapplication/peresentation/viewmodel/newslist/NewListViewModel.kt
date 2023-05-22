@@ -8,15 +8,20 @@ import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
+import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewListViewModel(
     private val app:Application,
-    private val getNewsListUseCase: GetNewsListUseCase
+    private val getNewsListUseCase: GetNewsListUseCase,
+    private val saveNewsUseCase: SaveNewsUseCase
+
 ) :AndroidViewModel(app){
 
     val newsList :MutableLiveData<Resource<NewsList>> = MutableLiveData()
@@ -64,4 +69,8 @@ class NewListViewModel(
         return result
     }
 
+    //local data
+    fun saveNews(data: Data) = viewModelScope.launch {
+        saveNewsUseCase.execute(data)
+    }
 }

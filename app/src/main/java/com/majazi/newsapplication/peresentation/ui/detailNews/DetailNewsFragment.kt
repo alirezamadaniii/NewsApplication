@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.Player
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
@@ -24,10 +25,12 @@ class DetailNewsFragment : Fragment() {
     private val args : DetailNewsFragmentArgs by navArgs()
     private lateinit var viewModel: DetailNewsViewModel
     private lateinit var detailNewsAdapter: DetailNewsAdapter
+    private lateinit var player: Player
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_detail_news, container, false)
         return binding.root
@@ -58,6 +61,12 @@ class DetailNewsFragment : Fragment() {
 
 
     private fun viewNewsList() {
+
+
+        detailNewsAdapter.setOnItemClick {
+            player =it
+        }
+
         viewModel.getDetailNews(getBundle())
         viewModel.news.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -69,7 +78,10 @@ class DetailNewsFragment : Fragment() {
                             .load(it.image.og_image)
                             .into(binding.imgHeaderNews)
 
-                        binding.recyDetail.adapter = detailNewsAdapter
+
+                            binding.recyDetail.adapter = detailNewsAdapter
+
+
                         detailNewsAdapter.differ.submitList(it.additional_contents)
                     }
                 }
@@ -107,6 +119,15 @@ class DetailNewsFragment : Fragment() {
 
     private fun hideProgressBar(){
         binding.progressDetail.visibility = View.INVISIBLE
+    }
+
+
+
+    override fun onPause() {
+        super.onPause()
+        if (this::player.isInitialized){
+            player.pause()
+        }
     }
 
 }

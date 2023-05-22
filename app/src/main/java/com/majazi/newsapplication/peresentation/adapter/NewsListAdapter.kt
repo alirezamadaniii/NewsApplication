@@ -2,16 +2,13 @@ package com.majazi.newsapplication.peresentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.model.detailnews.DetailNews
-import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
+import java.lang.NullPointerException
 
 class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
 
@@ -25,7 +22,6 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
         override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem == newItem
         }
-
     }
 
     val differ = AsyncListDiffer(this,callback)
@@ -51,9 +47,14 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
 
     inner class  NewsViewHolder(val binding: ItemListNewsBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(itemNews: Data){
-            Glide.with(binding.imageListNews.context)
-                .load(itemNews.image.mediumImage)
-                .into(binding.imageListNews)
+            try {
+                Glide.with(binding.imageListNews.context)
+                    .load(itemNews.image.mediumImage)
+                    .into(binding.imageListNews)
+            }catch (e:NullPointerException){
+                e.printStackTrace()
+            }
+
 
             binding.tvHeder.text = itemNews.title
             binding.tvDate.text = itemNews.created
@@ -63,12 +64,25 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
                     it(itemNews)
                 }
             }
+
+            binding.imbSaveNews.setOnClickListener {
+                onSavedButtonClick?.let {
+                    it(itemNews)
+                }
+            }
         }
     }
 
     private var onItemClick :((Data)->Unit)?=null
+    private var onSavedButtonClick :((Data)->Unit)?=null
+
+
 
     fun setOnItemClick(listener:(Data)->Unit){
         onItemClick = listener
     }
+    fun setOnSavedButtonClick(listener:(Data)->Unit){
+        onSavedButtonClick = listener
+    }
+
 }

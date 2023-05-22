@@ -1,8 +1,13 @@
 package com.majazi.newsapplication.data.model.newslist
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(
+    tableName = "news_list"
+)
 data class Data(
     @SerializedName("category_id")
     val categoryId: Int,
@@ -10,6 +15,7 @@ data class Data(
     val commentsCount: Int,
     @SerializedName("created")
     val created: String,
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,
     @SerializedName("image")

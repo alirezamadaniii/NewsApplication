@@ -1,21 +1,30 @@
 package com.majazi.newsapplication.peresentation.adapter
 
+import android.app.Application
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.majazi.newsapplication.data.model.detailnews.AdditionalContent
-import com.majazi.newsapplication.databinding.ItemHomeBinding
 import com.majazi.newsapplication.databinding.ItemImageTypeBinding
 import com.majazi.newsapplication.databinding.ItemTextTypeBinding
+import com.majazi.newsapplication.databinding.ItemVideoTypeBinding
 
-class DetailNewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+class DetailNewsAdapter(
+    val context:Application,
+    ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val IMAGE_TYPE = 0
     private val VIDEO_TYPE = 1
     private val TEXT_TYPE = 2
+    private lateinit var player: Player
 
     private val callback = object : DiffUtil.ItemCallback<AdditionalContent>(){
         override fun areItemsTheSame(oldItem: AdditionalContent, newItem: AdditionalContent): Boolean {
@@ -48,39 +57,30 @@ class DetailNewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
 
-//            VIDEO_TYPE->{
-//                val binding = ItemHomeBinding
-//                    .inflate(LayoutInflater.from(parent.context),parent,false)
-//                return ImageViewHolder(binding)
-//            }
+            VIDEO_TYPE->{
+                val binding = ItemVideoTypeBinding
+                    .inflate(LayoutInflater.from(parent.context),parent,false)
+                return VideoViewHolder(binding)
+            }
+
 
             else -> {
                 val binding = ItemTextTypeBinding
                     .inflate(LayoutInflater.from(parent.context),parent,false)
                 return TextViewHolder(binding)
             }
-//            else -> {val binding = ItemImageTypeBinding
-//                .inflate(LayoutInflater.from(parent.context),parent,false)
-//                return ImageViewHolder(binding)
-//
-//            }
         }
-
-
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = differ.currentList[position]
         when(item.type){
             "image"->(holder as ImageViewHolder).bind(item)
-            "text"->(holder as TextViewHolder).bind2(item)
+            "text"->(holder as TextViewHolder).bind(item)
+            "video"->(holder as VideoViewHolder).bind(item)
         }
-
-
-
-
     }
+
 
     override fun getItemCount(): Int {
         return differ.currentList.size
@@ -95,7 +95,6 @@ class DetailNewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 "text" ->  TEXT_TYPE
                 "video" -> VIDEO_TYPE
                 else -> -1
-
         }
     }
 
@@ -109,9 +108,38 @@ class DetailNewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class TextViewHolder(val binding:ItemTextTypeBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind2(item:AdditionalContent){
+        fun bind(item:AdditionalContent){
             binding.textType.text = item.text
         }
     }
 
+    inner class VideoViewHolder(val binding:ItemVideoTypeBinding):RecyclerView.ViewHolder(binding.root){
+        fun bind(item:AdditionalContent){
+            try {
+                    player = ExoPlayer.Builder(context).build()
+                    binding.exoPlayer.player = player
+                    // Build the media item.
+                    val mediaItem: MediaItem =
+                        MediaItem.fromUri(Uri.parse(item.video.original))
+                    player.setMediaItem(mediaItem)
+                    player.prepare()
+
+                binding.root.setOnClickListener {
+                    onItemClick?.let {
+                        it(player)
+                    }
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+
+    private var onItemClick :((Player)->Unit)?=null
+
+    fun setOnItemClick(listener:(Player)->Unit){
+        onItemClick = listener
+    }
 }

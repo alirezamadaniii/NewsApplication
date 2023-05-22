@@ -9,14 +9,17 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.HomeNews
+import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewsViewModel(
     private val app:Application,
     private val getNewsUseCase: GetNewsUseCase
+
 ):AndroidViewModel(app) {
 
     val news: MutableLiveData<Resource<HomeNews>> = MutableLiveData()
@@ -64,4 +67,6 @@ class NewsViewModel(
         }
         return result
     }
+
+
 }

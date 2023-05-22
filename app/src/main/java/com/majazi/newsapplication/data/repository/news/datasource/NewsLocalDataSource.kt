@@ -1,7 +1,8 @@
 package com.majazi.newsapplication.data.repository.news.datasource
 
+import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.newslist.Data
+
 interface NewsLocalDataSource {
-//    suspend fun getNewsFromDB():List<>
-//    suspend fun saveNewsToDB():List<>
-    suspend fun clearAll()
+    suspend fun saveNewsToDB(data: Data)
 }
