@@ -2,12 +2,15 @@ package com.majazi.newsapplication.peresentation.di
 
 import android.app.Application
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewsListViewModelFactory
+import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,12 +38,14 @@ class FactoryModule {
     fun provideNewsListViewModelFactory(
         application: Application,
         getNewsListUseCase: GetNewsListUseCase,
-        saveNewsUseCase: SaveNewsUseCase
+        saveNewsUseCase: SaveNewsUseCase,
+        getNewsFromDbUseCase: GetNewsFromDbUseCase
     ): NewsListViewModelFactory {
         return NewsListViewModelFactory(
             application,
             getNewsListUseCase,
-            saveNewsUseCase
+            saveNewsUseCase,
+            getNewsFromDbUseCase
         )
     }
 
@@ -53,6 +58,18 @@ class FactoryModule {
         return DetailNewsFactory(
             application,
             getDetailNewsUseCase
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchNewsViewModelFactory(
+        application: Application,
+        getSearchNewsUseCase: GetSearchNewsUseCase
+    ): SearchNewsViewModelFactory {
+        return SearchNewsViewModelFactory(
+            application,
+            getSearchNewsUseCase
         )
     }
 

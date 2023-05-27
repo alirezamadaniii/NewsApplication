@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsDao {
@@ -16,6 +17,6 @@ interface NewsDao {
 //    @Query("DELETE FROM ")
 //    suspend fun deleteAllNews()
 //
-//    @Query("SELECT * FROM ")
-//    suspend fun getNewsList():List<>
+    @Query("SELECT * FROM news_list")
+     fun getNewsList(): Flow<List<Data>>
 }

@@ -98,10 +98,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun onclick() {
-        binding.imbSearch.setOnClickListener {
-            Navigation.findNavController(it).
-                    navigate(R.id.action_homeFragment_to_searchFragment)
-        }
+//        binding.imbSearch.setOnClickListener {
+//            Navigation.findNavController(it).
+//                    navigate(R.id.action_homeFragment_to_searchFragment)
+//        }
     }
 
 

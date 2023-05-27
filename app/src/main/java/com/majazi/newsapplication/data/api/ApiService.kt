@@ -3,6 +3,7 @@ package com.majazi.newsapplication.data.api
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.model.search.Search
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -30,5 +31,12 @@ interface ApiService {
     suspend fun getDetailNews(
         @Path(value = "id", encoded = true) id: String
     ): Response<DetailNews>
+
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @GET("search")
+    suspend fun getSearch(
+        @Query("search") search: String
+    ): Response<Search>
 
 }

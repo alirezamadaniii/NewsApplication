@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.peresentation.ui
+package com.majazi.newsapplication.peresentation.ui.listnews
 
 import android.os.Bundle
 import android.util.Log
@@ -14,14 +14,13 @@ import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
-import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
 
 
 class ListNewsFragment : Fragment() {
     private lateinit var binding:FragmentListNewsBinding
-    private val args :ListNewsFragmentArgs by navArgs()
+    private val args : ListNewsFragmentArgs by navArgs()
     private lateinit var viewModel: NewListViewModel
     private lateinit var newsAdapter: NewsListAdapter
 
@@ -56,6 +55,10 @@ class ListNewsFragment : Fragment() {
 
         newsAdapter.setOnSavedButtonClick {
             viewModel.saveNews(it)
+        }
+
+        binding.imbSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_listNewsFragment_to_searchFragment)
         }
     }
 

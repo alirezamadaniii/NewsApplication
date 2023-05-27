@@ -4,6 +4,7 @@ import com.majazi.newsapplication.data.api.ApiService
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import retrofit2.Response
 
@@ -18,6 +19,10 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
 
     override suspend fun getDetailNews(id: String): Response<DetailNews> {
         return apiService.getDetailNews(id)
+    }
+
+    override suspend fun getNewsFromSearch(search: String): Response<Search> {
+        return apiService.getSearch(search)
     }
 
 }

@@ -11,9 +11,6 @@
         android:label="HomeFragment"
         >
         <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
@@ -46,7 +43,7 @@
         android:label="LoginFragment" />
     <fragment
         android:id="@+id/listNewsFragment"
-        android:name="com.majazi.newsapplication.peresentation.ui.ListNewsFragment"
+        android:name="com.majazi.newsapplication.peresentation.ui.listnews.ListNewsFragment"
         android:label="ListNewsFragment" >
         <argument
             android:name="post_id"
@@ -56,6 +53,9 @@
         <action
             android:id="@+id/action_listNewsFragment_to_detailNewsFragment"
             app:destination="@id/detailNewsFragment" />
+        <action
+            android:id="@+id/action_listNewsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsFragment"

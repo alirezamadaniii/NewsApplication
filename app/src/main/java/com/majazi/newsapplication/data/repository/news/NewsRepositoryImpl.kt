@@ -5,10 +5,12 @@ import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.repository.NewsRepository
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class NewsRepositoryImpl(
@@ -31,6 +33,13 @@ class NewsRepositoryImpl(
         localDataSource.saveNewsToDB(data)
     }
 
+    override suspend fun getNewsFromDb(): Flow<List<Data>> {
+        return localDataSource.getNewsFromDb()
+    }
+
+    override suspend fun getNewsFromSearch(search: String): Resource<Search> {
+        return responseToResourceSearch(remoteDataSource.getNewsFromSearch(search))
+    }
 
 
     private fun responseToResource(response: Response<HomeNews>):Resource<HomeNews>{
@@ -55,6 +64,15 @@ class NewsRepositoryImpl(
 
 
     private fun responseToResourceDetailNews(response: Response<DetailNews>):Resource<DetailNews>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun responseToResourceSearch(response: Response<Search>):Resource<Search>{
         if (response.isSuccessful){
             response.body()?.let {result->
                 return Resource.Success(result)

@@ -1,4 +1,4 @@
-package com.majazi.newsapplication.peresentation.viewmodel.newslist
+package com.majazi.newsapplication.peresentation.viewmodel.search
 
 import android.app.Application
 import android.content.Context
@@ -7,40 +7,32 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.majazi.newsapplication.data.model.newslist.Data
-import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
-import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
-import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class NewListViewModel(
-    private val app:Application,
-    private val getNewsListUseCase: GetNewsListUseCase,
-    private val saveNewsUseCase: SaveNewsUseCase,
-    private val getNewsFromDbUseCase: GetNewsFromDbUseCase
+class SearchNewsViewModel(
+    private val app :Application,
+    private val getSearchNewsUseCase: GetSearchNewsUseCase
+):AndroidViewModel(app) {
+    var news :MutableLiveData<Resource<Search>> = MutableLiveData()
 
-) :AndroidViewModel(app){
-
-    val newsList :MutableLiveData<Resource<NewsList>> = MutableLiveData()
-
-    fun getNewsList(catId:String) =viewModelScope.launch(Dispatchers.IO) {
-        newsList.postValue(Resource.Loading())
+    fun getNewsFromSearch(search: String) = viewModelScope.launch(Dispatchers.IO) {
+        news.postValue(Resource.Loading())
         try {
             if (isInternetAvailable(app)){
-                val apiResult  = getNewsListUseCase.execute(catId)
-                newsList.postValue(apiResult)
+                val apiResult = getSearchNewsUseCase.execute(search)
+                news.postValue(apiResult)
             }else{
-                newsList.postValue(Resource.Error("Internet is not available"))
+                news.postValue(Resource.Error("Internet is not available"))
             }
         }catch (e:Exception){
-            newsList.postValue(Resource.Error(e.message.toString()))
+            news.postValue(Resource.Error(e.message.toString()))
         }
+
     }
 
     @Suppress("DEPRECATION")
@@ -70,16 +62,5 @@ class NewListViewModel(
             }
         }
         return result
-    }
-
-    //local data
-    fun saveNews(data: Data) = viewModelScope.launch {
-        saveNewsUseCase.execute(data)
-    }
-
-    fun getSavedNews() = liveData {
-        getNewsFromDbUseCase.execute().collect{
-            emit(it)
-        }
     }
 }

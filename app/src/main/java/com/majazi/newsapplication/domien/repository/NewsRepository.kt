@@ -5,7 +5,9 @@ import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
+import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.utils.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
 
@@ -15,5 +17,9 @@ interface NewsRepository {
     suspend fun getDetailNews(id:String):Resource<DetailNews>
 
     suspend fun saveNews(data: Data)
+
+    suspend fun getNewsFromDb():Flow<List<Data>>
+
+    suspend fun getNewsFromSearch(search:String):Resource<Search>
 
 }

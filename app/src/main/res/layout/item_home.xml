@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/_2sdp"
-            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginStart="@dimen/_2sdp"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView

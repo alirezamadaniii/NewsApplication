@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
 
 class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
 
+
+    private var stateSavedButton = false
 
     private val callback = object : DiffUtil.ItemCallback<Data>(){
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
@@ -66,6 +69,14 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
             }
 
             binding.imbSaveNews.setOnClickListener {
+                stateSavedButton = if (!stateSavedButton){
+                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_24)
+                    true
+                }else{
+                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_border_24)
+                    false
+                }
+
                 onSavedButtonClick?.let {
                     it(itemNews)
                 }
