@@ -22,20 +22,20 @@ class NewsViewModel(
 
 ):AndroidViewModel(app) {
 
-    val news: MutableLiveData<Resource<HomeNews>> = MutableLiveData()
+    val news: MutableLiveData<List<ItemNews>> = MutableLiveData()
 
 
     fun getNews() =viewModelScope.launch(Dispatchers.IO) {
-        news.postValue(Resource.Loading())
+//        news.postValue(Resource.Loading())
         try {
-            if (isInternetAvailable(app)){
+//            if (isInternetAvailable(app)){
                 val apiResult  = getNewsUseCase.execute()
                 news.postValue(apiResult)
-            }else{
-                news.postValue(Resource.Error("Internet is not available"))
-            }
+//            }else{
+//                news.postValue(Resource.Error("Internet is not available"))
+//            }
         }catch (e:Exception){
-            news.postValue(Resource.Error(e.message.toString()))
+//            news.postValue(Resource.Error(e.message.toString()))
         }
     }
 

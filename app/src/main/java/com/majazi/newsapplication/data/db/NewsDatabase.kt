@@ -8,8 +8,8 @@ import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 
 @Database(
-    entities = [Data::class],
-    version = 1,
+    entities = [Data::class,ItemNews::class],
+    version = 2,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class NewsDatabase :RoomDatabase(){

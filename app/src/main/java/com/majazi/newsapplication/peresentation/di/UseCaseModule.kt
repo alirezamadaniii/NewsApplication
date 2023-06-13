@@ -1,11 +1,13 @@
 package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.domien.repository.NewsRepository
+import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SaveCategoryToDbUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import dagger.Module
 import dagger.Provides
@@ -67,4 +69,15 @@ class UseCaseModule {
     ):GetSearchNewsUseCase{
         return GetSearchNewsUseCase(newsRepository)
     }
+
+    @Singleton
+    @Provides
+    fun provideCommentUseCase(
+        newsRepository: NewsRepository
+    ):GetCommentUseCase{
+        return GetCommentUseCase(newsRepository)
+    }
+
+
+
 }

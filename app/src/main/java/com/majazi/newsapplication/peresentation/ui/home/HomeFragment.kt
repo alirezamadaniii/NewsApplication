@@ -59,25 +59,29 @@ class HomeFragment : Fragment() {
     private fun viewNewsList() {
        viewModel.getNews()
         viewModel.news.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let {
-                        newsAdapter.differ.submitList(it.data.toList())
-                    }
-                }
 
-                is Resource.Error -> {
-                    hideProgressBar()
-                    response.message?.let {
-                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
-                    }
-                }
+                        newsAdapter.differ.submitList(response)
 
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
-            }
+
+//            when (response) {
+//                is Resource.Success -> {
+//                    hideProgressBar()
+//                    response.data?.let {
+//                        newsAdapter.differ.submitList(it.data.toList())
+//                    }
+//                }
+//
+//                is Resource.Error -> {
+//                    hideProgressBar()
+//                    response.message?.let {
+//                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+//                    }
+//                }
+//
+//                is Resource.Loading -> {
+//                    showProgressBar()
+//                }
+//            }
         }
     }
 
@@ -98,10 +102,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun onclick() {
-//        binding.imbSearch.setOnClickListener {
-//            Navigation.findNavController(it).
-//                    navigate(R.id.action_homeFragment_to_searchFragment)
-//        }
+        binding.imbSearch.setOnClickListener {
+            Navigation.findNavController(it).
+                    navigate(R.id.action_homeFragment_to_searchFragment)
+        }
     }
 
 

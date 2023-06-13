@@ -114,7 +114,7 @@ class DetailNewsAdapter(
     }
 
     inner class VideoViewHolder(val binding:ItemVideoTypeBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(item:AdditionalContent){
+        fun bind(item:AdditionalContent){ 
             try {
                     player = ExoPlayer.Builder(context).build()
                     binding.exoPlayer.player = player

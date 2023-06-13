@@ -33,7 +33,7 @@
                 android:layout_height="@dimen/_85sdp"
                 android:layout_margin="@dimen/_4sdp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/default_news_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="@dimen/_8sdp" />

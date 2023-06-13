@@ -57,9 +57,7 @@ class ListNewsFragment : Fragment() {
             viewModel.saveNews(it)
         }
 
-        binding.imbSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_listNewsFragment_to_searchFragment)
-        }
+
     }
 
 
@@ -97,6 +95,8 @@ class ListNewsFragment : Fragment() {
             }
         }
     }
+
+
 
 
     private fun showProgressBar(){

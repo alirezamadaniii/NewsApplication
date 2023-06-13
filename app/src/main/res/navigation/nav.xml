@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_listNewsFragment"
             app:destination="@id/listNewsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -53,9 +56,6 @@
         <action
             android:id="@+id/action_listNewsFragment_to_detailNewsFragment"
             app:destination="@id/detailNewsFragment" />
-        <action
-            android:id="@+id/action_listNewsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsFragment"

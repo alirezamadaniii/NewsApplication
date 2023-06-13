@@ -1,6 +1,8 @@
 package com.majazi.newsapplication.data.repository.news
 
+import android.util.Log
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
+import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
@@ -17,8 +19,8 @@ class NewsRepositoryImpl(
     private val remoteDataSource: NewsRemoteDataSource,
     private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
-    override suspend fun getNews(): Resource<HomeNews> {
-        return responseToResource(remoteDataSource.getNews())
+    override suspend fun getNews(): List<ItemNews> {
+        return getCategoryFromDb()
     }
 
     override suspend fun getListNews(catId:String): Resource<NewsList> {
@@ -28,6 +30,7 @@ class NewsRepositoryImpl(
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
         return responseToResourceDetailNews(remoteDataSource.getDetailNews(id))
     }
+
 
     override suspend fun saveNews(data: Data) {
         localDataSource.saveNewsToDB(data)
@@ -40,6 +43,12 @@ class NewsRepositoryImpl(
     override suspend fun getNewsFromSearch(search: String): Resource<Search> {
         return responseToResourceSearch(remoteDataSource.getNewsFromSearch(search))
     }
+
+
+    override suspend fun getComment(id: String): Resource<Comment> {
+        return responseToResourceComment(remoteDataSource.getComment(id))
+    }
+
 
 
     private fun responseToResource(response: Response<HomeNews>):Resource<HomeNews>{
@@ -79,5 +88,47 @@ class NewsRepositoryImpl(
             }
         }
         return Resource.Error(response.message())
+    }
+
+    private fun responseToResourceComment(response: Response<Comment>):Resource<Comment>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
+    suspend fun getCategoryNewsFromApi():List<ItemNews>{
+        lateinit var categoryList:List<ItemNews>
+        try {
+            val response = remoteDataSource.getNews()
+            val body = response.body()
+            if (body!=null){
+                categoryList = body.data
+            }
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        return categoryList
+    }
+
+
+    suspend fun getCategoryFromDb():List<ItemNews>{
+        lateinit var categoryList:List<ItemNews>
+        try {
+           categoryList = localDataSource.getCategoryFromDb()
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        if (categoryList.size>0){
+            return categoryList
+        }else{
+            categoryList =getCategoryNewsFromApi()
+            localDataSource.saveCategoryToDb(categoryList)
+
+        }
+        return categoryList
     }
 }

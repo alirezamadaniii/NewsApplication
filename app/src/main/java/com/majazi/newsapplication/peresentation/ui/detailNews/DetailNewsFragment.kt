@@ -16,6 +16,7 @@ import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
+import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
 
@@ -25,6 +26,7 @@ class DetailNewsFragment : Fragment() {
     private val args : DetailNewsFragmentArgs by navArgs()
     private lateinit var viewModel: DetailNewsViewModel
     private lateinit var detailNewsAdapter: DetailNewsAdapter
+    private lateinit var commentAdapter: CommentAdapter
     private lateinit var player: Player
 
     override fun onCreateView(
@@ -42,7 +44,9 @@ class DetailNewsFragment : Fragment() {
         getBundle()
         viewModel = (activity as MainActivity).detailNewsViewModel
         detailNewsAdapter = (activity as MainActivity).detailNewsAdapter
+        commentAdapter = (activity as MainActivity).commentAdapter
         viewNewsList()
+        showComment()
         backPreesed()
 
     }
@@ -74,14 +78,15 @@ class DetailNewsFragment : Fragment() {
                     hideProgressBar()
                     response.data?.let {
                         setupWebView(it.content)
-                        Glide.with(binding.imgHeaderNews.context)
-                            .load(it.image.og_image)
-                            .into(binding.imgHeaderNews)
-
+                        try {
+                            Glide.with(binding.imgHeaderNews.context)
+                                .load(it.image.og_image)
+                                .into(binding.imgHeaderNews)
+                        }catch (e:Exception){
+                            Log.i("TAG", "viewNewsList: ${e.message}")
+                        }
 
                             binding.recyDetail.adapter = detailNewsAdapter
-
-
                         detailNewsAdapter.differ.submitList(it.additional_contents)
                     }
                 }
@@ -110,6 +115,35 @@ class DetailNewsFragment : Fragment() {
         val pas = "</body></html>"
         val myHtmlString = pish + html + pas
         binding.webViewDetail.loadDataWithBaseURL(null, myHtmlString, "text/html", "UTF-8", null)
+    }
+
+
+    private fun showComment(){
+        viewModel.getComment(getBundle())
+        viewModel.comment.observe(viewLifecycleOwner){ response->
+            when(response){
+                is Resource.Success->{
+                    response.data?.let {
+
+                        binding.recyComment.adapter = commentAdapter
+                        commentAdapter.differ.submitList(it.data.toList())
+
+                    }
+
+                }
+                is Resource.Error -> {
+//                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                        Log.i("TAG", "viewNewsList2q: $it")
+                    }
+                }
+
+                is Resource.Loading -> {
+//                    showProgressBar()
+                }
+            }
+        }
     }
 
 

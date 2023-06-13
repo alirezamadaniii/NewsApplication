@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.di
 
 import android.app.Application
+import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
@@ -53,11 +54,13 @@ class FactoryModule {
     @Provides
     fun provideDetailNewsViewModelFactory(
         application: Application,
-        getDetailNewsUseCase: GetDetailNewsUseCase
+        getDetailNewsUseCase: GetDetailNewsUseCase,
+        getCommentUseCase: GetCommentUseCase
     ): DetailNewsFactory {
         return DetailNewsFactory(
             application,
-            getDetailNewsUseCase
+            getDetailNewsUseCase,
+            getCommentUseCase
         )
     }
 

@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.api
 
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
+import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
@@ -38,5 +39,11 @@ interface ApiService {
     suspend fun getSearch(
         @Query("search") search: String
     ): Response<Search>
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @GET("comments/{id}")
+    suspend fun getComment(
+        @Path(value = "id", encoded = true) id: String
+    ): Response<Comment>
 
 }

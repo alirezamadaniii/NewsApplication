@@ -2,6 +2,7 @@ package com.majazi.newsapplication.data.repository.news.datasourceimpl
 
 import com.majazi.newsapplication.data.api.ApiService
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
+import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
@@ -23,6 +24,10 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
 
     override suspend fun getNewsFromSearch(search: String): Response<Search> {
         return apiService.getSearch(search)
+    }
+
+    override suspend fun getComment(id: String): Response<Comment> {
+        return apiService.getComment(id)
     }
 
 }

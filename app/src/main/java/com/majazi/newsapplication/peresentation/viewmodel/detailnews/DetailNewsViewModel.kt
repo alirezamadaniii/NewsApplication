@@ -9,8 +9,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
+import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +20,11 @@ import kotlinx.coroutines.launch
 
 class DetailNewsViewModel(
     private val app:Application,
-    private val getDetailNewsUseCase: GetDetailNewsUseCase
+    private val getDetailNewsUseCase: GetDetailNewsUseCase,
+    private val getCommentUseCase: GetCommentUseCase
 ):AndroidViewModel(app) {
     val news:MutableLiveData<Resource<DetailNews>> = MutableLiveData()
+    val comment:MutableLiveData<Resource<Comment>> = MutableLiveData()
 
     fun getDetailNews(id:String) = viewModelScope.launch(Dispatchers.IO) {
         news.postValue(Resource.Loading())
@@ -65,6 +69,20 @@ class DetailNewsViewModel(
             }
         }
         return result
+    }
+
+    fun getComment(id: String) = viewModelScope.launch(Dispatchers.IO) {
+        comment.postValue(Resource.Loading())
+        try {
+            if (isInternetAvailable(app)){
+                val apiResult = getCommentUseCase.execute(id)
+                comment.postValue(apiResult)
+            }else{
+                comment.postValue(Resource.Error("Internet is not available"))
+            }
+        }catch (e:Exception){
+            comment.postValue(Resource.Error(e.message.toString()))
+        }
     }
 
 

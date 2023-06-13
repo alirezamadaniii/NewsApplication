@@ -11,10 +11,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.majazi.newsapplication.databinding.ActivityMainBinding
+import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.adapter.SavedNewsAdapter
+import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
@@ -52,6 +54,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var detailNewsAdapter:DetailNewsAdapter
     @Inject
     lateinit var savedNewsAdapter: SavedNewsAdapter
+    @Inject
+    lateinit var searchNewsAdapter: SearchNewsAdapter
+    @Inject
+    lateinit var commentAdapter: CommentAdapter
 
 
 
@@ -84,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
-                R.id.profileFragment -> {
+                R.id.loginFragment -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
                 R.id.settingFragment -> {
@@ -99,9 +105,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
-
 
 }
