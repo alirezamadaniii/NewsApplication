@@ -65,5 +65,17 @@
             app:layout_constraintTop_toBottomOf="@+id/view"
             tools:listitem="@layout/item_list_news" />
 
+        <TextView
+            android:id="@+id/tv_empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="شما خبری را ذخیره نکرده اید!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/shabnam"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

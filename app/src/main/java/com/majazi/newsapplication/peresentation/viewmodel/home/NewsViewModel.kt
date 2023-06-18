@@ -8,11 +8,9 @@ import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
-import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
-import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,11 +20,11 @@ class NewsViewModel(
 
 ):AndroidViewModel(app) {
 
-    val news: MutableLiveData<List<ItemNews>> = MutableLiveData()
+    val news: MutableLiveData<Resource2<ItemNews>> = MutableLiveData()
 
 
     fun getNews() =viewModelScope.launch(Dispatchers.IO) {
-//        news.postValue(Resource.Loading())
+        news.postValue(Resource2.Loading())
         try {
 //            if (isInternetAvailable(app)){
                 val apiResult  = getNewsUseCase.execute()
@@ -35,7 +33,7 @@ class NewsViewModel(
 //                news.postValue(Resource.Error("Internet is not available"))
 //            }
         }catch (e:Exception){
-//            news.postValue(Resource.Error(e.message.toString()))
+            news.postValue(Resource2.Error(e.message.toString()))
         }
     }
 

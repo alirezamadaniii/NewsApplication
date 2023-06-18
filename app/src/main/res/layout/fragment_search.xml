@@ -37,6 +37,12 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:layout_marginStart="@dimen/_20sdp"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
+                    android:ellipsize="end"
+                    android:maxLength="25"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:fontFamily="@font/shabnam"
                     android:hint="@string/search" />
@@ -76,15 +82,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-        <ProgressBar
-            android:id="@+id/progress_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progress_search"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_empty_list_search"
@@ -97,6 +103,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_search"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateOnly="false"
+            android:indeterminateTint="#000000"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

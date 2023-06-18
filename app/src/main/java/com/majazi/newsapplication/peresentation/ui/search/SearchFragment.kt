@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.ui.search
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentSearchBinding
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
@@ -41,18 +43,15 @@ class SearchFragment : Fragment() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
+                ) {}
 
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    viewSearchNews(s.toString())
+                    Handler().postDelayed(Runnable {
+                        viewSearchNews(s.toString())
+                    },3000)
                 }
-
             })
 
 
@@ -73,7 +72,10 @@ class SearchFragment : Fragment() {
                 is Resource.Error ->{
                     hideProgressBar()
                     response.message?.let {
-                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                        if (!it.equals("Unprocessable Content")){
+                            Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                        }
+
                     }
                 }
                 is Resource.Loading->{

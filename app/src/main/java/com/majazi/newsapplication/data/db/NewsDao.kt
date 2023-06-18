@@ -30,4 +30,7 @@ interface NewsDao {
     @Query("SELECT * FROM category_list_home_page")
     fun getCategoryList(): List<ItemNews>
 
+
+
+
 }

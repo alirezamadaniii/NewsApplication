@@ -11,6 +11,7 @@ import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -19,8 +20,8 @@ class NewsRepositoryImpl(
     private val remoteDataSource: NewsRemoteDataSource,
     private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
-    override suspend fun getNews(): List<ItemNews> {
-        return getCategoryFromDb()
+    override suspend fun getNews(): Resource2<ItemNews> {
+            return Resource2.Success(getCategoryFromDb())
     }
 
     override suspend fun getListNews(catId:String): Resource<NewsList> {

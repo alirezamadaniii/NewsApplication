@@ -1,7 +1,6 @@
 package com.majazi.newsapplication.peresentation.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
@@ -60,28 +59,28 @@ class HomeFragment : Fragment() {
        viewModel.getNews()
         viewModel.news.observe(viewLifecycleOwner) { response ->
 
-                        newsAdapter.differ.submitList(response)
+//                        newsAdapter.differ.submitList(response)
 
 
-//            when (response) {
-//                is Resource.Success -> {
-//                    hideProgressBar()
-//                    response.data?.let {
-//                        newsAdapter.differ.submitList(it.data.toList())
-//                    }
-//                }
-//
-//                is Resource.Error -> {
-//                    hideProgressBar()
-//                    response.message?.let {
-//                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
-//                    }
-//                }
-//
-//                is Resource.Loading -> {
-//                    showProgressBar()
-//                }
-//            }
+            when (response) {
+                is Resource2.Success -> {
+                    hideProgressBar()
+                    response.data?.let {
+                        newsAdapter.differ.submitList(it)
+                    }
+                }
+
+                is Resource2.Error -> {
+                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                is Resource2.Loading -> {
+                    showProgressBar()
+                }
+            }
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel

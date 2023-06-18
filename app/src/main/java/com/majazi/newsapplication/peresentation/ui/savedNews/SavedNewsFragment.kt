@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.majazi.newsapplication.MainActivity
@@ -37,8 +38,12 @@ class SavedNewsFragment : Fragment() {
 
     private fun viewNewsList() {
         viewModel.getSavedNews().observe(viewLifecycleOwner) { response ->
-            binding.recySavedNews.adapter = savedNewsAdapter
-            savedNewsAdapter.differ.submitList(response)
+            if (response.size>0){
+                binding.recySavedNews.adapter = savedNewsAdapter
+                savedNewsAdapter.differ.submitList(response)
+            }else{
+                binding.tvEmptyList.visibility = View.VISIBLE
+            }
         }
     }
 
