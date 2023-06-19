@@ -50,6 +50,9 @@ class NewsRepositoryImpl(
         return responseToResourceComment(remoteDataSource.getComment(id))
     }
 
+    override suspend fun deleteNews(data: Data) {
+        localDataSource.deleteNews(data)
+    }
 
 
     private fun responseToResource(response: Response<HomeNews>):Resource<HomeNews>{

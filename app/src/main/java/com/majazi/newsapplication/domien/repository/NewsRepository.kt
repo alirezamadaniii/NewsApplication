@@ -25,5 +25,7 @@ interface NewsRepository {
 
     suspend fun getComment(id: String): Resource<Comment>
 
+    suspend fun deleteNews(data: Data)
+
 
 }

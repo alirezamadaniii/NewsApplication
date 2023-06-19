@@ -12,12 +12,14 @@ import com.majazi.newsapplication.R
 import com.majazi.newsapplication.databinding.FragmentSavedNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.SavedNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
+import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModel
 
 
 class SavedNewsFragment : Fragment() {
     private lateinit var binding: FragmentSavedNewsBinding
     private lateinit var savedNewsAdapter: SavedNewsAdapter
     private lateinit var viewModel: NewListViewModel
+    private lateinit var viewModelSaveNews: SaveNewsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,8 +33,10 @@ class SavedNewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).newsListViewModel
+        viewModelSaveNews = (activity as MainActivity).saveNewsViewModel
         savedNewsAdapter = (activity as MainActivity).savedNewsAdapter
         viewNewsList()
+        removeNews()
     }
 
 
@@ -43,8 +47,16 @@ class SavedNewsFragment : Fragment() {
                 savedNewsAdapter.differ.submitList(response)
             }else{
                 binding.tvEmptyList.visibility = View.VISIBLE
+                savedNewsAdapter.differ.submitList(response)
             }
         }
+    }
+
+    private fun removeNews(){
+        savedNewsAdapter.setOnDeleteButtonClick {
+            viewModelSaveNews.deleteNews(it)
+        }
+
     }
 
 }

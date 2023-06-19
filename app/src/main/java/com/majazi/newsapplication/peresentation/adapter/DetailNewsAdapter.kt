@@ -86,6 +86,10 @@ class DetailNewsAdapter(
         return differ.currentList.size
     }
 
+    public fun release(){
+        player.stop()
+        player.release()
+    }
 
 
 

@@ -157,11 +157,10 @@ class DetailNewsFragment : Fragment() {
     }
 
 
-
-    override fun onPause() {
-        super.onPause()
-        if (this::player.isInitialized){
-            player.pause()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::detailNewsAdapter.isInitialized){
+            detailNewsAdapter.release()
         }
     }
 

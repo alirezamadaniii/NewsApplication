@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
@@ -39,6 +40,15 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
 
             binding.tvHeder.text = data.title
             binding.tvDate.text = data.created
+
+            binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_24)
+
+            binding.imbSaveNews.setOnClickListener {
+                onDeleteButtonClick?.let {
+                    it(data)
+                }
+            }
+
         }
     }
 
@@ -56,4 +66,12 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
         val item = differ.currentList[position]
         holder.bind(item)
     }
+
+    private var onDeleteButtonClick :((Data)->Unit)?=null
+
+    fun setOnDeleteButtonClick(listener:(Data)->Unit){
+        onDeleteButtonClick = listener
+    }
+
+
 }

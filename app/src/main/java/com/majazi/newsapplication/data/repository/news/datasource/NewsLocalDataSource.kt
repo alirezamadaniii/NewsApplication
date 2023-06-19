@@ -14,4 +14,6 @@ interface NewsLocalDataSource {
 
     suspend fun getCategoryFromDb():List<ItemNews>
 
+    suspend fun deleteNews(data: Data)
+
 }

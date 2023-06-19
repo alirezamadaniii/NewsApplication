@@ -23,6 +23,8 @@ import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewsListViewModelFactory
+import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModel
+import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModelFactory
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,11 +41,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var factoryDetailNews:DetailNewsFactory
     @Inject
     lateinit var factorySearchNews: SearchNewsViewModelFactory
+    @Inject
+    lateinit var factorySaveNews:SaveNewsViewModelFactory
 
     lateinit var viewModel: NewsViewModel
     lateinit var newsListViewModel: NewListViewModel
     lateinit var detailNewsViewModel: DetailNewsViewModel
     lateinit var searchNewsViewModel: SearchNewsViewModel
+    lateinit var saveNewsViewModel: SaveNewsViewModel
 
 
     @Inject
@@ -61,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     private lateinit var binding:ActivityMainBinding
     private lateinit var  navController:NavController
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         newsListViewModel = ViewModelProvider(this,factoryNewsList)[NewListViewModel::class.java]
         detailNewsViewModel = ViewModelProvider(this,factoryDetailNews)[DetailNewsViewModel::class.java]
         searchNewsViewModel = ViewModelProvider(this,factorySearchNews)[SearchNewsViewModel::class.java]
+        saveNewsViewModel = ViewModelProvider(this,factorySaveNews)[SaveNewsViewModel::class.java]
     }
 
     private fun initBottomNavigation(){

@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -30,7 +31,12 @@ interface NewsDao {
     @Query("SELECT * FROM category_list_home_page")
     fun getCategoryList(): List<ItemNews>
 
+//
+//    @Query("SELECT * FROM category_list_home_page")
+//    fun getCategoryList(): List<ItemNews>
 
 
+    @Delete
+    suspend fun deleteNews(data: Data)
 
 }

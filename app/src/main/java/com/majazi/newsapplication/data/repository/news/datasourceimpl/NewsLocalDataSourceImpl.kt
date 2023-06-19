@@ -29,10 +29,12 @@ class NewsLocalDataSourceImpl(
             dao.saveCategoryHomePage(itemNews)
         }
     }
-
     override suspend fun getCategoryFromDb(): List<ItemNews> {
         return dao.getCategoryList()
     }
 
+    override suspend fun deleteNews(data: Data) {
+        return dao.deleteNews(data)
+    }
 
 }
