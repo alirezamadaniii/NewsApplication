@@ -110,6 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:indeterminateTint="@color/custom_red"
         android:layout_marginTop="@dimen/_45sdp"
         android:background="@color/white"
         android:padding="170dp"
