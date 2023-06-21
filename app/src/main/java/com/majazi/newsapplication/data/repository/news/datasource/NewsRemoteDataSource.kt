@@ -5,6 +5,7 @@ import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import retrofit2.Response
 
 interface NewsRemoteDataSource {
@@ -17,4 +18,6 @@ interface NewsRemoteDataSource {
     suspend fun getNewsFromSearch(search: String):Response<Search>
 
     suspend fun getComment(id: String):Response<Comment>
+
+    suspend fun getTrendingNews():Response<TrendingNews>
 }

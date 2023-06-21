@@ -8,6 +8,7 @@ import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveCategoryToDbUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import dagger.Module
@@ -85,6 +86,14 @@ class UseCaseModule {
         newsRepository: NewsRepository
     ):DeleteNewsUseCase{
         return DeleteNewsUseCase(newsRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTrendingNewsUseCase(
+        newsRepository: NewsRepository
+    ):GetTrendingNewsUseCase{
+        return GetTrendingNewsUseCase(newsRepository)
     }
 
 }

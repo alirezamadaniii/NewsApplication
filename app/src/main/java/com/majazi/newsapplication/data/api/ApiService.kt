@@ -5,6 +5,7 @@ import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -45,5 +46,10 @@ interface ApiService {
     suspend fun getComment(
         @Path(value = "id", encoded = true) id: String
     ): Response<Comment>
+
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @GET("home/trendingWithAppIcon")
+    suspend fun getTrendingNews(): Response<TrendingNews>
 
 }

@@ -159,9 +159,14 @@ class DetailNewsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (this::detailNewsAdapter.isInitialized){
-            detailNewsAdapter.release()
+        try {
+            if (this::detailNewsAdapter.isInitialized){
+                detailNewsAdapter.release()
+            }
+        }catch (e:Exception){
+
         }
+
     }
 
 }

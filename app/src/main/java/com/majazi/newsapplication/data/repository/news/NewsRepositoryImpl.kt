@@ -8,6 +8,7 @@ import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
@@ -54,8 +55,12 @@ class NewsRepositoryImpl(
         localDataSource.deleteNews(data)
     }
 
+    override suspend fun getTrendingNews(): Resource<TrendingNews> {
+        return responseToResourceTrending(remoteDataSource.getTrendingNews())
+    }
 
-    private fun responseToResource(response: Response<HomeNews>):Resource<HomeNews>{
+
+    private fun responseToResourceTrending(response: Response<TrendingNews>):Resource<TrendingNews>{
         if (response.isSuccessful){
             response.body()?.let {result->
                 return Resource.Success(result)

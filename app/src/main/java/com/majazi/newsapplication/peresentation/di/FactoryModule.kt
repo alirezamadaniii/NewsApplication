@@ -8,6 +8,7 @@ import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
@@ -29,11 +30,12 @@ class FactoryModule {
     @Provides
     fun provideNewsViewModelFactory(
         application: Application,
-        getNewsUseCase: GetNewsUseCase
+        getNewsUseCase: GetNewsUseCase,
+        getTrendingNewsUseCase: GetTrendingNewsUseCase
     ): NewsViewModelFactory {
         return NewsViewModelFactory(
             application,
-            getNewsUseCase)
+            getNewsUseCase,getTrendingNewsUseCase)
     }
 
     @Singleton

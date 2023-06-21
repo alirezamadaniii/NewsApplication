@@ -19,7 +19,7 @@
             android:layout_height="300dp"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/custom_red">
+            app:contentScrim="@color/white">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_header_news"

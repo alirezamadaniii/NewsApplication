@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
@@ -28,7 +27,7 @@ class ListNewsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_list_news, container, false)
         return binding.root

@@ -1,6 +1,8 @@
 package com.majazi.newsapplication.peresentation.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +11,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
@@ -29,7 +33,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-        binding.materialTextView.isSelected = true
+
         return binding.root
     }
 
@@ -37,8 +41,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onclick()
-
-
         viewModel = (activity as MainActivity).viewModel
         newsAdapter = (activity as MainActivity).newsAdapter
         newsAdapter.setOnItemClick {
@@ -52,16 +54,44 @@ class HomeFragment : Fragment() {
         }
         initRecyclerView()
         viewNewsList()
+        trendingNews()
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun trendingNews() {
+        viewModel.getTrendingNews()
+        viewModel.trendingNews.observe(viewLifecycleOwner){response->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let {
+                        Glide.with(binding.shapeableImageView.context)
+                            .load(it.data.appIcon)
+                            .into(binding.shapeableImageView)
+                        binding.materialTextView.isSelected = true
+                        it.data.post.forEach{news->
+                            binding.materialTextView.text = news.title
+                        }
+
+
+                    }
+                }
+
+                is Resource.Error -> {
+                    response.message?.let {
+                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                }
+            }
+        }
     }
 
     private fun viewNewsList() {
        viewModel.getNews()
         viewModel.news.observe(viewLifecycleOwner) { response ->
-
-//                        newsAdapter.differ.submitList(response)
-
-
             when (response) {
                 is Resource2.Success -> {
                     hideProgressBar()
@@ -83,7 +113,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
 
     private fun initRecyclerView() {
@@ -124,6 +153,5 @@ class HomeFragment : Fragment() {
         )
         binding.recyHome.layoutManager =manager
     }
-
 
 }

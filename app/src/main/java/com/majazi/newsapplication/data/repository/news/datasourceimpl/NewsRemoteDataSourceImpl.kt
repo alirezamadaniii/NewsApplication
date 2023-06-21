@@ -6,6 +6,7 @@ import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import retrofit2.Response
 
@@ -28,6 +29,10 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
 
     override suspend fun getComment(id: String): Response<Comment> {
         return apiService.getComment(id)
+    }
+
+    override suspend fun getTrendingNews(): Response<TrendingNews> {
+        return apiService.getTrendingNews()
     }
 
 }
