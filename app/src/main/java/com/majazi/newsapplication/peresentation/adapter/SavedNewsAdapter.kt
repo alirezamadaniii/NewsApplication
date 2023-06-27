@@ -1,7 +1,10 @@
 package com.majazi.newsapplication.peresentation.adapter
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +50,17 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
                 onDeleteButtonClick?.let {
                     it(data)
                 }
+            }
+
+            binding.root.setOnClickListener { itt->
+                Log.i("TAG", "bind: ${data.id}")
+
+                val bundle = Bundle().apply {
+                    putString("id",data.id.toString())
+                }
+                Navigation.findNavController(itt)
+                    .navigate(R.id.action_savedNewsFragment_to_detailNewsFragment,
+                    bundle)
             }
 
         }

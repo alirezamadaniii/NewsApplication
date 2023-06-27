@@ -72,6 +72,7 @@ class DetailNewsFragment : Fragment() {
             player =it
         }
 
+        Log.i("TAG", "viewNewsList: ${getBundle()}")
         viewModel.getDetailNews(getBundle())
         viewModel.news.observe(viewLifecycleOwner) { response ->
             when (response) {

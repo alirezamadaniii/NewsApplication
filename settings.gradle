@@ -23,4 +23,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "NewsApplication"
 include ':app'
-include ':global'

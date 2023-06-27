@@ -29,7 +29,11 @@
         android:id="@+id/savedNewsFragment"
         android:name="com.majazi.newsapplication.peresentation.ui.savedNews.SavedNewsFragment"
         android:label="fragment_saved_news"
-        tools:layout="@layout/fragment_saved_news" />
+        tools:layout="@layout/fragment_saved_news" >
+        <action
+            android:id="@+id/action_savedNewsFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.majazi.newsapplication.peresentation.ui.setting.SettingFragment"

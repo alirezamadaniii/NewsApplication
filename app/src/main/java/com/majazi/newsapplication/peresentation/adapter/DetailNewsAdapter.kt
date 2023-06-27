@@ -46,7 +46,7 @@ class DetailNewsAdapter(
         return when(viewType){
             TEXT_TYPE->{
                 val binding = ItemTextTypeBinding
-                    .inflate(LayoutInflater.from(parent.context),parent,false)
+                    .inflate(LayoutInflater.from(parent.context),parent ,false)
                 return TextViewHolder(binding)
             }
 
