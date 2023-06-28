@@ -9,9 +9,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +27,7 @@ class NewsViewModel(
 ):AndroidViewModel(app) {
 
     val news: MutableLiveData<Resource2<ItemNews>> = MutableLiveData()
-    val trendingNews: MutableLiveData<Resource<TrendingNews>> = MutableLiveData()
+    val trendingNews: MutableLiveData<ResourceTrending<Post>> = MutableLiveData()
 
 
     fun getNews() = viewModelScope.launch(Dispatchers.IO) {
@@ -72,7 +74,7 @@ class NewsViewModel(
     }
 
     fun getTrendingNews() = viewModelScope.launch(Dispatchers.IO) {
-        trendingNews.postValue(Resource.Loading())
+        trendingNews.postValue(ResourceTrending.Loading())
         try {
 //            if (isInternetAvailable(app)){
             val apiResult = getTrendingNewsUseCase.execute()
@@ -81,7 +83,7 @@ class NewsViewModel(
 //                news.postValue(Resource.Error("Internet is not available"))
 //            }
         } catch (e: Exception) {
-            trendingNews.postValue(Resource.Error(e.message.toString()))
+            trendingNews.postValue(ResourceTrending.Error(e.message.toString()))
         }
 
     }

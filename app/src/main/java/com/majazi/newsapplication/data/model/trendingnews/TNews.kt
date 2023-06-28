@@ -1,6 +1,9 @@
 package com.majazi.newsapplication.data.model.trendingnews
 
-data class Data(
+import androidx.room.Entity
+
+
+data class TNews(
     val appIcon: String,
     val post: List<Post>
 )

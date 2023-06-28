@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
+import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TNews
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -36,5 +38,11 @@ interface NewsDao {
 
     @Delete
     suspend fun deleteNews(data: Data)
+
+    @Insert
+    suspend fun saveTrendingNews(data: List<Post>)
+
+    @Query("SELECT * FROM trending_news")
+    fun getTradingNewsFromDb():List<Post>
 
 }

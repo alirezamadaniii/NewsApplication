@@ -3,16 +3,18 @@ package com.majazi.newsapplication.data.repository.news
 import android.util.Log
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
-import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TNews
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -55,20 +57,20 @@ class NewsRepositoryImpl(
         localDataSource.deleteNews(data)
     }
 
-    override suspend fun getTrendingNews(): Resource<TrendingNews> {
-        return responseToResourceTrending(remoteDataSource.getTrendingNews())
+    override suspend fun getTrendingNews(): ResourceTrending<Post> {
+        return ResourceTrending.Success(getTreadingFromDb())
     }
 
 
-    private fun responseToResourceTrending(response: Response<TrendingNews>):Resource<TrendingNews>{
-        if (response.isSuccessful){
-            response.body()?.let {result->
-                return Resource.Success(result)
-            }
-        }
-        return Resource.Error(response.message())
-
-    }
+//    private fun responseToResourceTrending(response: Re<TrendingNews>):Resource<TrendingNews>{
+//        if (response.isSuccessful){
+//            response.body()?.let {result->
+//                return Resource.Success(result)
+//            }
+//        }
+//        return Resource.Error(response.message())
+//
+//    }
 
 
     private fun responseToResourceNewsList(response: Response<NewsList>):Resource<NewsList>{
@@ -140,4 +142,40 @@ class NewsRepositoryImpl(
         }
         return categoryList
     }
+
+
+
+
+    suspend fun getTradingNewsFromApi():List<Post>{
+        lateinit var categoryList:List<Post>
+        try {
+            val response = remoteDataSource.getTrendingNews()
+            val body = response.body()
+            if (body!=null){
+                categoryList = body.data.post
+            }
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        return categoryList
+    }
+
+
+    suspend fun getTreadingFromDb():List<Post>{
+        lateinit var categoryList:List<Post>
+        try {
+            categoryList = localDataSource.getTrendingNews()
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        if (categoryList.size>0){
+            return categoryList
+        }else{
+            categoryList =getTradingNewsFromApi()
+            localDataSource.saveTrendingNewsToDb(categoryList)
+
+        }
+        return categoryList
+    }
+
 }

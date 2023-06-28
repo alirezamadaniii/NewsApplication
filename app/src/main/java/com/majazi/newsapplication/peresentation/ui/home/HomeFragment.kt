@@ -16,6 +16,7 @@ import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
@@ -63,27 +64,30 @@ class HomeFragment : Fragment() {
         viewModel.getTrendingNews()
         viewModel.trendingNews.observe(viewLifecycleOwner){response->
             when (response) {
-                is Resource.Success -> {
-                    response.data?.let {
-                        Glide.with(binding.shapeableImageView.context)
-                            .load(it.data.appIcon)
-                            .into(binding.shapeableImageView)
-                        binding.materialTextView.isSelected = true
-                        it.data.post.forEach{news->
-                            binding.materialTextView.text = news.title
-                        }
+                is ResourceTrending.Success -> {
 
+                    response.data?.let {
+//                        Glide.with(binding.shapeableImageView.context)
+//                            .load(it.data.appIcon)
+//                            .into(binding.shapeableImageView)
+                        binding.materialTextView.isSelected = true
+                        var trendingNews:String=""
+                        it.forEach {
+                                news->
+                            trendingNews += news.title+"       "
+                        }
+                        binding.materialTextView.text = trendingNews
 
                     }
                 }
 
-                is Resource.Error -> {
+                is ResourceTrending.Error -> {
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
                     }
                 }
 
-                is Resource.Loading -> {
+                is ResourceTrending.Loading -> {
                 }
             }
         }

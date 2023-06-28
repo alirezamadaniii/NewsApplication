@@ -6,9 +6,11 @@ import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
+import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceTrending
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
@@ -28,7 +30,8 @@ interface NewsRepository {
 
     suspend fun deleteNews(data: Data)
 
-    suspend fun getTrendingNews():Resource<TrendingNews>
+    suspend fun getTrendingNews():ResourceTrending<Post>
+
 
 
 }

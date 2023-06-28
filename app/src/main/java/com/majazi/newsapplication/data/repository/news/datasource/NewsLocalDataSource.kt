@@ -1,10 +1,9 @@
 package com.majazi.newsapplication.data.repository.news.datasource
 
-import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
-import retrofit2.Response
-import java.util.concurrent.Flow
+import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TNews
 
 interface NewsLocalDataSource {
     suspend fun saveNewsToDB(data: Data)
@@ -15,5 +14,9 @@ interface NewsLocalDataSource {
     suspend fun getCategoryFromDb():List<ItemNews>
 
     suspend fun deleteNews(data: Data)
+
+    suspend fun saveTrendingNewsToDb(data: List<Post>)
+
+    suspend fun getTrendingNews():List<Post>
 
 }
