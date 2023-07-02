@@ -14,7 +14,8 @@ import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
-import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
+import com.majazi.newsapplication.data.utils.ResourceListNews
+//import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -23,24 +24,23 @@ import kotlinx.coroutines.launch
 class NewListViewModel(
     private val app:Application,
     private val getNewsListUseCase: GetNewsListUseCase,
-    private val saveNewsUseCase: SaveNewsUseCase,
-    private val getNewsFromDbUseCase: GetNewsFromDbUseCase
+
 
 ) :AndroidViewModel(app){
 
-    val newsList :MutableLiveData<Resource<NewsList>> = MutableLiveData()
+    val newsList :MutableLiveData<ResourceListNews<Data>> = MutableLiveData()
 
     fun getNewsList(catId:String) =viewModelScope.launch(Dispatchers.IO) {
-        newsList.postValue(Resource.Loading())
+        newsList.postValue(ResourceListNews.Loading())
         try {
-            if (isInternetAvailable(app)){
+//            if (isInternetAvailable(app)){
                 val apiResult  = getNewsListUseCase.execute(catId)
                 newsList.postValue(apiResult)
-            }else{
-                newsList.postValue(Resource.Error("Internet is not available"))
-            }
+//            }else{
+//                newsList.postValue(ResourceListNews.Error("Internet is not available"))
+//            }
         }catch (e:Exception){
-            newsList.postValue(Resource.Error(e.message.toString()))
+            newsList.postValue(ResourceListNews.Error(e.message.toString()))
         }
     }
 
@@ -74,15 +74,15 @@ class NewListViewModel(
     }
 
     //local data
-    fun saveNews(data: Data) = viewModelScope.launch {
-        saveNewsUseCase.execute(data)
-    }
-
-    fun getSavedNews() = liveData {
-        getNewsFromDbUseCase.execute().collect{
-            emit(it)
-        }
-    }
+//    fun saveNews(data: Data) = viewModelScope.launch {
+//        saveNewsUseCase.execute(data)
+//    }
+//
+//    fun getSavedNews() = liveData {
+//        getNewsFromDbUseCase.execute().collect{
+//            emit(it)
+//        }
+//    }
 
 
 }

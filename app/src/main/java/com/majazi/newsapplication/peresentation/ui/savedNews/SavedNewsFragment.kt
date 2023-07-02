@@ -40,15 +40,15 @@ class SavedNewsFragment : Fragment() {
 
 
     private fun viewNewsList() {
-        viewModel.getSavedNews().observe(viewLifecycleOwner) { response ->
-            if (response.size>0){
-                binding.recySavedNews.adapter = savedNewsAdapter
-                savedNewsAdapter.differ.submitList(response)
-            }else{
-                binding.tvEmptyList.visibility = View.VISIBLE
-                savedNewsAdapter.differ.submitList(response)
-            }
-        }
+//        viewModel.getSavedNews().observe(viewLifecycleOwner) { response ->
+//            if (response.size>0){
+//                binding.recySavedNews.adapter = savedNewsAdapter
+//                savedNewsAdapter.differ.submitList(response)
+//            }else{
+//                binding.tvEmptyList.visibility = View.VISIBLE
+//                savedNewsAdapter.differ.submitList(response)
+//            }
+//        }
     }
 
     private fun removeNews(){

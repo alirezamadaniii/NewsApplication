@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
@@ -53,9 +54,9 @@ class ListNewsFragment : Fragment() {
             )
         }
 
-        newsAdapter.setOnSavedButtonClick {
-            viewModel.saveNews(it)
-        }
+//        newsAdapter.setOnSavedButtonClick {
+//            viewModel.saveNews(it)
+//        }
 
 
     }
@@ -73,23 +74,22 @@ class ListNewsFragment : Fragment() {
         viewModel.getNewsList(getBundle())
         viewModel.newsList.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource.Success -> {
+                is ResourceListNews.Success -> {
                     hideProgressBar()
                     response.data?.let {
                         binding.recyListNews.adapter = newsAdapter
-                        newsAdapter.differ.submitList(it.data.toList())
+                        newsAdapter.differ.submitList(it)
                     }
                 }
 
-                is Resource.Error -> {
+                is ResourceListNews.Error -> {
                     hideProgressBar()
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
-                        Log.i("TAG", "viewNewsList2q: $it")
                     }
                 }
 
-                is Resource.Loading -> {
+                is ResourceListNews.Loading -> {
                     showProgressBar()
                 }
             }

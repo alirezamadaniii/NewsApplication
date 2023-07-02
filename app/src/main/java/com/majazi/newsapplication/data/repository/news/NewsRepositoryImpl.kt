@@ -8,15 +8,13 @@ import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.model.trendingnews.TNews
-import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.repository.NewsRepository
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class NewsRepositoryImpl(
@@ -27,8 +25,8 @@ class NewsRepositoryImpl(
             return Resource2.Success(getCategoryFromDb())
     }
 
-    override suspend fun getListNews(catId:String): Resource<NewsList> {
-        return responseToResourceNewsList(remoteDataSource.getNewsList(catId))
+    override suspend fun getListNews(catId:String): ResourceListNews<Data> {
+        return ResourceListNews.Success(getNewsListFromDb(catId))
     }
 
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
@@ -36,13 +34,13 @@ class NewsRepositoryImpl(
     }
 
 
-    override suspend fun saveNews(data: Data) {
-        localDataSource.saveNewsToDB(data)
-    }
+//    override suspend fun saveNews(data: Data) {
+//        localDataSource.saveNewsToDB(data)
+//    }
 
-    override suspend fun getNewsFromDb(): Flow<List<Data>> {
-        return localDataSource.getNewsFromDb()
-    }
+//    override suspend fun getNewsFromDb(): Flow<List<Data>> {
+//        return localDataSource.getNewsFromDb()
+//    }
 
     override suspend fun getNewsFromSearch(search: String): Resource<Search> {
         return responseToResourceSearch(remoteDataSource.getNewsFromSearch(search))
@@ -173,6 +171,39 @@ class NewsRepositoryImpl(
         }else{
             categoryList =getTradingNewsFromApi()
             localDataSource.saveTrendingNewsToDb(categoryList)
+
+        }
+        return categoryList
+    }
+
+
+    suspend fun getNewsListFromApi(catId:String):List<Data>{
+        lateinit var categoryList:List<Data>
+        try {
+            val response = remoteDataSource.getNewsList(catId)
+            val body = response.body()
+            if (body!=null){
+                categoryList = body.data
+            }
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        return categoryList
+    }
+
+
+    suspend fun getNewsListFromDb(catId:String):List<Data>{
+        lateinit var categoryList:List<Data>
+        try {
+            categoryList = localDataSource.getNewsFromDb()
+        }catch (e:Exception){
+            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
+        }
+        if (categoryList.size>0){
+            return categoryList
+        }else{
+            categoryList =getNewsListFromApi(catId).subList(0,1)
+            localDataSource.saveNewsToDB(categoryList)
 
         }
         return categoryList

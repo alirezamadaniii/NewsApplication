@@ -8,20 +8,19 @@ import androidx.room.Query
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.model.trendingnews.TNews
-import kotlinx.coroutines.flow.Flow
+
 
 @Dao
 interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveNews(data:Data)
+    suspend fun saveNews(data:List<Data>)
 //
 //    @Query("DELETE FROM ")
 //    suspend fun deleteAllNews()
 //
     @Query("SELECT * FROM news_list")
-     fun getNewsList(): Flow<List<Data>>
+     fun getNewsList(): List<Data>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

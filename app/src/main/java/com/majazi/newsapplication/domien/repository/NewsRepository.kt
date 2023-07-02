@@ -10,6 +10,7 @@ import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import kotlinx.coroutines.flow.Flow
 
@@ -17,12 +18,12 @@ interface NewsRepository {
 
     suspend fun getNews():Resource2<ItemNews>
 
-    suspend fun getListNews(catId:String):Resource<NewsList>
+    suspend fun getListNews(catId:String):ResourceListNews<Data>
     suspend fun getDetailNews(id:String):Resource<DetailNews>
 
-    suspend fun saveNews(data: Data)
+//    suspend fun saveNews(data: Data)
 
-    suspend fun getNewsFromDb():Flow<List<Data>>
+//    suspend fun getNewsFromDb():Flow<List<Data>>
 
     suspend fun getNewsFromSearch(search:String):Resource<Search>
 

@@ -4,7 +4,6 @@ import com.majazi.newsapplication.domien.repository.NewsRepository
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
-import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
@@ -55,13 +54,13 @@ class UseCaseModule {
         return SaveNewsUseCase(newsRepository)
     }
 
-    @Singleton
-    @Provides
-    fun provideGetSaveNewsUseCase(
-        newsRepository: NewsRepository
-    ):GetNewsFromDbUseCase{
-        return GetNewsFromDbUseCase(newsRepository)
-    }
+//    @Singleton
+//    @Provides
+//    fun provideGetSaveNewsUseCase(
+//        newsRepository: NewsRepository
+//    ):GetNewsFromDbUseCase{
+//        return GetNewsFromDbUseCase(newsRepository)
+//    }
 
 
     @Singleton

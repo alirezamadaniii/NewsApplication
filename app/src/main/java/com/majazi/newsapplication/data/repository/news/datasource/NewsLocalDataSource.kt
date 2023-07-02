@@ -6,8 +6,8 @@ import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TNews
 
 interface NewsLocalDataSource {
-    suspend fun saveNewsToDB(data: Data)
-    suspend fun getNewsFromDb():kotlinx.coroutines.flow.Flow<List<Data>>
+    suspend fun saveNewsToDB(data: List<Data>)
+    suspend fun getNewsFromDb():List<Data>
 
     suspend fun saveCategoryToDb(itemNews:List<ItemNews>)
 

@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 class NewsLocalDataSourceImpl(
     private val dao: NewsDao
 ):NewsLocalDataSource {
-    override suspend fun saveNewsToDB(data: Data) {
+    override suspend fun saveNewsToDB(data: List<Data>) {
         dao.saveNews(data)
     }
 
 
 
-    override suspend fun getNewsFromDb(): Flow<List<Data>> {
+    override suspend fun getNewsFromDb(): List<Data> {
        return dao.getNewsList()
     }
 

@@ -2,7 +2,6 @@ package com.majazi.newsapplication.peresentation.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
@@ -66,14 +64,13 @@ class HomeFragment : Fragment() {
             when (response) {
                 is ResourceTrending.Success -> {
 
-                    response.data?.let {
-//                        Glide.with(binding.shapeableImageView.context)
-//                            .load(it.data.appIcon)
-//                            .into(binding.shapeableImageView)
+                    response.data.let {
+                                        Glide.with(binding.shapeableImageView.context)
+                                            .load(R.drawable.home_app_icon)
+                                            .into(binding.shapeableImageView)
                         binding.materialTextView.isSelected = true
-                        var trendingNews:String=""
-                        it.forEach {
-                                news->
+                        var trendingNews=""
+                        it.forEach { news->
                             trendingNews += news.title+"       "
                         }
                         binding.materialTextView.text = trendingNews
@@ -99,7 +96,7 @@ class HomeFragment : Fragment() {
             when (response) {
                 is Resource2.Success -> {
                     hideProgressBar()
-                    response.data?.let {
+                    response.data.let {
                         newsAdapter.differ.submitList(it)
                     }
                 }
