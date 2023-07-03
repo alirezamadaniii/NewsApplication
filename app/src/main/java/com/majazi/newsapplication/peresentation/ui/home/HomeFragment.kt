@@ -113,6 +113,10 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        viewModel. errorr.observe(viewLifecycleOwner){
+            Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+        }
     }
 
 

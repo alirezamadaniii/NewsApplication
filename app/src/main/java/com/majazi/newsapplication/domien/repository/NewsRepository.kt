@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
 
-    suspend fun getNews():Resource2<ItemNews>
+    suspend fun getNews(internet:Boolean):Resource2<ItemNews>
 
     suspend fun getListNews(catId:String):ResourceListNews<Data>
     suspend fun getDetailNews(id:String):Resource<DetailNews>

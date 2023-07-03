@@ -10,8 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
-import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
@@ -28,21 +26,25 @@ class NewsViewModel(
 
     val news: MutableLiveData<Resource2<ItemNews>> = MutableLiveData()
     val trendingNews: MutableLiveData<ResourceTrending<Post>> = MutableLiveData()
+    val errorr:MutableLiveData<String> = MutableLiveData()
 
 
     fun getNews() = viewModelScope.launch(Dispatchers.IO) {
         news.postValue(Resource2.Loading())
         try {
-//            if (isInternetAvailable(app)){
-            val apiResult = getNewsUseCase.execute()
-            news.postValue(apiResult)
-//            }else{
-//                news.postValue(Resource.Error("Internet is not available"))
-//            }
+            if (isInternetAvailable(app)) {
+                val apiResult = getNewsUseCase.execute(true)
+                news.postValue(apiResult)
+            }else{
+                val apiResult = getNewsUseCase.execute(false)
+                news.postValue(apiResult)
+                errorr.postValue("Internet is not available")
+            }
         } catch (e: Exception) {
             news.postValue(Resource2.Error(e.message.toString()))
         }
     }
+
 
     @Suppress("DEPRECATION")
     fun isInternetAvailable(context: Context): Boolean {
@@ -87,4 +89,6 @@ class NewsViewModel(
         }
 
     }
+
+
 }

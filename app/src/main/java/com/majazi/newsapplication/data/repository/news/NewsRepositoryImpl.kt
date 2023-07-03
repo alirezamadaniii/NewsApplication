@@ -21,8 +21,8 @@ class NewsRepositoryImpl(
     private val remoteDataSource: NewsRemoteDataSource,
     private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
-    override suspend fun getNews(): Resource2<ItemNews> {
-            return Resource2.Success(getCategoryFromDb())
+    override suspend fun getNews(internet:Boolean): Resource2<ItemNews> {
+            return Resource2.Success(getCategoryFromDb(internet))
     }
 
     override suspend fun getListNews(catId:String): ResourceListNews<Data> {
@@ -124,7 +124,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getCategoryFromDb():List<ItemNews>{
+    suspend fun getCategoryFromDb(internet: Boolean):List<ItemNews>{
         lateinit var categoryList:List<ItemNews>
         try {
            categoryList = localDataSource.getCategoryFromDb()
@@ -132,7 +132,14 @@ class NewsRepositoryImpl(
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            return categoryList
+            if (internet){
+                categoryList =getCategoryNewsFromApi()
+                localDataSource.saveCategoryToDb(categoryList)
+                return categoryList
+            }else{
+                return categoryList
+            }
+
         }else{
             categoryList =getCategoryNewsFromApi()
             localDataSource.saveCategoryToDb(categoryList)
