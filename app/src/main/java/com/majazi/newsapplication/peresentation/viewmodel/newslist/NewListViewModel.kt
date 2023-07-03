@@ -6,18 +6,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.newslist.Data
-import com.majazi.newsapplication.data.model.newslist.NewsList
-import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.data.utils.ResourceListNews
-//import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
-import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,19 +22,23 @@ class NewListViewModel(
 ) :AndroidViewModel(app){
 
     val newsList :MutableLiveData<ResourceListNews<Data>> = MutableLiveData()
+    val isInternetAvailable :MutableLiveData<String> = MutableLiveData()
 
     fun getNewsList(catId:String) =viewModelScope.launch(Dispatchers.IO) {
         newsList.postValue(ResourceListNews.Loading())
         try {
-//            if (isInternetAvailable(app)){
-                val apiResult  = getNewsListUseCase.execute(catId)
+            if (isInternetAvailable(app)){
+                val apiResult  = getNewsListUseCase.execute(catId,true)
                 newsList.postValue(apiResult)
-//            }else{
-//                newsList.postValue(ResourceListNews.Error("Internet is not available"))
-//            }
+            }else{
+                val apiResult  = getNewsListUseCase.execute(catId,false)
+                newsList.postValue(apiResult)
+                isInternetAvailable.postValue("کاربر گرامی شما به اینترنت متصل نیستید")
+            }
         }catch (e:Exception){
             newsList.postValue(ResourceListNews.Error(e.message.toString()))
         }
+
     }
 
     @Suppress("DEPRECATION")

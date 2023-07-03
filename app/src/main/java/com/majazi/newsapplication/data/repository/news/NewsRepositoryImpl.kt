@@ -11,7 +11,7 @@ import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.repository.NewsRepository
@@ -21,12 +21,12 @@ class NewsRepositoryImpl(
     private val remoteDataSource: NewsRemoteDataSource,
     private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
-    override suspend fun getNews(internet:Boolean): Resource2<ItemNews> {
-            return Resource2.Success(getCategoryFromDb(internet))
+    override suspend fun getNews(internet:Boolean): ResourceItemNews<ItemNews> {
+            return ResourceItemNews.Success(getCategoryFromDb(internet))
     }
 
-    override suspend fun getListNews(catId:String): ResourceListNews<Data> {
-        return ResourceListNews.Success(getNewsListFromDb(catId))
+    override suspend fun getListNews(catId:String,internet: Boolean): ResourceListNews<Data> {
+        return ResourceListNews.Success(getNewsListFromDb(catId,internet))
     }
 
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
@@ -55,8 +55,8 @@ class NewsRepositoryImpl(
         localDataSource.deleteNews(data)
     }
 
-    override suspend fun getTrendingNews(): ResourceTrending<Post> {
-        return ResourceTrending.Success(getTreadingFromDb())
+    override suspend fun getTrendingNews(internet: Boolean): ResourceTrending<Post> {
+        return ResourceTrending.Success(getTreadingFromDb(internet))
     }
 
 
@@ -166,7 +166,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getTreadingFromDb():List<Post>{
+    suspend fun getTreadingFromDb(internet: Boolean):List<Post>{
         lateinit var categoryList:List<Post>
         try {
             categoryList = localDataSource.getTrendingNews()
@@ -174,7 +174,13 @@ class NewsRepositoryImpl(
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            return categoryList
+            if (internet){
+                categoryList =getTradingNewsFromApi()
+                localDataSource.saveTrendingNewsToDb(categoryList)
+                return categoryList
+            }else{
+                return categoryList
+            }
         }else{
             categoryList =getTradingNewsFromApi()
             localDataSource.saveTrendingNewsToDb(categoryList)
@@ -199,7 +205,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getNewsListFromDb(catId:String):List<Data>{
+    suspend fun getNewsListFromDb(catId:String,internet: Boolean):List<Data>{
         lateinit var categoryList:List<Data>
         try {
             categoryList = localDataSource.getNewsFromDb()
@@ -207,7 +213,13 @@ class NewsRepositoryImpl(
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            return categoryList
+            if (internet){
+                categoryList =getNewsListFromApi(catId)
+                localDataSource.saveNewsToDB(categoryList)
+                return categoryList
+            }else{
+                return categoryList
+            }
         }else{
             categoryList =getNewsListFromApi(catId).subList(0,1)
             localDataSource.saveNewsToDB(categoryList)

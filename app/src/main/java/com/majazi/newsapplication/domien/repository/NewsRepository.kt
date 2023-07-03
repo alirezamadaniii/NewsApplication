@@ -9,16 +9,16 @@ import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
 
-    suspend fun getNews(internet:Boolean):Resource2<ItemNews>
+    suspend fun getNews(internet:Boolean): ResourceItemNews<ItemNews>
 
-    suspend fun getListNews(catId:String):ResourceListNews<Data>
+    suspend fun getListNews(catId:String,internet: Boolean):ResourceListNews<Data>
     suspend fun getDetailNews(id:String):Resource<DetailNews>
 
 //    suspend fun saveNews(data: Data)
@@ -31,7 +31,7 @@ interface NewsRepository {
 
     suspend fun deleteNews(data: Data)
 
-    suspend fun getTrendingNews():ResourceTrending<Post>
+    suspend fun getTrendingNews(internet: Boolean):ResourceTrending<Post>
 
 
 

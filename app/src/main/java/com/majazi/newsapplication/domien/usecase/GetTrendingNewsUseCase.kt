@@ -7,7 +7,7 @@ import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.repository.NewsRepository
 
 class GetTrendingNewsUseCase(private val repository: NewsRepository) {
-    suspend fun execute():ResourceTrending<Post>{
-        return repository.getTrendingNews()
+    suspend fun execute(internet: Boolean):ResourceTrending<Post>{
+        return repository.getTrendingNews(internet)
     }
 }

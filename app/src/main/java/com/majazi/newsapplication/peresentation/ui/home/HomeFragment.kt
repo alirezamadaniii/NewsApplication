@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
@@ -94,28 +94,28 @@ class HomeFragment : Fragment() {
        viewModel.getNews()
         viewModel.news.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource2.Success -> {
+                is ResourceItemNews.Success -> {
                     hideProgressBar()
                     response.data.let {
                         newsAdapter.differ.submitList(it)
                     }
                 }
 
-                is Resource2.Error -> {
+                is ResourceItemNews.Error -> {
                     hideProgressBar()
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
                     }
                 }
 
-                is Resource2.Loading -> {
+                is ResourceItemNews.Loading -> {
                     showProgressBar()
                 }
             }
         }
 
-        viewModel. errorr.observe(viewLifecycleOwner){
-            Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+        viewModel. isInternetAvailable.observe(viewLifecycleOwner){
+            Toast.makeText(activity, "$it", Toast.LENGTH_LONG).show()
         }
     }
 

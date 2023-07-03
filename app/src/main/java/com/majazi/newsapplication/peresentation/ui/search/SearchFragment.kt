@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.databinding.FragmentSearchBinding
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel

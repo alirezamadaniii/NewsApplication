@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import kotlinx.coroutines.Dispatchers

@@ -94,6 +94,9 @@ class ListNewsFragment : Fragment() {
                 }
             }
         }
+        viewModel.isInternetAvailable.observe(viewLifecycleOwner){
+            Toast.makeText(activity, "$it", Toast.LENGTH_LONG).show()
+        }
     }
 
 

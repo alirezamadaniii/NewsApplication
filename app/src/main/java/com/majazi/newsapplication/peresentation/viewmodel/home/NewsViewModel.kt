@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.utils.Resource2
+import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
@@ -24,13 +24,13 @@ class NewsViewModel(
 
 ):AndroidViewModel(app) {
 
-    val news: MutableLiveData<Resource2<ItemNews>> = MutableLiveData()
+    val news: MutableLiveData<ResourceItemNews<ItemNews>> = MutableLiveData()
     val trendingNews: MutableLiveData<ResourceTrending<Post>> = MutableLiveData()
-    val errorr:MutableLiveData<String> = MutableLiveData()
+    val isInternetAvailable:MutableLiveData<String> = MutableLiveData()
 
 
     fun getNews() = viewModelScope.launch(Dispatchers.IO) {
-        news.postValue(Resource2.Loading())
+        news.postValue(ResourceItemNews.Loading())
         try {
             if (isInternetAvailable(app)) {
                 val apiResult = getNewsUseCase.execute(true)
@@ -38,10 +38,10 @@ class NewsViewModel(
             }else{
                 val apiResult = getNewsUseCase.execute(false)
                 news.postValue(apiResult)
-                errorr.postValue("Internet is not available")
+                isInternetAvailable.postValue("کاربر گرامی شما به اینترنت متصل نیستید")
             }
         } catch (e: Exception) {
-            news.postValue(Resource2.Error(e.message.toString()))
+            news.postValue(ResourceItemNews.Error(e.message.toString()))
         }
     }
 
@@ -78,12 +78,13 @@ class NewsViewModel(
     fun getTrendingNews() = viewModelScope.launch(Dispatchers.IO) {
         trendingNews.postValue(ResourceTrending.Loading())
         try {
-//            if (isInternetAvailable(app)){
-            val apiResult = getTrendingNewsUseCase.execute()
+            if (isInternetAvailable(app)){
+            val apiResult = getTrendingNewsUseCase.execute(true)
             trendingNews.postValue(apiResult)
-//            }else{
-//                news.postValue(Resource.Error("Internet is not available"))
-//            }
+            }else{
+                val apiResult = getTrendingNewsUseCase.execute(false)
+                trendingNews.postValue(apiResult)
+            }
         } catch (e: Exception) {
             trendingNews.postValue(ResourceTrending.Error(e.message.toString()))
         }

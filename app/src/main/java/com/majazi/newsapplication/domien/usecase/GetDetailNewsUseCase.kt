@@ -2,7 +2,6 @@ package com.majazi.newsapplication.domien.usecase
 
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.utils.Resource
-import com.majazi.newsapplication.data.utils.Resource2
 import com.majazi.newsapplication.domien.repository.NewsRepository
 
 class GetDetailNewsUseCase(private val newsRepository: NewsRepository) {
