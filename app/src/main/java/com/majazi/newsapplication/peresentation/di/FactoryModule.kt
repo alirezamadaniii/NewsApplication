@@ -6,6 +6,7 @@ import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetSavedNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
@@ -82,10 +83,12 @@ class FactoryModule {
     @Singleton
     @Provides
     fun provideSaveNewsViewModelFactory(
-        deleteNewsUseCaseFactory: DeleteNewsUseCase
+        deleteNewsUseCaseFactory: DeleteNewsUseCase,
+        getSavedNewsUseCase: GetSavedNewsUseCase
     ): SaveNewsViewModelFactory {
         return SaveNewsViewModelFactory(
-            deleteNewsUseCaseFactory
+            deleteNewsUseCaseFactory,
+            getSavedNewsUseCase
         )
     }
 

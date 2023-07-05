@@ -77,8 +77,9 @@ class ListNewsFragment : Fragment() {
                 is ResourceListNews.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        binding.recyListNews.adapter = newsAdapter
-                        newsAdapter.differ.submitList(it)
+                            binding.recyListNews.adapter = newsAdapter
+                            newsAdapter.differ.submitList(it)
+
                     }
                 }
 

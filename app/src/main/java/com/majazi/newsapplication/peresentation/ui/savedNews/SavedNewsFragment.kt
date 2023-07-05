@@ -31,7 +31,7 @@ class SavedNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).newsListViewModel
+//        viewModel = (activity as MainActivity).newsListViewModel
         viewModelSaveNews = (activity as MainActivity).saveNewsViewModel
         savedNewsAdapter = (activity as MainActivity).savedNewsAdapter
         viewNewsList()
@@ -40,15 +40,15 @@ class SavedNewsFragment : Fragment() {
 
 
     private fun viewNewsList() {
-//        viewModel.getSavedNews().observe(viewLifecycleOwner) { response ->
-//            if (response.size>0){
-//                binding.recySavedNews.adapter = savedNewsAdapter
-//                savedNewsAdapter.differ.submitList(response)
-//            }else{
-//                binding.tvEmptyList.visibility = View.VISIBLE
-//                savedNewsAdapter.differ.submitList(response)
-//            }
-//        }
+        viewModelSaveNews.getSavedNews().observe(viewLifecycleOwner) { response ->
+            if (response.size>0){
+                binding.recySavedNews.adapter = savedNewsAdapter
+                savedNewsAdapter.differ.submitList(response)
+            }else{
+                binding.tvEmptyList.visibility = View.VISIBLE
+                savedNewsAdapter.differ.submitList(response)
+            }
+        }
     }
 
     private fun removeNews(){

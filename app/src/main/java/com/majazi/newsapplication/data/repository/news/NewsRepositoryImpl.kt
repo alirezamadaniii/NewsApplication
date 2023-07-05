@@ -29,6 +29,10 @@ class NewsRepositoryImpl(
         return ResourceListNews.Success(getNewsListFromDb(catId,internet))
     }
 
+    override suspend fun getSavedNews(isSave: Boolean) {
+         localDataSource.getSaveNews(isSave)
+    }
+
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
         return responseToResourceDetailNews(remoteDataSource.getDetailNews(id))
     }
@@ -39,7 +43,7 @@ class NewsRepositoryImpl(
 //    }
 
 //    override suspend fun getNewsFromDb(): Flow<List<Data>> {
-//        return localDataSource.getNewsFromDb()
+//        return localDataSou rce.getNewsFromDb()
 //    }
 
     override suspend fun getNewsFromSearch(search: String): Resource<Search> {
@@ -109,7 +113,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getCategoryNewsFromApi():List<ItemNews>{
+    private suspend fun getCategoryNewsFromApi():List<ItemNews>{
         lateinit var categoryList:List<ItemNews>
         try {
             val response = remoteDataSource.getNews()
@@ -124,7 +128,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getCategoryFromDb(internet: Boolean):List<ItemNews>{
+    private suspend fun getCategoryFromDb(internet: Boolean):List<ItemNews>{
         lateinit var categoryList:List<ItemNews>
         try {
            categoryList = localDataSource.getCategoryFromDb()
@@ -132,12 +136,12 @@ class NewsRepositoryImpl(
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            if (internet){
+            return if (internet){
                 categoryList =getCategoryNewsFromApi()
                 localDataSource.saveCategoryToDb(categoryList)
-                return categoryList
+                categoryList
             }else{
-                return categoryList
+                categoryList
             }
 
         }else{
@@ -151,7 +155,7 @@ class NewsRepositoryImpl(
 
 
 
-    suspend fun getTradingNewsFromApi():List<Post>{
+    private suspend fun getTradingNewsFromApi():List<Post>{
         lateinit var categoryList:List<Post>
         try {
             val response = remoteDataSource.getTrendingNews()
@@ -166,7 +170,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getTreadingFromDb(internet: Boolean):List<Post>{
+    private suspend fun getTreadingFromDb(internet: Boolean):List<Post>{
         lateinit var categoryList:List<Post>
         try {
             categoryList = localDataSource.getTrendingNews()
@@ -174,12 +178,12 @@ class NewsRepositoryImpl(
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            if (internet){
+            return if (internet){
                 categoryList =getTradingNewsFromApi()
                 localDataSource.saveTrendingNewsToDb(categoryList)
-                return categoryList
+                categoryList
             }else{
-                return categoryList
+                categoryList
             }
         }else{
             categoryList =getTradingNewsFromApi()
@@ -190,7 +194,7 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getNewsListFromApi(catId:String):List<Data>{
+    private suspend fun getNewsListFromApi(catId:String):List<Data>{
         lateinit var categoryList:List<Data>
         try {
             val response = remoteDataSource.getNewsList(catId)
@@ -205,20 +209,20 @@ class NewsRepositoryImpl(
     }
 
 
-    suspend fun getNewsListFromDb(catId:String,internet: Boolean):List<Data>{
+    private suspend fun getNewsListFromDb(catId:String, internet: Boolean):List<Data>{
         lateinit var categoryList:List<Data>
         try {
-            categoryList = localDataSource.getNewsFromDb()
+            categoryList = localDataSource.getNewsFromDb(catId)
         }catch (e:Exception){
             Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
         }
         if (categoryList.size>0){
-            if (internet){
+            return if (internet){
                 categoryList =getNewsListFromApi(catId)
                 localDataSource.saveNewsToDB(categoryList)
-                return categoryList
+                categoryList
             }else{
-                return categoryList
+                categoryList
             }
         }else{
             categoryList =getNewsListFromApi(catId).subList(0,1)

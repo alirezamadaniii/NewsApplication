@@ -31,5 +31,7 @@ data class Data(
     @SerializedName("user")
     val user: User,
     @SerializedName("user_id")
-    val userId: Int
+    val userId: Int,
+    @SerializedName("is_save")
+    val isSave:Boolean
 )

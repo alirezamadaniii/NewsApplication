@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -19,8 +20,11 @@ interface NewsDao {
 //    @Query("DELETE FROM ")
 //    suspend fun deleteAllNews()
 //
-    @Query("SELECT * FROM news_list")
-     fun getNewsList(): List<Data>
+    @Query("SELECT * FROM news_list WHERE categoryId LIKE :categoryId")
+     fun getNewsList(categoryId:String): List<Data>
+
+     @Query("SELECT * FROM news_list WHERE isSave LIKE :isSave")
+     fun getSavedNews(isSave:Boolean): Flow<List<Data>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -38,7 +42,7 @@ interface NewsDao {
     @Delete
     suspend fun deleteNews(data: Data)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTrendingNews(data: List<Post>)
 
     @Query("SELECT * FROM trending_news")

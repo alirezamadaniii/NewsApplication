@@ -4,10 +4,13 @@ import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TNews
+import kotlinx.coroutines.flow.Flow
 
 interface NewsLocalDataSource {
     suspend fun saveNewsToDB(data: List<Data>)
-    suspend fun getNewsFromDb():List<Data>
+    suspend fun getNewsFromDb(catId:String):List<Data>
+
+    suspend fun getSaveNews(isSave:Boolean): Flow<List<Data>>
 
     suspend fun saveCategoryToDb(itemNews:List<ItemNews>)
 
