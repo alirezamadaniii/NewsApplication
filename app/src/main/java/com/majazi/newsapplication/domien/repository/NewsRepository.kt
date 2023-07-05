@@ -20,10 +20,10 @@ interface NewsRepository {
 
     suspend fun getListNews(catId:String,internet: Boolean):ResourceListNews<Data>
 
-    suspend fun getSavedNews(isSave:Boolean):Flow<List<Data>>
+    suspend fun getSavedNews():Flow<List<Data>>
     suspend fun getDetailNews(id:String):Resource<DetailNews>
 
-//    suspend fun saveNews(data: Data)
+    suspend fun saveNewsToSaved(data: Data)
 
 //    suspend fun getNewsFromDb():Flow<List<Data>>
 

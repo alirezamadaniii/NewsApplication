@@ -24,8 +24,12 @@ class NewsLocalDataSourceImpl(
        return dao.getNewsList(catId)
     }
 
-    override suspend fun getSaveNews(isSave: Boolean):Flow<List<Data>> {
-           return dao.getSavedNews(isSave)
+    override suspend fun getSaveNews():Flow<List<Data>> {
+           return dao.getSavedNews()
+    }
+
+    override suspend fun saveNewsToSaved(data: Data) {
+        return dao.saveNewsToSaved(data)
     }
 
     override suspend fun saveCategoryToDb(itemNews: List<ItemNews>) {

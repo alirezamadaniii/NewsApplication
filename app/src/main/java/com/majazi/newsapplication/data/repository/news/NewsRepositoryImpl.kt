@@ -15,6 +15,7 @@ import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.domien.repository.NewsRepository
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class NewsRepositoryImpl(
@@ -29,12 +30,16 @@ class NewsRepositoryImpl(
         return ResourceListNews.Success(getNewsListFromDb(catId,internet))
     }
 
-    override suspend fun getSavedNews(isSave: Boolean) {
-         localDataSource.getSaveNews(isSave)
+    override suspend fun getSavedNews(): Flow<List<Data>> {
+        return localDataSource.getSaveNews()
     }
 
     override suspend fun getDetailNews(id: String): Resource<DetailNews> {
         return responseToResourceDetailNews(remoteDataSource.getDetailNews(id))
+    }
+
+    override suspend fun saveNewsToSaved(data: Data) {
+        localDataSource.saveNewsToSaved(data)
     }
 
 

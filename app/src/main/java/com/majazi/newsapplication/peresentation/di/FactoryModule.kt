@@ -4,9 +4,9 @@ import android.app.Application
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
-import com.majazi.newsapplication.domien.usecase.GetSavedNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
@@ -42,14 +42,14 @@ class FactoryModule {
     @Provides
     fun provideNewsListViewModelFactory(
         application: Application,
-        getNewsListUseCase: GetNewsListUseCase
-//        saveNewsUseCase: SaveNewsUseCase
+        getNewsListUseCase: GetNewsListUseCase,
+        saveNewsUseCase: SaveNewsUseCase
 //        getNewsFromDbUseCase: GetNewsFromDbUseCase
     ): NewsListViewModelFactory {
         return NewsListViewModelFactory(
             application,
-            getNewsListUseCase
-//            saveNewsUseCase
+            getNewsListUseCase,
+            saveNewsUseCase
 //            getNewsFromDbUseCase
         )
     }
@@ -84,12 +84,10 @@ class FactoryModule {
     @Provides
     fun provideSaveNewsViewModelFactory(
         deleteNewsUseCaseFactory: DeleteNewsUseCase,
-        getSavedNewsUseCase: GetSavedNewsUseCase
+        getNewsFromDbUseCase: GetNewsFromDbUseCase
     ): SaveNewsViewModelFactory {
         return SaveNewsViewModelFactory(
-            deleteNewsUseCaseFactory,
-            getSavedNewsUseCase
-        )
+            deleteNewsUseCaseFactory,getNewsFromDbUseCase)
     }
 
 

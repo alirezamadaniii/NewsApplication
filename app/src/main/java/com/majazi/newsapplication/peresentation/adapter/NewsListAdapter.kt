@@ -78,6 +78,8 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
                 }
 
                 onSavedButtonClick?.let {
+                    val data = itemNews
+                    data.isSave =true
                     it(itemNews)
                 }
             }

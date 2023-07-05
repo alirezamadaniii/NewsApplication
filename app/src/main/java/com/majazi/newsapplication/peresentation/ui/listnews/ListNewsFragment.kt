@@ -54,9 +54,9 @@ class ListNewsFragment : Fragment() {
             )
         }
 
-//        newsAdapter.setOnSavedButtonClick {
-//            viewModel.saveNews(it)
-//        }
+        newsAdapter.setOnSavedButtonClick {
+            viewModel.saveNews(it)
+        }
 
 
     }

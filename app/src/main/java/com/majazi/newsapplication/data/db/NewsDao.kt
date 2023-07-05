@@ -23,9 +23,11 @@ interface NewsDao {
     @Query("SELECT * FROM news_list WHERE categoryId LIKE :categoryId")
      fun getNewsList(categoryId:String): List<Data>
 
-     @Query("SELECT * FROM news_list WHERE isSave LIKE :isSave")
-     fun getSavedNews(isSave:Boolean): Flow<List<Data>>
+     @Query("SELECT * FROM news_list WHERE isSave LIKE '1'")
+     fun getSavedNews(): Flow<List<Data>>
 
+     @Insert(onConflict = OnConflictStrategy.REPLACE)
+     suspend fun saveNewsToSaved(data: Data)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCategoryHomePage(itemNews: List<ItemNews>)

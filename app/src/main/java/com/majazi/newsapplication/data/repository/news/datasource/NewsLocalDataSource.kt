@@ -10,7 +10,9 @@ interface NewsLocalDataSource {
     suspend fun saveNewsToDB(data: List<Data>)
     suspend fun getNewsFromDb(catId:String):List<Data>
 
-    suspend fun getSaveNews(isSave:Boolean): Flow<List<Data>>
+    suspend fun getSaveNews(): Flow<List<Data>>
+
+    suspend fun saveNewsToSaved(data: Data)
 
     suspend fun saveCategoryToDb(itemNews:List<ItemNews>)
 
