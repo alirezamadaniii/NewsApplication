@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,7 +16,9 @@ import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.dialog
 import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
@@ -47,11 +51,43 @@ class DetailNewsFragment : Fragment() {
         commentAdapter = (activity as MainActivity).commentAdapter
         viewNewsList()
         showComment()
-        backPreesed()
+        backPressed()
+        signInUser()
+        getUserData()
+    }
+
+    private fun getUserData() {
+        viewModel.getUser().observe(viewLifecycleOwner){
+            if (it.username.isEmpty()){
+                binding.imbSendComment.setOnClickListener {
+                    val dialog = requireContext().dialog(R.layout.dialog_sign_in,requireView(),true)
+                    dialog.findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
+                        var username = dialog.findViewById<EditText>(R.id.user_name).text.toString()
+                        var email = dialog.findViewById<EditText>(R.id.email).text.toString()
+                        if (username.isEmpty() || email.isEmpty()){
+                            Toast.makeText(activity, "لطفا فیلدهای بالا را به دقت پر کنید", Toast.LENGTH_LONG).show()
+                        }else{
+                            val signInUser = SignInUser(
+                                username,
+                                email)
+                            viewModel.signInUser(signInUser)
+                            dialog.cancel()
+                            dialog.dismiss()
+                        }
+                    }
+                }
+            }
+            else{
+                //send comment
+            }
+        }
+    }
+
+    private fun signInUser() {
 
     }
 
-    private fun backPreesed() {
+    private fun backPressed() {
         binding.toolbarDetail.setNavigationOnClickListener {
             findNavController().popBackStack()
         }

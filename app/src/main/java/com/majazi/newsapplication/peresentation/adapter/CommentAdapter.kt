@@ -50,7 +50,7 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
     inner class  MyViewHolder(val binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Data){
             try {
-                val image= arrayListOf<Int>(
+                val image= arrayListOf(
                     R.drawable.avater1,
                     R.drawable.avater2,
                     R.drawable.avater3,
@@ -61,9 +61,9 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
                     R.drawable.avater8,
                     R.drawable.avater9,
                     R.drawable.avater10
-                )
+                ).random()
                 Glide.with(binding.imgComment.context)
-                    .load(image[2])
+                    .load(image)
                     .into(binding.imgComment)
             }catch (e: NullPointerException){
                 e.printStackTrace()

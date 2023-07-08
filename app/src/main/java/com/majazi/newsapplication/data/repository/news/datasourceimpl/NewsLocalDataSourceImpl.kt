@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.repository.news.datasourceimpl
 
 import com.majazi.newsapplication.data.db.NewsDao
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
@@ -53,6 +54,14 @@ class NewsLocalDataSourceImpl(
 
     override suspend fun getTrendingNews(): List<Post> {
         return dao.getTradingNewsFromDb()
+    }
+
+    override suspend fun signInUser(signInUser: SignInUser) {
+        return dao.signInUser(signInUser)
+    }
+
+    override fun getUser(): Flow<SignInUser> {
+        return dao.getUser()
     }
 
 

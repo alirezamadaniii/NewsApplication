@@ -10,6 +10,7 @@ import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -94,5 +95,15 @@ class UseCaseModule {
     ):GetTrendingNewsUseCase{
         return GetTrendingNewsUseCase(newsRepository)
     }
+
+    @Singleton
+    @Provides
+    fun provideSignInUserUseCase(
+        newsRepository: NewsRepository
+    ):SignInUserUseCase{
+        return SignInUserUseCase(newsRepository)
+    }
+
+
 
 }

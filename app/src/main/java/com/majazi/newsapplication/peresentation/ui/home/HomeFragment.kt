@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-
         return binding.root
     }
 
@@ -66,28 +65,28 @@ class HomeFragment : Fragment() {
                 is ResourceTrending.Success -> {
 
                     response.data.let {
-                                        Glide.with(binding.shapeableImageView.context)
-                                            .load(R.drawable.home_app_icon)
-                                            .into(binding.shapeableImageView)
+                        Glide.with(binding.shapeableImageView.context)
+                            .load(R.drawable.home_app_icon)
+                            .into(binding.shapeableImageView)
                         binding.materialTextView.isSelected = true
                         var trendingNews=""
                         it.forEach { news->
                             trendingNews += news.title+"       "
                         }
                         binding.materialTextView.text = trendingNews
-
                     }
                 }
 
                 is ResourceTrending.Error -> {
                     response.message?.let {
-                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity,
+                            "Error : $it",
+                            Toast.LENGTH_LONG).show()
                         Log.i("TAG", "trendingNews: $it")
                     }
                 }
 
-                is ResourceTrending.Loading -> {
-                }
+                is ResourceTrending.Loading -> {}
             }
         }
     }
@@ -106,7 +105,9 @@ class HomeFragment : Fragment() {
                 is ResourceItemNews.Error -> {
                     hideProgressBar()
                     response.message?.let {
-                        Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity,
+                            "Error : $it",
+                            Toast.LENGTH_LONG).show()
                     }
                 }
 
@@ -117,7 +118,11 @@ class HomeFragment : Fragment() {
         }
 
         viewModel. isInternetAvailable.observe(viewLifecycleOwner){
-            Toast.makeText(activity, "$it", Toast.LENGTH_LONG).show()
+            if (!it){
+                Toast.makeText(activity,
+                    "کاربر گرامی شما به اینترنت متصل نیستید",
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -155,7 +160,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             },
-            3,
+            3 ,
             1f
         )
         binding.recyHome.layoutManager =manager

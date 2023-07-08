@@ -149,7 +149,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/appCompatImageButton4"
+                android:id="@+id/imb_send_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
@@ -166,7 +166,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:hint="نظر شما..."
                 android:layout_margin="@dimen/_8sdp"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton4"
+                app:layout_constraintStart_toEndOf="@+id/imb_send_comment"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText

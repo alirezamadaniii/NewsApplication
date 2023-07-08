@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
@@ -50,4 +51,10 @@ interface NewsDao {
     @Query("SELECT * FROM trending_news")
     fun getTradingNewsFromDb():List<Post>
 
+
+    @Insert
+    suspend fun signInUser(data: SignInUser)
+
+    @Query("SELECT * FROM user")
+    fun getUser():Flow<SignInUser>
 }

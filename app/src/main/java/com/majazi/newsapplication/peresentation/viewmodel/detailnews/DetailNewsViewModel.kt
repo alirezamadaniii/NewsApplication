@@ -7,19 +7,27 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
+import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetUserUseCase
+import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class DetailNewsViewModel(
     private val app:Application,
     private val getDetailNewsUseCase: GetDetailNewsUseCase,
-    private val getCommentUseCase: GetCommentUseCase
+    private val getCommentUseCase: GetCommentUseCase,
+    private val signInUserUseCase: SignInUserUseCase,
+    private val getUserUseCase: GetUserUseCase
 ):AndroidViewModel(app) {
     val news:MutableLiveData<Resource<DetailNews>> = MutableLiveData()
     val comment:MutableLiveData<Resource<Comment>> = MutableLiveData()
@@ -81,6 +89,20 @@ class DetailNewsViewModel(
         }catch (e:Exception){
             comment.postValue(Resource.Error(e.message.toString()))
         }
+    }
+
+
+
+    fun signInUser(signInUser: SignInUser) =viewModelScope.launch(Dispatchers.Main) {
+        signInUserUseCase.execute(signInUser)
+    }
+
+
+    fun getUser() = liveData {
+        getUserUseCase.execute().collect{
+            emit(it)
+        }
+
     }
 
 

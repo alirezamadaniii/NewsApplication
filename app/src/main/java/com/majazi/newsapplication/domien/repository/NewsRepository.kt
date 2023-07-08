@@ -2,9 +2,9 @@ package com.majazi.newsapplication.domien.repository
 
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
-import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
@@ -35,6 +35,8 @@ interface NewsRepository {
 
     suspend fun getTrendingNews(internet: Boolean):ResourceTrending<Post>
 
+    suspend fun signInUser(signInUser: SignInUser)
 
+     fun getUser():Flow<SignInUser>
 
 }

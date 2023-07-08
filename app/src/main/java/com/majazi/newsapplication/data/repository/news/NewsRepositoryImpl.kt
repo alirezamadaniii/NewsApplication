@@ -3,6 +3,7 @@ package com.majazi.newsapplication.data.repository.news
 import android.util.Log
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
+import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
@@ -66,6 +67,14 @@ class NewsRepositoryImpl(
 
     override suspend fun getTrendingNews(internet: Boolean): ResourceTrending<Post> {
         return ResourceTrending.Success(getTreadingFromDb(internet))
+    }
+
+    override suspend fun signInUser(signInUser: SignInUser) {
+        return localDataSource.signInUser(signInUser)
+    }
+
+    override fun getUser(): Flow<SignInUser> {
+        return localDataSource.getUser()
     }
 
 

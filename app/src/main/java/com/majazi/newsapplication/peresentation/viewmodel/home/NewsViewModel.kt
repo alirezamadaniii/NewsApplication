@@ -26,7 +26,7 @@ class NewsViewModel(
 
     val news: MutableLiveData<ResourceItemNews<ItemNews>> = MutableLiveData()
     val trendingNews: MutableLiveData<ResourceTrending<Post>> = MutableLiveData()
-    val isInternetAvailable:MutableLiveData<String> = MutableLiveData()
+    val isInternetAvailable:MutableLiveData<Boolean> = MutableLiveData()
 
 
     fun getNews() = viewModelScope.launch(Dispatchers.IO) {
@@ -35,10 +35,11 @@ class NewsViewModel(
             if (isInternetAvailable(app)) {
                 val apiResult = getNewsUseCase.execute(true)
                 news.postValue(apiResult)
+                isInternetAvailable.postValue(true)
             }else{
                 val apiResult = getNewsUseCase.execute(false)
                 news.postValue(apiResult)
-                isInternetAvailable.postValue("کاربر گرامی شما به اینترنت متصل نیستید")
+                isInternetAvailable.postValue(false)
             }
         } catch (e: Exception) {
             news.postValue(ResourceItemNews.Error(e.message.toString()))
