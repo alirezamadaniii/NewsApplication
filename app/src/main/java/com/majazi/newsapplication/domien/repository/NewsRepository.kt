@@ -3,11 +3,11 @@ package com.majazi.newsapplication.domien.repository
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
+import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceListNews
@@ -39,4 +39,10 @@ interface NewsRepository {
 
      fun getUser():Flow<SignInUser>
 
+     suspend fun sendComment(
+         comment: String,
+         postId:String,
+         name:String,
+         phone:String
+     ):Resource<SendComment>
 }

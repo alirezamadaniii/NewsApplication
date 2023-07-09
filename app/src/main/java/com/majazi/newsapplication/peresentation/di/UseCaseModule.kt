@@ -9,7 +9,9 @@ import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetUserUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SendCommentUseCase
 import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -104,6 +106,20 @@ class UseCaseModule {
         return SignInUserUseCase(newsRepository)
     }
 
+    @Singleton
+    @Provides
+    fun provideGetUserUseCase(
+        newsRepository: NewsRepository
+    ):GetUserUseCase{
+        return GetUserUseCase(newsRepository)
+    }
 
 
+    @Singleton
+    @Provides
+    fun provideSendCommentUseCase(
+        newsRepository: NewsRepository
+    ):SendCommentUseCase{
+        return SendCommentUseCase(newsRepository)
+    }
 }

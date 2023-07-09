@@ -148,35 +148,44 @@
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageButton3"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/imb_send_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:background="@drawable/baseline_send_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txt_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:hint="نظر شما..."
+                android:orientation="horizontal"
+                app:endIconDrawable="@drawable/baseline_send_24"
+                app:endIconMode="custom"
+                app:endIconTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:hint="نظر شما..."
-                android:layout_margin="@dimen/_8sdp"
-                app:layout_constraintStart_toEndOf="@+id/imb_send_comment"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_comment"
                     android:layout_width="match_parent"
-                    android:fontFamily="@font/shabnam"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/shabnam" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progress_send_comment"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:indeterminateTint="@color/custom_red"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginStart="@dimen/_8sdp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageButton"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/appCompatImageButton" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

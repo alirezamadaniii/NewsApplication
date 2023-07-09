@@ -3,6 +3,7 @@ package com.majazi.newsapplication.data.repository.news.datasourceimpl
 import com.majazi.newsapplication.data.api.ApiService
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
+import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
@@ -33,6 +34,15 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
 
     override suspend fun getTrendingNews(): Response<TrendingNews> {
         return apiService.getTrendingNews()
+    }
+
+    override suspend fun sendComment(
+        comment: String,
+        postId: String,
+        name: String,
+        phone: String
+    ): Response<SendComment> {
+        return apiService.sendCommentNews(comment, postId, name, phone)
     }
 
 }

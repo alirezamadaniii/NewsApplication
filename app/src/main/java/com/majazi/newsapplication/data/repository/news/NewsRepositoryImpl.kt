@@ -4,6 +4,7 @@ import android.util.Log
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
+import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
@@ -77,16 +78,26 @@ class NewsRepositoryImpl(
         return localDataSource.getUser()
     }
 
+    override suspend fun sendComment(
+        comment: String,
+        postId: String,
+        name: String,
+        phone: String
+    ): Resource<SendComment> {
+        return responseToResourceSendComment(
+            remoteDataSource.sendComment(comment, postId, name, phone))
+    }
 
-//    private fun responseToResourceTrending(response: Re<TrendingNews>):Resource<TrendingNews>{
-//        if (response.isSuccessful){
-//            response.body()?.let {result->
-//                return Resource.Success(result)
-//            }
-//        }
-//        return Resource.Error(response.message())
-//
-//    }
+
+    private fun responseToResourceSendComment(response: Response<SendComment>):Resource<SendComment>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+
+    }
 
 
     private fun responseToResourceNewsList(response: Response<NewsList>):Resource<NewsList>{

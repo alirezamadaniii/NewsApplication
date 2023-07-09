@@ -9,7 +9,9 @@ import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetUserUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
+import com.majazi.newsapplication.domien.usecase.SendCommentUseCase
 import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
@@ -61,13 +63,17 @@ class FactoryModule {
         application: Application,
         getDetailNewsUseCase: GetDetailNewsUseCase,
         getCommentUseCase: GetCommentUseCase,
-        signInUserUseCase: SignInUserUseCase
+        signInUserUseCase: SignInUserUseCase,
+        getUserUseCase: GetUserUseCase,
+        sendCommentUseCase: SendCommentUseCase
     ): DetailNewsFactory {
         return DetailNewsFactory(
             application,
             getDetailNewsUseCase,
             getCommentUseCase,
-            signInUserUseCase
+            signInUserUseCase,
+            getUserUseCase,
+            sendCommentUseCase
         )
     }
 

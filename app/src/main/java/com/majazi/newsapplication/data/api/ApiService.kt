@@ -2,13 +2,17 @@ package com.majazi.newsapplication.data.api
 
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
+import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
 import com.majazi.newsapplication.data.model.homenews.HomeNews
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -51,5 +55,17 @@ interface ApiService {
     @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
     @GET("home/trendingWithAppIcon")
     suspend fun getTrendingNews(): Response<TrendingNews>
+
+
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @FormUrlEncoded
+    @POST("save-comment")
+    suspend fun sendCommentNews(
+        @Field("comment") comment:String,
+        @Field("post_id") postId:String,
+        @Field("name") name:String,
+        @Field("phone") phone:String
+    ): Response<SendComment>
 
 }

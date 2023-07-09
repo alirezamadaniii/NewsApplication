@@ -12,14 +12,14 @@ import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
-import com.majazi.newsapplication.data.model.newslist.Data
+import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetUserUseCase
+import com.majazi.newsapplication.domien.usecase.SendCommentUseCase
 import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class DetailNewsViewModel(
@@ -27,10 +27,13 @@ class DetailNewsViewModel(
     private val getDetailNewsUseCase: GetDetailNewsUseCase,
     private val getCommentUseCase: GetCommentUseCase,
     private val signInUserUseCase: SignInUserUseCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val sendCommentUseCase: SendCommentUseCase
+
 ):AndroidViewModel(app) {
     val news:MutableLiveData<Resource<DetailNews>> = MutableLiveData()
     val comment:MutableLiveData<Resource<Comment>> = MutableLiveData()
+    val sendComment:MutableLiveData<Resource<SendComment>> = MutableLiveData()
 
     fun getDetailNews(id:String) = viewModelScope.launch(Dispatchers.IO) {
         news.postValue(Resource.Loading())
@@ -104,6 +107,27 @@ class DetailNewsViewModel(
         }
 
     }
+
+
+    fun sendCommentNews(
+        comment: String,
+        postId:String,
+        name:String,
+        phone:String
+    )=viewModelScope.launch(Dispatchers.IO) {
+        sendComment.postValue(Resource.Loading())
+        try {
+            if (isInternetAvailable(app)){
+                val apiResult = sendCommentUseCase.execute(comment, postId, name, phone)
+                sendComment.postValue(apiResult)
+            }else{
+                sendComment.postValue(Resource.Error("Internet is not available"))
+            }
+        }catch (e:Exception){
+            sendComment.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.ui.detailNews
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -58,34 +59,66 @@ class DetailNewsFragment : Fragment() {
 
     private fun getUserData() {
         viewModel.getUser().observe(viewLifecycleOwner){
-            if (it.username.isEmpty()){
-                binding.imbSendComment.setOnClickListener {
-                    val dialog = requireContext().dialog(R.layout.dialog_sign_in,requireView(),true)
-                    dialog.findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
-                        var username = dialog.findViewById<EditText>(R.id.user_name).text.toString()
-                        var email = dialog.findViewById<EditText>(R.id.email).text.toString()
-                        if (username.isEmpty() || email.isEmpty()){
-                            Toast.makeText(activity, "لطفا فیلدهای بالا را به دقت پر کنید", Toast.LENGTH_LONG).show()
-                        }else{
-                            val signInUser = SignInUser(
-                                username,
-                                email)
-                            viewModel.signInUser(signInUser)
-                            dialog.cancel()
-                            dialog.dismiss()
+
+            binding.txtInputLayout.setEndIconOnClickListener { op->
+
+            //check be sing in user
+                try {
+                    if (it.username == null){
+                        val dialog = requireContext().dialog(R.layout.dialog_sign_in,requireView(),true)
+                        dialog.findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
+                            var username = dialog.findViewById<EditText>(R.id.user_name).text.toString()
+                            var email = dialog.findViewById<EditText>(R.id.email).text.toString()
+                            if (username.isEmpty() || email.isEmpty()){
+                                Toast.makeText(activity, "لطفا فیلدهای بالا را به دقت پر کنید", Toast.LENGTH_LONG).show()
+                            }else{
+                                val signInUser = SignInUser(
+                                    username,
+                                    email)
+                                viewModel.signInUser(signInUser)
+                                dialog.cancel()
+                                dialog.dismiss()
+                            }
+                        }
+                    }else{
+                        viewModel.sendCommentNews(binding.edtComment.text.toString(),getBundle(),it.username,"555874104748816521")
+                        viewModel.sendComment.observe(viewLifecycleOwner){ response->
+                            when (response) {
+                                is Resource.Success -> {
+                                    Toast.makeText(activity, "okkk", Toast.LENGTH_LONG).show()
+//                                    binding.imbSendComment.visibility = View.VISIBLE
+//                                    binding.progressSendComment.visibility = View.GONE
+                                    binding.edtComment.text?.clear()
+
+
+                                }
+
+                                is Resource.Error -> {
+//                                    binding.imbSendComment.visibility = View.VISIBLE
+//                                    binding.progressSendComment.visibility = View.GONE
+                                    binding.edtComment.text?.clear()
+                                }
+
+                                is Resource.Loading -> {
+//                                    binding.imbSendComment.visibility = View.GONE
+//                                    binding.progressSendComment.visibility = View.VISIBLE
+                                }
+                            }
                         }
                     }
+                }catch (e:Exception){
+
+
                 }
-            }
-            else{
-                //send comment
-            }
+
+
+
         }
-    }
-
-    private fun signInUser() {
+        }
 
     }
+
+    private fun signInUser() {}
 
     private fun backPressed() {
         binding.toolbarDetail.setNavigationOnClickListener {
@@ -161,10 +194,8 @@ class DetailNewsFragment : Fragment() {
             when(response){
                 is Resource.Success->{
                     response.data?.let {
-
                         binding.recyComment.adapter = commentAdapter
                         commentAdapter.differ.submitList(it.data.toList())
-
                     }
 
                 }
@@ -172,7 +203,6 @@ class DetailNewsFragment : Fragment() {
 //                    hideProgressBar()
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
-                        Log.i("TAG", "viewNewsList2q: $it")
                     }
                 }
 
@@ -200,9 +230,8 @@ class DetailNewsFragment : Fragment() {
                 detailNewsAdapter.release()
             }
         }catch (e:Exception){
-
+            Log.i("TAG", "onDestroy: ${e.message}")
         }
-
     }
 
 }
