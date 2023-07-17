@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.repository.news.datasourceimpl
 
 import com.majazi.newsapplication.data.db.NewsDao
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
@@ -25,11 +26,11 @@ class NewsLocalDataSourceImpl(
        return dao.getNewsList(catId)
     }
 
-    override suspend fun getSaveNews():Flow<List<Data>> {
+    override suspend fun getSaveNews():Flow<List<DataSavedList>> {
            return dao.getSavedNews()
     }
 
-    override suspend fun saveNewsToSaved(data: Data) {
+    override suspend fun saveNewsToSaved(data: DataSavedList) {
         return dao.saveNewsToSaved(data)
     }
 
@@ -42,7 +43,7 @@ class NewsLocalDataSourceImpl(
         return dao.getCategoryList()
     }
 
-    override suspend fun deleteNews(data: Data) {
+    override suspend fun deleteNews(data: DataSavedList) {
         return dao.deleteNews(data)
     }
 

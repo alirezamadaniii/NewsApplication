@@ -3,6 +3,7 @@ package com.majazi.newsapplication.peresentation.viewmodel.savenews
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
@@ -13,7 +14,7 @@ class SaveNewsViewModel(
     private val getSavedNewsUseCase:GetNewsFromDbUseCase
     ):ViewModel() {
 
-    fun deleteNews(data: Data) = viewModelScope.launch {
+    fun deleteNews(data: DataSavedList) = viewModelScope.launch {
         deleteNewsUseCase.execute(data)
     }
 

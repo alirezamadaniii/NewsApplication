@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
@@ -17,13 +18,13 @@ import java.lang.NullPointerException
 class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
 
 
-    private val callback = object : DiffUtil.ItemCallback<Data>(){
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+    private val callback = object : DiffUtil.ItemCallback<DataSavedList>(){
+        override fun areItemsTheSame(oldItem: DataSavedList, newItem: DataSavedList): Boolean {
             return oldItem.id == newItem.id
         }
 
 
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+        override fun areContentsTheSame(oldItem: DataSavedList, newItem: DataSavedList): Boolean {
             return oldItem == newItem
         }
     }
@@ -31,7 +32,7 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
     val differ = AsyncListDiffer(this,callback)
 
     inner class MyViewHolder(val binding:ItemListNewsBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(data: Data){
+        fun bind(data: DataSavedList){
             try {
                 Glide.with(binding.imageListNews.context)
                     .load(data.image.mediumImage)
@@ -81,9 +82,9 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
         holder.bind(item)
     }
 
-    private var onDeleteButtonClick :((Data)->Unit)?=null
+    private var onDeleteButtonClick :((DataSavedList)->Unit)?=null
 
-    fun setOnDeleteButtonClick(listener:(Data)->Unit){
+    fun setOnDeleteButtonClick(listener:(DataSavedList)->Unit){
         onDeleteButtonClick = listener
     }
 

@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
@@ -71,7 +72,7 @@ class NewListViewModel(
     }
 
   // save news to database
-    fun saveNews(data: Data) = viewModelScope.launch {
+    fun saveNews(data: DataSavedList) = viewModelScope.launch {
         saveNewsUseCase.execute(data)
     }
 

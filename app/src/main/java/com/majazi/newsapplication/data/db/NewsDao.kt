@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
@@ -24,11 +25,11 @@ interface NewsDao {
     @Query("SELECT * FROM news_list WHERE categoryId LIKE :categoryId")
      fun getNewsList(categoryId:String): List<Data>
 
-     @Query("SELECT * FROM news_list WHERE isSave LIKE '1'")
-     fun getSavedNews(): Flow<List<Data>>
+     @Query("SELECT * FROM save_news_list")
+     fun getSavedNews(): Flow<List<DataSavedList>>
 
      @Insert(onConflict = OnConflictStrategy.REPLACE)
-     suspend fun saveNewsToSaved(data: Data)
+     suspend fun saveNewsToSaved(data: DataSavedList)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCategoryHomePage(itemNews: List<ItemNews>)
@@ -43,7 +44,7 @@ interface NewsDao {
 
 
     @Delete
-    suspend fun deleteNews(data: Data)
+    suspend fun deleteNews(data: DataSavedList)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTrendingNews(data: List<Post>)

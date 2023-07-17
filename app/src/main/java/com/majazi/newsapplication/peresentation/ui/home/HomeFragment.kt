@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
                 is ResourceTrending.Success -> {
 
                     response.data.let {
+
                         Glide.with(binding.shapeableImageView.context)
                             .load(R.drawable.home_app_icon)
                             .into(binding.shapeableImageView)

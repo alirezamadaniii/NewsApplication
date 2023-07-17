@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.repository.news
 
 import android.util.Log
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
@@ -32,7 +33,7 @@ class NewsRepositoryImpl(
         return ResourceListNews.Success(getNewsListFromDb(catId,internet))
     }
 
-    override suspend fun getSavedNews(): Flow<List<Data>> {
+    override suspend fun getSavedNews(): Flow<List<DataSavedList>> {
         return localDataSource.getSaveNews()
     }
 
@@ -40,7 +41,7 @@ class NewsRepositoryImpl(
         return responseToResourceDetailNews(remoteDataSource.getDetailNews(id))
     }
 
-    override suspend fun saveNewsToSaved(data: Data) {
+    override suspend fun saveNewsToSaved(data: DataSavedList) {
         localDataSource.saveNewsToSaved(data)
     }
 
@@ -62,7 +63,7 @@ class NewsRepositoryImpl(
         return responseToResourceComment(remoteDataSource.getComment(id))
     }
 
-    override suspend fun deleteNews(data: Data) {
+    override suspend fun deleteNews(data: DataSavedList) {
         localDataSource.deleteNews(data)
     }
 

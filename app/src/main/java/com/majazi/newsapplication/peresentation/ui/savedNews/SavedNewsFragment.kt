@@ -35,7 +35,7 @@ class SavedNewsFragment : Fragment() {
         viewModelSaveNews = (activity as MainActivity).saveNewsViewModel
         savedNewsAdapter = (activity as MainActivity).savedNewsAdapter
         viewNewsList()
-        removeNews()
+//        removeNews()
     }
 
 

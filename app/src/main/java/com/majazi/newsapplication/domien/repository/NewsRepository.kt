@@ -1,5 +1,6 @@
 package com.majazi.newsapplication.domien.repository
 
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
@@ -20,10 +21,10 @@ interface NewsRepository {
 
     suspend fun getListNews(catId:String,internet: Boolean):ResourceListNews<Data>
 
-    suspend fun getSavedNews():Flow<List<Data>>
+    suspend fun getSavedNews():Flow<List<DataSavedList>>
     suspend fun getDetailNews(id:String):Resource<DetailNews>
 
-    suspend fun saveNewsToSaved(data: Data)
+    suspend fun saveNewsToSaved(data: DataSavedList)
 
 //    suspend fun getNewsFromDb():Flow<List<Data>>
 
@@ -31,7 +32,7 @@ interface NewsRepository {
 
     suspend fun getComment(id: String): Resource<Comment>
 
-    suspend fun deleteNews(data: Data)
+    suspend fun deleteNews(data: DataSavedList)
 
     suspend fun getTrendingNews(internet: Boolean):ResourceTrending<Post>
 

@@ -9,13 +9,10 @@ import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.detailnews.comment.Data
 import com.majazi.newsapplication.databinding.ItemCommentBinding
-import java.lang.NullPointerException
 
-class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
+class CommentAdapter : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
 
-//    private val random = java.util.Random()
-
-    private val callback = object : DiffUtil.ItemCallback<Data>(){
+    private val callback = object : DiffUtil.ItemCallback<Data>() {
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem.id == newItem.id
         }
@@ -26,12 +23,12 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
         }
     }
 
-    val differ = AsyncListDiffer(this,callback)
+    val differ = AsyncListDiffer(this, callback)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemCommentBinding
-            .inflate(LayoutInflater.from(parent.context),parent,false)
+            .inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
@@ -46,11 +43,11 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
     }
 
 
-
-    inner class  MyViewHolder(val binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Data){
+    inner class MyViewHolder(val binding: ItemCommentBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: Data) {
             try {
-                val image= arrayListOf(
+                val image = arrayListOf(
                     R.drawable.avater1,
                     R.drawable.avater2,
                     R.drawable.avater3,
@@ -65,21 +62,15 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
                 Glide.with(binding.imgComment.context)
                     .load(image)
                     .into(binding.imgComment)
-            }catch (e: NullPointerException){
+            } catch (e: NullPointerException) {
                 e.printStackTrace()
             }
 
 
-            binding.tvUsernameComment.text = data.user.first_name+data.user.last_name
+            binding.tvUsernameComment.text = data.user.first_name + data.user.last_name
             binding.tvComment.text = data.comment
             binding.tvDateComment.text = data.date
 
-            }
-
-//        fun random():Int{
-//            return random.nextInt(0-10)+10
-//        }
         }
-
-
+    }
 }

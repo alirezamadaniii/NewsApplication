@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
@@ -58,7 +59,6 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
                 e.printStackTrace()
             }
 
-
             binding.tvHeder.text = itemNews.title
             binding.tvDate.text = itemNews.created
 
@@ -78,23 +78,22 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
                 }
 
                 onSavedButtonClick?.let {
-                    val data = itemNews
-                    data.isSave =true
-                    it(itemNews)
+                    val data=DataSavedList(itemNews.created,itemNews.id,itemNews.image,itemNews.title)
+                    it(data)
                 }
             }
         }
     }
 
     private var onItemClick :((Data)->Unit)?=null
-    private var onSavedButtonClick :((Data)->Unit)?=null
+    private var onSavedButtonClick :((DataSavedList)->Unit)?=null
 
 
 
     fun setOnItemClick(listener:(Data)->Unit){
         onItemClick = listener
     }
-    fun setOnSavedButtonClick(listener:(Data)->Unit){
+    fun setOnSavedButtonClick(listener:(DataSavedList)->Unit){
         onSavedButtonClick = listener
     }
 

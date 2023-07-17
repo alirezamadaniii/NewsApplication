@@ -1,5 +1,7 @@
 package com.majazi.newsapplication.data.model.detailnews
 
+import com.google.gson.annotations.SerializedName
+
 data class DetailNews(
     val additional_contents: List<AdditionalContent>,
     val audio: List<Any>,
@@ -20,6 +22,7 @@ data class DetailNews(
     val tags: List<String>,
     val title: String,
     val url: String,
+    val short_link: String,
     val user: UserX,
     val user_id: Int
 )
