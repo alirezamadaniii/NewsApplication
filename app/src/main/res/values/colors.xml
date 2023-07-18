@@ -20,14 +20,15 @@
     <color name="dark_gray">#373737</color>
 
 
-
-
     <color name="custom_red">#f80000</color>
     <color name="custom_red_ripple">#0DF80000</color>
     <color name="custom_red2">#B51D1D</color>
     <color name="custom_red3">#FF5A2D</color>
     <color name="custom_red4">#BA1A1A</color>
-
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 
 
 </resources>

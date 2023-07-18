@@ -61,7 +61,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:background="@color/custom_red"
+            android:background="@color/custom_red4"
             android:textColor="@color/white"
             android:fontFamily="@font/shabnam_bold"
             android:scrollHorizontally="true"

@@ -21,6 +21,7 @@ import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.detailnews.comment.Data
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.utils.Resource
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.data.utils.dialog
 import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
@@ -231,10 +232,17 @@ class DetailNewsFragment : Fragment() {
     }
 
     private fun setupWebView(html: String) {
+        //set text size
+        var textSize:String? = SaveSharedP.fetch(requireContext(),"size_text")
+        if (textSize.equals("")){
+            textSize = "16"
+        }
+        binding.tvUserComment.textSize = textSize?.toFloat()!!
+
         binding.webViewDetail.settings.javaScriptEnabled = true
-        //add font
+        //add font & size
         val pish =
-            "<html><head><style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/font/shabnam.ttf\")}body {direction : rtl;font-family: MyFont;font-size: medium;text-align: justify;}</style></head><body>"
+            "<html><head><style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/font/shabnam.ttf\")}body {direction : rtl;font-family: MyFont;font-size: ${textSize?.toInt()};text-align: justify;}</style></head><body>"
         val pas = "</body></html>"
         val myHtmlString = pish + html + pas
         binding.webViewDetail.loadDataWithBaseURL(null, myHtmlString, "text/html", "UTF-8", null)

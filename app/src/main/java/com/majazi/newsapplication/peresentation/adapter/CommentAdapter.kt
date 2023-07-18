@@ -1,13 +1,16 @@
 package com.majazi.newsapplication.peresentation.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.detailnews.comment.Data
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemCommentBinding
 
 class CommentAdapter : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
@@ -42,6 +45,14 @@ class CommentAdapter : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
         return differ.currentList.size
     }
 
+    private fun checkTextSize(context: Context, tvHeader: TextView, tvSubject: TextView) {
+        var textSize:String?= SaveSharedP.fetch(context,"size_text")
+        if (textSize.equals("")){
+            textSize = "12"
+        }
+        tvHeader.textSize = textSize?.toFloat()!!
+        tvSubject.textSize = (textSize.toFloat())
+    }
 
     inner class MyViewHolder(val binding: ItemCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -66,7 +77,7 @@ class CommentAdapter : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
                 e.printStackTrace()
             }
 
-
+            checkTextSize(itemView.context,binding.tvUsernameComment,binding.tvComment)
             binding.tvUsernameComment.text = data.user.first_name + data.user.last_name
             binding.tvComment.text = data.comment
             binding.tvDateComment.text = data.date

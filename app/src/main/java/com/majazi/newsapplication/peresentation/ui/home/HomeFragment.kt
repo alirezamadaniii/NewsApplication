@@ -16,6 +16,7 @@ import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.ui.adapter.SpannedGridLayoutManager
@@ -65,7 +66,11 @@ class HomeFragment : Fragment() {
                 is ResourceTrending.Success -> {
 
                     response.data.let {
-
+                        var textSize:String? = SaveSharedP.fetch(requireContext(),"size_text")
+                        if (textSize.equals("")){
+                            textSize = "12"
+                        }
+                        binding.materialTextView.textSize = textSize?.toFloat()!!
                         Glide.with(binding.shapeableImageView.context)
                             .load(R.drawable.home_app_icon)
                             .into(binding.shapeableImageView)
@@ -75,6 +80,7 @@ class HomeFragment : Fragment() {
                             trendingNews += news.title+"       "
                         }
                         binding.materialTextView.text = trendingNews
+
                     }
                 }
 

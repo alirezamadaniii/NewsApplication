@@ -1,7 +1,6 @@
 package com.majazi.newsapplication.peresentation.ui.listnews
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
@@ -58,8 +56,9 @@ class ListNewsFragment : Fragment() {
             viewModel.saveNews(it)
         }
 
-
     }
+
+
 
 
     private fun getBundle() :String{
@@ -76,7 +75,7 @@ class ListNewsFragment : Fragment() {
             when (response) {
                 is ResourceListNews.Success -> {
                     hideProgressBar()
-                    response.data?.let {
+                    response.data.let {
                             binding.recyListNews.adapter = newsAdapter
                             newsAdapter.differ.submitList(it)
 
@@ -96,7 +95,7 @@ class ListNewsFragment : Fragment() {
             }
         }
         viewModel.isInternetAvailable.observe(viewLifecycleOwner){
-            Toast.makeText(activity, "$it", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
         }
     }
 
