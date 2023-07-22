@@ -5,10 +5,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +32,14 @@ class SettingFragment : Fragment() {
 
         setSizeText()
         onclick()
+        nightModeButtonState()
+    }
+
+    private fun nightModeButtonState() {
+        val nightMode: String? = SaveSharedP.fetch(requireContext(),"night_mode")
+        val isNight:Boolean = nightMode.toBoolean()
+        binding.switchDarkMode.isChecked = isNight
+
     }
 
     private fun onclick() {
@@ -44,17 +50,25 @@ class SettingFragment : Fragment() {
         binding.lilContactUs.setOnClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_contactUsFragment)
         }
+
+        binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                SaveSharedP.data(requireContext(),"night_mode","true")
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                SaveSharedP.data(requireContext(),"night_mode","false")
+            }
+        }
     }
 
-    private fun animText(){
-        val animation1 = AlphaAnimation(0.2f, 1.0f)
-        animation1.duration = 1000
-    }
     private fun setSizeText() {
         var textSize: String? = SaveSharedP.fetch(requireContext(), "size_text")
-        binding.seekbarTextSize.progress = (textSize?.toInt()?.minus(16))!!
+
         if (textSize.equals("")) {
             textSize = "0"
+        }else{
+            binding.seekbarTextSize.progress = (textSize?.toInt()?.minus(16))!!
         }
 
 

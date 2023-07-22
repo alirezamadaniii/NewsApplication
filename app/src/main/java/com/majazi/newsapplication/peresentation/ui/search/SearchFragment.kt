@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.Resource
@@ -36,6 +37,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).searchNewsViewModel
         adapter = (activity as MainActivity).searchNewsAdapter
+        backPressed()
             binding.edtSearch.addTextChangedListener(object :TextWatcher{
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -54,6 +56,12 @@ class SearchFragment : Fragment() {
             })
 
 
+    }
+
+    private fun backPressed() {
+        binding.imbBackSearch.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun viewSearchNews(search:String){

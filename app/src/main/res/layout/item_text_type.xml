@@ -4,7 +4,8 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    style="@style/SCREEN">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_type"
@@ -13,7 +14,7 @@
         android:layout_marginBottom="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:fontFamily="@font/shabnam"
-        android:textColor="@color/black"
+        style="@style/TEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

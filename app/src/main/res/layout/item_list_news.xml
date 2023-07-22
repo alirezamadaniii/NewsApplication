@@ -6,6 +6,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    style="@style/SCREEN"
 >
 
     <androidx.cardview.widget.CardView
@@ -16,6 +17,7 @@
         android:layout_marginBottom="@dimen/_4sdp"
         android:layout_marginTop="@dimen/_4sdp"
         android:elevation="@dimen/_8sdp"
+        style="@style/Card"
         app:cardCornerRadius="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +49,8 @@
                 android:paddingEnd="@dimen/_6sdp"
                 android:maxLines="2"
                 android:ellipsize="end"
+                style="@style/TEXT"
                 android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/image_list_news"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/image_list_news" />

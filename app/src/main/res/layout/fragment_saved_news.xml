@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/SCREEN"
         tools:context=".peresentation.ui.savedNews.SavedNewsFragment">
 
         <androidx.cardview.widget.CardView
@@ -13,15 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             app:cardElevation="@dimen/_8sdp"
+            style="@style/Card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/white"
-            >
+            android:layout_height="56dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/shapeableImageView"

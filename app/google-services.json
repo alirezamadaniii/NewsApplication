@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "88102073702",
-    "project_id": "news-d02a8",
-    "storage_bucket": "news-d02a8.appspot.com"
+    "project_number": "466707111838",
+    "project_id": "newsapplication-3809c",
+    "storage_bucket": "newsapplication-3809c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:88102073702:android:d7e2873c31f12ee248c4a7",
+        "mobilesdk_app_id": "1:466707111838:android:630374a04e559f56e8808f",
         "android_client_info": {
           "package_name": "com.majazi.newsapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "88102073702-ct03f9vgar7pqed6cej14hf5213qfbek.apps.googleusercontent.com",
+          "client_id": "466707111838-9jqss882afnq1a3g1t1neas2dg6fevo7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.majazi.newsapplication",
-            "certificate_hash": "13a27623e9419468eea815cb2ff9989d508e12a6"
+            "certificate_hash": "40fae934165092ae1f806b963a5b10b399b8cb9b"
           }
         },
         {
-          "client_id": "88102073702-o6kin0pl2q0hbl8nac9ulhu08o3jvk3f.apps.googleusercontent.com",
+          "client_id": "466707111838-7pq27t2o0qbp9ud04lulq5csv7oeofrs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAoXvtNU6j-YPqTAZhysWLoKTfssZSuQPo"
+          "current_key": "AIzaSyCvg4WpIMX5jjvWHsM_3_cCk6_FieSKgJ0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "88102073702-o6kin0pl2q0hbl8nac9ulhu08o3jvk3f.apps.googleusercontent.com",
+              "client_id": "466707111838-7pq27t2o0qbp9ud04lulq5csv7oeofrs.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

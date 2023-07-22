@@ -21,6 +21,7 @@
 
 
     <color name="custom_red">#f80000</color>
+    <color name="custom_red_dark">#D32F2F</color>
     <color name="custom_red_ripple">#0DF80000</color>
     <color name="custom_red2">#B51D1D</color>
     <color name="custom_red3">#FF5A2D</color>
@@ -29,6 +30,10 @@
     <color name="light_blue_200">#FF81D4FA</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
+
+
+
+    <color name="status">#1D1D1D</color>
 
 
 </resources>

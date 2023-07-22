@@ -89,4 +89,12 @@
         android:name="com.majazi.newsapplication.peresentation.ui.contactus.ContactUsFragment"
         android:label="fragment_contact_us"
         tools:layout="@layout/fragment_contact_us" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.majazi.newsapplication.peresentation.ui.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

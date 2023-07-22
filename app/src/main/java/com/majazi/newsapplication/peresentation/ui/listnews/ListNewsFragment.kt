@@ -41,6 +41,7 @@ class ListNewsFragment : Fragment() {
         newsAdapter = (activity as MainActivity).newsListAdapter
 
         viewNewsList()
+        backPressed()
 
         newsAdapter.setOnItemClick {
             val bundle =Bundle().apply {
@@ -58,7 +59,11 @@ class ListNewsFragment : Fragment() {
 
     }
 
-
+    private fun backPressed() {
+        binding.imbBackListNews.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 
 
     private fun getBundle() :String{
@@ -78,7 +83,6 @@ class ListNewsFragment : Fragment() {
                     response.data.let {
                             binding.recyListNews.adapter = newsAdapter
                             newsAdapter.differ.submitList(it)
-
                     }
                 }
 

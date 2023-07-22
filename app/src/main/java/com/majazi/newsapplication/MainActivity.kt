@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         saveNewsViewModel = ViewModelProvider(this,factorySaveNews)[SaveNewsViewModel::class.java]
     }
 
+
+
     private fun initBottomNavigation(){
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         navController = navHostFragment.navController

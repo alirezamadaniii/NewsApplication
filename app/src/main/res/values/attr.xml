@@ -5,4 +5,7 @@
         <attr name="spanCount"/>
         <attr name="aspectRatio" format="string"/>
     </declare-styleable>
+    
+    <attr name="button_inside_edit_text" format="color"/>
+    <attr name="back_progress" format="color"/>
 </resources>

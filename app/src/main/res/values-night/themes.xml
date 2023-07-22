@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.NewsApplication" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.NewsApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/custom_red_dark</item>
+        <item name="colorPrimaryVariant">@color/status</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,5 +12,67 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+
+        <item name="button_inside_edit_text">@color/white</item>
+        <item name="back_progress">#171717</item>
     </style>
+
+
+    <!--    Switch Button-->
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/custom_red4</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/white
+        </item>
+    </style>
+
+    <!--    Dark Mode-->
+    <!--    Screen Background-->
+    <style name="SCREEN">
+        <item name="android:background">#171717</item>
+    </style>
+
+    <!--    Text Color-->
+    <style name="TEXT">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--    Card Background Color-->
+    <style name="Card">
+        <item name="cardBackgroundColor">#1D1D1D</item>
+        <item name="android:background">#1D1D1D</item>
+    </style>
+
+
+    <!--    Icon Card Background Setting Color-->
+    <style name="Card_Icon_Setting">
+        <item name="cardBackgroundColor">#171717</item>
+    </style>
+
+    <!--    RED-->
+    <style name="RED">
+        <item name="android:background">#D32F2F</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <!--    RED TEXT-->
+    <style name="RED_TEXT">
+        <item name="android:textColor">#D32F2F</item>
+    </style>
+
+
+    <!--    Card Background SETTING-->
+    <style name="Card_SETTING">
+        <item name="cardBackgroundColor">#1D1D1D</item>
+        <item name="android:background">#1D1D1D</item>
+    </style>
+
 </resources>
