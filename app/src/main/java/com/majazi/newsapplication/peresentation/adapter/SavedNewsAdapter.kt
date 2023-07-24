@@ -1,9 +1,11 @@
 package com.majazi.newsapplication.peresentation.adapter
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.newslist.Data
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
 
@@ -42,6 +45,7 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
             }
 
 
+            checkTextSize(itemView.context,binding.tvHeder,binding.tvDate)
             binding.tvHeder.text = data.title
             binding.tvDate.text = data.created
 
@@ -80,6 +84,15 @@ class SavedNewsAdapter : RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = differ.currentList[position]
         holder.bind(item)
+    }
+
+    private fun checkTextSize(context: Context, tvHeader: TextView, tvDate: TextView) {
+        var textSize:String?= SaveSharedP.fetch(context,"size_text")
+        if (textSize.equals("")){
+            textSize = "14"
+        }
+        tvHeader.textSize = textSize?.toFloat()!!
+        tvDate.textSize = (textSize.toFloat())-4
     }
 
     private var onDeleteButtonClick :((DataSavedList)->Unit)?=null

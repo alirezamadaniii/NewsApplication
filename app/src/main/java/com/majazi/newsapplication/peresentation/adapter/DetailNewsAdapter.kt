@@ -1,9 +1,11 @@
 package com.majazi.newsapplication.peresentation.adapter
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.majazi.newsapplication.data.model.detailnews.AdditionalContent
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemImageTypeBinding
 import com.majazi.newsapplication.databinding.ItemTextTypeBinding
 import com.majazi.newsapplication.databinding.ItemVideoTypeBinding
@@ -115,6 +118,16 @@ class DetailNewsAdapter(
     inner class TextViewHolder(val binding:ItemTextTypeBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item:AdditionalContent){
             binding.textType.text = item.text
+            checkTextSize(itemView.context,binding.textType)
+        }
+
+        private fun checkTextSize(context: Context, tvHeader: TextView) {
+            var textSize:String?= SaveSharedP.fetch(context,"size_text")
+            if (textSize.equals("")){
+                textSize = "16"
+            }
+            tvHeader.textSize = textSize?.toFloat()!!
+
         }
     }
 

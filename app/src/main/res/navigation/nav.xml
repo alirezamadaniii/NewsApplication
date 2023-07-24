@@ -50,7 +50,11 @@
         android:id="@+id/searchFragment"
         android:name="com.majazi.newsapplication.peresentation.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.majazi.newsapplication.peresentation.ui.login.LoginFragment"

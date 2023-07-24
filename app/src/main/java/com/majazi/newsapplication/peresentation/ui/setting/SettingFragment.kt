@@ -2,6 +2,7 @@ package com.majazi.newsapplication.peresentation.ui.setting
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,10 @@ import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentSettingBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SettingFragment : Fragment() {
@@ -86,10 +91,9 @@ class SettingFragment : Fragment() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 SaveSharedP.data(requireContext(), "size_text", textSize.toString())
-                Handler().postDelayed({
+                Handler(Looper.getMainLooper()).postDelayed({
                     binding.tvTestSize.visibility = View.GONE
-                }, 2500)
-
+                },2500)
             }
         })
 

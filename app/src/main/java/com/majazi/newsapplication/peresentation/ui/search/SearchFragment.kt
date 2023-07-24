@@ -1,15 +1,19 @@
 package com.majazi.newsapplication.peresentation.ui.search
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
@@ -17,6 +21,11 @@ import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentSearchBinding
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 class SearchFragment : Fragment() {
 
@@ -38,6 +47,8 @@ class SearchFragment : Fragment() {
         viewModel = (activity as MainActivity).searchNewsViewModel
         adapter = (activity as MainActivity).searchNewsAdapter
         backPressed()
+        voiceSearch()
+
             binding.edtSearch.addTextChangedListener(object :TextWatcher{
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -49,13 +60,42 @@ class SearchFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    Handler().postDelayed(Runnable {
                         viewSearchNews(s.toString())
-                    },3000)
                 }
             })
 
 
+    }
+
+    // Call Activity for Voice Input
+    private fun voiceSearch() {
+        binding.voiceSearch.setOnClickListener {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "fa")
+            try {
+                startActivityForResult(intent, 1)
+            } catch (a: ActivityNotFoundException) {
+                Toast.makeText(
+                    context,
+                    "گوشی شما تایپ صوتی را پشتیبانی نمیکند",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    // When Mic activity close
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            1 -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    val yourResult =
+                        data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
+                        binding.edtSearch.setText(yourResult)
+                }
+            }
+        }
     }
 
     private fun backPressed() {
@@ -90,6 +130,16 @@ class SearchFragment : Fragment() {
                 }
 
             }
+        }
+
+        adapter.setOnItemClick {
+            val bundle =Bundle().apply {
+                putString("id",it.id.toString())
+            }
+            findNavController().navigate(
+                R.id.action_searchFragment_to_detailNewsFragment,
+                bundle
+            )
         }
     }
 

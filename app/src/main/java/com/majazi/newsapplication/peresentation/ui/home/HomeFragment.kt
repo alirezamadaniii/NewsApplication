@@ -86,9 +86,6 @@ class HomeFragment : Fragment() {
 
                 is ResourceTrending.Error -> {
                     response.message?.let {
-                        Toast.makeText(activity,
-                            "Error : $it",
-                            Toast.LENGTH_LONG).show()
                         Log.i("TAG", "trendingNews: $it")
                     }
                 }
@@ -110,11 +107,12 @@ class HomeFragment : Fragment() {
                 }
 
                 is ResourceItemNews.Error -> {
-                    hideProgressBar()
                     response.message?.let {
-                        Toast.makeText(activity,
-                            "Error : $it",
-                            Toast.LENGTH_LONG).show()
+                        if (it.equals("lateinit property categoryList has not been initialized")){
+                            Toast.makeText(activity,
+                                "مشکل در ارتباط با سرور",
+                                Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
 

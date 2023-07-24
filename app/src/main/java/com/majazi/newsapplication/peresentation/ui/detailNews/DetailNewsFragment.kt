@@ -27,6 +27,7 @@ import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
+import kotlinx.coroutines.delay
 
 
 class DetailNewsFragment : Fragment() {
@@ -191,8 +192,6 @@ class DetailNewsFragment : Fragment() {
         detailNewsAdapter.setOnItemClick {
             player = it
         }
-
-        Log.i("TAG", "viewNewsList: ${getBundle()}")
         viewModel.getDetailNews(getBundle())
         viewModel.news.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -261,7 +260,6 @@ class DetailNewsFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
-//                    hideProgressBar()
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
                     }
