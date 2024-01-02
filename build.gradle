@@ -10,6 +10,7 @@ buildscript {
         maven {
             url "https://maven.google.com"
         }
+
     }
 
 
@@ -23,8 +24,6 @@ buildscript {
         // Safe Args
         def nav_version = "2.5.3"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-
-
     }
 
 }

@@ -6,6 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user")
 data class SignInUser(
     @PrimaryKey(autoGenerate = false)
-    var username: String,
-    var email: String,
+    var username: String
 )

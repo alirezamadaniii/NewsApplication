@@ -2,6 +2,7 @@ package com.majazi.newsapplication.peresentation.di
 
 import android.app.Application
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetAppIconUseCase
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
@@ -34,11 +35,14 @@ class FactoryModule {
     fun provideNewsViewModelFactory(
         application: Application,
         getNewsUseCase: GetNewsUseCase,
-        getTrendingNewsUseCase: GetTrendingNewsUseCase
+        getTrendingNewsUseCase: GetTrendingNewsUseCase,
+        getAppIconUseCase: GetAppIconUseCase
     ): NewsViewModelFactory {
         return NewsViewModelFactory(
             application,
-            getNewsUseCase,getTrendingNewsUseCase)
+            getNewsUseCase,
+            getTrendingNewsUseCase,
+            getAppIconUseCase)
     }
 
     @Singleton

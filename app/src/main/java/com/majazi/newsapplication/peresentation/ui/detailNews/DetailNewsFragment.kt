@@ -14,11 +14,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.model.detailnews.comment.Data
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.SaveSharedP
@@ -27,7 +27,6 @@ import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
-import kotlinx.coroutines.delay
 
 
 class DetailNewsFragment : Fragment() {
@@ -64,6 +63,7 @@ class DetailNewsFragment : Fragment() {
         shareButton()
     }
 
+
     private fun shareButton() {
         binding.imbShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
@@ -84,7 +84,7 @@ class DetailNewsFragment : Fragment() {
     private fun getUserData() {
         viewModel.getUser().observe(viewLifecycleOwner) { db ->
 
-            binding.txtInputLayout.setEndIconOnClickListener { click ->
+            binding.txtInputLayout.setEndIconOnClickListener { _ ->
                 //check be sing in user
                 try {
                     if (db.username.isEmpty()) {
@@ -108,40 +108,28 @@ class DetailNewsFragment : Fragment() {
                             binding.edtComment.text.toString(),
                             getBundle(),
                             db.username,
-                            Settings.Secure.getString(getContext()?.getContentResolver(),
+                            Settings.Secure.getString(
+                                context?.contentResolver,
                                 Settings.Secure.ANDROID_ID)
                         )
                         viewModel.sendComment.observe(viewLifecycleOwner) { response ->
                             when (response) {
                                 is Resource.Success -> {
-                                    Toast.makeText(activity, "okkk", Toast.LENGTH_LONG).show()
-//                                    binding.imbSendComment.visibility = View.VISIBLE
-//                                    binding.progressSendComment.visibility = View.GONE
-                                    binding.edtComment.text?.clear()
-//                                    val user = User("sdsad",1,"sdds","")
-//                                    val data=Data(binding.edtComment.text.toString(),
-//                                        "",
-//                                        "",
-//                                        1287,
-//                                        getBundle().toInt(),
-//                                        1,
-//                                        user,
-//                                        555871)
-//                                    commentAdapter.addComment(data)
-//                                    commentAdapter.addComment()
-                                    showComment()
 
+                                    binding.edtComment.text?.clear()
+
+                                    showComment()
+                                    binding.scroll.scrollTo(0, binding.scroll.bottom)
+                                    binding.recyComment.requestFocus()
                                 }
 
                                 is Resource.Error -> {
-//                                    binding.imbSendComment.visibility = View.VISIBLE
-//                                    binding.progressSendComment.visibility = View.GONE
+
                                     binding.edtComment.text?.clear()
                                 }
 
                                 is Resource.Loading -> {
-//                                    binding.imbSendComment.visibility = View.GONE
-//                                    binding.progressSendComment.visibility = View.VISIBLE
+
                                 }
                             }
                         }
@@ -150,19 +138,17 @@ class DetailNewsFragment : Fragment() {
                     val dialog =
                         requireContext().dialog(R.layout.dialog_sign_in, requireView(), true)
                     dialog.findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
-                        var username =
+                        val username =
                             dialog.findViewById<EditText>(R.id.user_name).text.toString()
-                        var email = dialog.findViewById<EditText>(R.id.email).text.toString()
-                        if (username.isEmpty() || email.isEmpty()) {
+                        if (username.isEmpty()) {
                             Toast.makeText(
                                 activity,
-                                "لطفا فیلدهای بالا را به دقت پر کنید",
+                                "لطفا نام کاربری را پر کنید",
                                 Toast.LENGTH_LONG
                             ).show()
                         } else {
                             val signInUser = SignInUser(
-                                username,
-                                email
+                                username
                             )
                             viewModel.signInUser(signInUser)
                             dialog.cancel()
@@ -233,6 +219,18 @@ class DetailNewsFragment : Fragment() {
     private fun setupWebView(html: String) {
         //set text size
         var textSize:String? = SaveSharedP.fetch(requireContext(),"size_text")
+        val theme :String? = SaveSharedP.fetch(requireContext(),"night_mode")
+        val textColor:String?
+        val backgroundColor:String?
+
+        if (theme.equals("true")){
+            textColor = "#FFFFFFFF"
+            backgroundColor="#171717"
+        }else{
+            Log.i("TAG", "setupWebView: $theme")
+            textColor = "#171717"
+            backgroundColor="#FFFFFFFF"
+        }
         if (textSize.equals("")){
             textSize = "16"
         }
@@ -241,7 +239,11 @@ class DetailNewsFragment : Fragment() {
         binding.webViewDetail.settings.javaScriptEnabled = true
         //add font & size
         val pish =
-            "<html><head><style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/font/shabnam.ttf\")}body {direction : rtl;font-family: MyFont;font-size: ${textSize?.toInt()};text-align: justify;}</style></head><body>"
+            "<html><head><style type=\"text/css\">@font-face {font-family: MyFont;" +
+                    "src: url(\"file:///android_asset/font/shabnam.ttf\")}" +
+                    "body {direction : rtl;font-family: MyFont;color:$textColor;" +
+                    "background-color:$backgroundColor; font-size: ${textSize.toInt()};" +
+                    "text-align: justify;}</style></head><body>"
         val pas = "</body></html>"
         val myHtmlString = pish + html + pas
         binding.webViewDetail.loadDataWithBaseURL(null, myHtmlString, "text/html", "UTF-8", null)
@@ -255,6 +257,9 @@ class DetailNewsFragment : Fragment() {
                 is Resource.Success -> {
                     response.data?.let {
                         binding.recyComment.adapter = commentAdapter
+                        val  linearLayoutManager = LinearLayoutManager(activity)
+                        linearLayoutManager.reverseLayout = true
+                        binding.recyComment.layoutManager = linearLayoutManager
                         commentAdapter.differ.submitList(it.data)
                     }
                 }

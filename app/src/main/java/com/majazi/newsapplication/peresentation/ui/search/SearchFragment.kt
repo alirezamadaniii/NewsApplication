@@ -1,10 +1,8 @@
 package com.majazi.newsapplication.peresentation.ui.search
-
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,10 +19,7 @@ import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentSearchBinding
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 
 class SearchFragment : Fragment() {

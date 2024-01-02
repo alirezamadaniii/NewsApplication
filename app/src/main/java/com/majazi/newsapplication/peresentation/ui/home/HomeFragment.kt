@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.data.utils.SaveSharedP
@@ -52,6 +53,7 @@ class HomeFragment : Fragment() {
                 bundle
             )
         }
+        getAppIcon()
         initRecyclerView()
         viewNewsList()
         trendingNews()
@@ -71,9 +73,6 @@ class HomeFragment : Fragment() {
                             textSize = "12"
                         }
                         binding.materialTextView.textSize = textSize?.toFloat()!!
-                        Glide.with(binding.shapeableImageView.context)
-                            .load(R.drawable.home_app_icon)
-                            .into(binding.shapeableImageView)
                         binding.materialTextView.isSelected = true
                         var trendingNews=""
                         it.forEach { news->
@@ -131,6 +130,41 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+    private fun getAppIcon(){
+        val appICon:String? = SaveSharedP.fetch(requireContext(),"app_icon")
+        if (!appICon.isNullOrEmpty()){
+            Glide.with(binding.shapeableImageView.context)
+                .load(appICon)
+                .into(binding.shapeableImageView)
+            Log.i("TAG", "getAppIcon: $appICon")
+        }
+        viewModel.getAppIcon()
+        viewModel.appIcon.observe(viewLifecycleOwner){ response->
+            when (response) {
+                is Resource.Success -> {
+                    response.data.let {
+                        SaveSharedP.data(requireContext(),"app_icon",it?.data?.appIcon)
+                        Glide.with(binding.shapeableImageView.context)
+                            .load(it?.data?.appIcon)
+                            .into(binding.shapeableImageView)
+                    }
+                }
+
+                is Resource.Error -> {
+                    response.message?.let {
+                        if (it.equals("lateinit property categoryList has not been initialized")){
+                            Toast.makeText(activity,
+                                "مشکل در ارتباط با سرور",
+                                Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                is Resource.Loading -> {}
+            }
+        }
+    }
 
     private fun initRecyclerView() {
         setupSpannedGridLayout()

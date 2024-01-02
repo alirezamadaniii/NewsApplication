@@ -16,8 +16,8 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
         return apiService.getNewsHome("fa")
     }
 
-    override suspend fun getNewsList(catId:String): Response<NewsList> {
-        return apiService.getNewsList(catId,"fa")
+    override suspend fun getNewsList(catId:String,page:String,number:String): Response<NewsList> {
+        return apiService.getNewsList(catId,page,number,"fa")
     }
 
     override suspend fun getDetailNews(id: String): Response<DetailNews> {
@@ -43,6 +43,10 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
         phone: String
     ): Response<SendComment> {
         return apiService.sendCommentNews(comment, postId, name, phone)
+    }
+
+    override suspend fun getAppIcon(): Response<TrendingNews> {
+        return apiService.getTrendingNews()
     }
 
 }

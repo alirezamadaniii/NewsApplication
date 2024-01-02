@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.model.DataSavedList
-import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException

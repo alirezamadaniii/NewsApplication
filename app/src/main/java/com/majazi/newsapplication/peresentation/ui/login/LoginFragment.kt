@@ -1,6 +1,6 @@
 package com.majazi.newsapplication.peresentation.ui.login
 
-import androidx.lifecycle.ViewModelProvider
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

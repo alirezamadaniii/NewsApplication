@@ -1,6 +1,10 @@
 package com.majazi.newsapplication.data.repository.news
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.majazi.newsapplication.data.NewsPagingSource
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
@@ -11,6 +15,7 @@ import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.repository.news.datasource.NewsLocalDataSource
 import com.majazi.newsapplication.data.repository.news.datasource.NewsRemoteDataSource
 import com.majazi.newsapplication.data.utils.Resource
@@ -29,8 +34,9 @@ class NewsRepositoryImpl(
             return ResourceItemNews.Success(getCategoryFromDb(internet))
     }
 
-    override suspend fun getListNews(catId:String,internet: Boolean): ResourceListNews<Data> {
-        return ResourceListNews.Success(getNewsListFromDb(catId,internet))
+    override suspend fun getListNews(catId:String,internet: Boolean,page:String,number:String): ResourceListNews<Data> {
+        return ResourceListNews.Success(getNewsListFromDb(catId,internet,page, number))
+
     }
 
     override suspend fun getSavedNews(): Flow<List<DataSavedList>> {
@@ -89,6 +95,10 @@ class NewsRepositoryImpl(
             remoteDataSource.sendComment(comment, postId, name, phone))
     }
 
+    override suspend fun getAppIcon(): Resource<TrendingNews> {
+        return responseToResourceAppIcon(remoteDataSource.getAppIcon())
+    }
+
 
     private fun responseToResourceSendComment(response: Response<SendComment>):Resource<SendComment>{
         if (response.isSuccessful){
@@ -112,6 +122,15 @@ class NewsRepositoryImpl(
 
 
     private fun responseToResourceDetailNews(response: Response<DetailNews>):Resource<DetailNews>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun responseToResourceAppIcon(response: Response<TrendingNews>):Resource<TrendingNews>{
         if (response.isSuccessful){
             response.body()?.let {result->
                 return Resource.Success(result)
@@ -220,10 +239,10 @@ class NewsRepositoryImpl(
     }
 
 
-    private suspend fun getNewsListFromApi(catId:String):List<Data>{
+    private suspend fun getNewsListFromApi(catId:String,page:String,number:String):List<Data>{
         lateinit var categoryList:List<Data>
         try {
-            val response = remoteDataSource.getNewsList(catId)
+            val response = remoteDataSource.getNewsList(catId,page, number)
             val body = response.body()
             if (body!=null){
                 categoryList = body.data
@@ -235,7 +254,7 @@ class NewsRepositoryImpl(
     }
 
 
-    private suspend fun getNewsListFromDb(catId:String, internet: Boolean):List<Data>{
+    private suspend fun getNewsListFromDb(catId:String, internet: Boolean,page:String,number:String):List<Data>{
         lateinit var categoryList:List<Data>
         try {
             categoryList = localDataSource.getNewsFromDb(catId)
@@ -244,14 +263,14 @@ class NewsRepositoryImpl(
         }
         if (categoryList.size>0){
             return if (internet){
-                categoryList =getNewsListFromApi(catId)
+                categoryList =getNewsListFromApi(catId, page, number)
                 localDataSource.saveNewsToDB(categoryList)
                 categoryList
             }else{
                 categoryList
             }
         }else{
-            categoryList =getNewsListFromApi(catId).subList(0,1)
+            categoryList =getNewsListFromApi(catId,page,number)
             localDataSource.saveNewsToDB(categoryList)
 
         }

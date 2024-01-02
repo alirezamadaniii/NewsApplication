@@ -10,8 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
+import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceTrending
+import com.majazi.newsapplication.domien.usecase.GetAppIconUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -20,12 +23,14 @@ import kotlinx.coroutines.launch
 class NewsViewModel(
     private val app:Application,
     private val getNewsUseCase: GetNewsUseCase,
-    private val getTrendingNewsUseCase: GetTrendingNewsUseCase
+    private val getTrendingNewsUseCase: GetTrendingNewsUseCase,
+    private val getAppIconUseCase: GetAppIconUseCase
 
 ):AndroidViewModel(app) {
 
     val news: MutableLiveData<ResourceItemNews<ItemNews>> = MutableLiveData()
     val trendingNews: MutableLiveData<ResourceTrending<Post>> = MutableLiveData()
+    val appIcon: MutableLiveData<Resource<TrendingNews>> = MutableLiveData()
     val isInternetAvailable:MutableLiveData<Boolean> = MutableLiveData()
 
 
@@ -90,6 +95,21 @@ class NewsViewModel(
             trendingNews.postValue(ResourceTrending.Error(e.message.toString()))
         }
 
+    }
+
+    fun getAppIcon() =viewModelScope.launch(Dispatchers.IO) {
+        appIcon.postValue(Resource.Loading())
+        try {
+            if (isInternetAvailable(app)){
+                val apiResult = getAppIconUseCase.execute()
+                appIcon.postValue(apiResult)
+            }else{
+                val apiResult = getAppIconUseCase.execute()
+                appIcon.postValue(apiResult)
+            }
+        } catch (e: Exception) {
+            appIcon.postValue(Resource.Error(e.message.toString()))
+        }
     }
 
 

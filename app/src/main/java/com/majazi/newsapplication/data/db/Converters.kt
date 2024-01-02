@@ -1,6 +1,5 @@
 package com.majazi.newsapplication.data.db
 
-import android.media.Image
 import androidx.room.TypeConverter
 import com.majazi.newsapplication.data.model.newslist.User
 

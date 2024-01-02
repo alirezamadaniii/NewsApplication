@@ -58,4 +58,6 @@ interface NewsDao {
 
     @Query("SELECT * FROM user")
     fun getUser():Flow<SignInUser>
+
+
 }

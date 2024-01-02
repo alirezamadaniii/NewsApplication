@@ -3,20 +3,19 @@ package com.majazi.newsapplication
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.util.Log
 import android.widget.RemoteViews
-import com.majazi.newsapplication.peresentation.ui.home.HomeFragment
-import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
 
 /**
  * Implementation of App Widget functionality.
  */
 class NewsAppWidget : AppWidgetProvider() {
-    private lateinit var viewModel: NewsViewModel
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -25,6 +24,7 @@ class NewsAppWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
+        Log.i("TAG1", "onEnabled: ")
     }
 
     override fun onDisabled(context: Context) {
@@ -44,7 +44,8 @@ internal fun updateAppWidget(
     val widgetText = context.getString(R.string.appwidget_text)
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.news_app_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
+//    views.setTextViewText(R.id.appwidget_text, widgetText)
+
 
 
     // Instruct the widget manager to update the widget

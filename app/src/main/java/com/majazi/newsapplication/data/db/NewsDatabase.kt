@@ -11,7 +11,7 @@ import com.majazi.newsapplication.data.model.trendingnews.Post
 
 @Database(
     entities = [Data::class,ItemNews::class,Post::class,SignInUser::class,DataSavedList::class],
-    version = 15,
+    version = 16,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class NewsDatabase :RoomDatabase(){

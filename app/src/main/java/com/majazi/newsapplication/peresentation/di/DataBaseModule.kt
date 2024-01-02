@@ -1,7 +1,6 @@
 package com.majazi.newsapplication.peresentation.di
 
 import android.app.Application
-import android.provider.DocumentsContract.Root
 import androidx.room.Room
 import com.majazi.newsapplication.data.db.NewsDao
 import com.majazi.newsapplication.data.db.NewsDatabase

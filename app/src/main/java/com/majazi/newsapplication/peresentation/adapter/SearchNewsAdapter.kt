@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.search.Data
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException

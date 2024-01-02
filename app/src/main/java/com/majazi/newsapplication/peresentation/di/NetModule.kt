@@ -9,7 +9,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -44,10 +43,9 @@ class NetModule {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient):Retrofit{
-
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://10.3.10.172:8080/api/v10/")
+            .baseUrl("https://hormoz.ir/api/v10/")
             .client(okHttpClient)
             .build()
     }

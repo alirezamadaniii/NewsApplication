@@ -65,32 +65,32 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-            app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-            app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-            app:boxCornerRadiusTopStart="@dimen/_20sdp"
-            app:boxStrokeColor="@color/custom_red2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/textInputLayout3"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/_45sdp"-->
+<!--            android:layout_marginStart="@dimen/_16sdp"-->
+<!--            android:layout_marginTop="@dimen/_16sdp"-->
+<!--            android:layout_marginEnd="@dimen/_16sdp"-->
+<!--            app:boxCornerRadiusBottomEnd="@dimen/_20sdp"-->
+<!--            app:boxCornerRadiusBottomStart="@dimen/_20sdp"-->
+<!--            app:boxCornerRadiusTopEnd="@dimen/_20sdp"-->
+<!--            app:boxCornerRadiusTopStart="@dimen/_20sdp"-->
+<!--            app:boxStrokeColor="@color/custom_red2"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/shabnam"
-                android:hint="ایمیل"
-                android:textSize="@dimen/_10sdp"/>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/email"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:fontFamily="@font/shabnam"-->
+<!--                android:hint="ایمیل"-->
+<!--                android:textSize="@dimen/_10sdp"/>-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
         <com.google.android.material.button.MaterialButton
@@ -107,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

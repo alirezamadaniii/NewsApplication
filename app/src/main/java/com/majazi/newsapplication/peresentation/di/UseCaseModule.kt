@@ -2,6 +2,7 @@ package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetAppIconUseCase
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
@@ -122,4 +123,13 @@ class UseCaseModule {
     ):SendCommentUseCase{
         return SendCommentUseCase(newsRepository)
     }
+
+    @Singleton
+    @Provides
+    fun provideAppIconUseCase(
+        newsRepository: NewsRepository
+    ):GetAppIconUseCase{
+        return GetAppIconUseCase(newsRepository)
+    }
+
 }

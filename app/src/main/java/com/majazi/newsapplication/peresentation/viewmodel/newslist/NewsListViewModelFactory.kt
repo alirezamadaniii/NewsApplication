@@ -10,11 +10,10 @@ class NewsListViewModelFactory(
      private val app:Application,
      private val getNewsListUseCase: GetNewsListUseCase,
      private val saveNewsUseCase: SaveNewsUseCase
-//     private val getNewsFromDbUseCase: GetNewsFromDbUseCase
 
 
 ):ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return NewListViewModel(app, getNewsListUseCase,saveNewsUseCase) as T
-    }
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        return NewListViewModel(app, getNewsListUseCase,saveNewsUseCase) as T
+//    }
 }

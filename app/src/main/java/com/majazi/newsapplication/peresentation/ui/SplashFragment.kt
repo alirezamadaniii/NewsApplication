@@ -1,16 +1,14 @@
 package com.majazi.newsapplication.peresentation.ui
-
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentSplashBinding
 
 class SplashFragment : Fragment() {
@@ -27,9 +25,9 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-        },2500)
+        },4500)
     }
 
 }

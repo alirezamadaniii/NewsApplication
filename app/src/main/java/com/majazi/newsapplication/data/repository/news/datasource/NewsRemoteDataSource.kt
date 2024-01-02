@@ -12,7 +12,7 @@ import retrofit2.Response
 interface NewsRemoteDataSource {
     suspend fun getNews():Response<HomeNews>
 
-    suspend fun getNewsList(catId:String):Response<NewsList>
+    suspend fun getNewsList(catId:String,page:String,number:String):Response<NewsList>
 
     suspend fun getDetailNews(id:String):Response<DetailNews>
 
@@ -28,4 +28,6 @@ interface NewsRemoteDataSource {
         name:String,
         phone:String
     ):Response<SendComment>
+
+    suspend fun getAppIcon():Response<TrendingNews>
 }

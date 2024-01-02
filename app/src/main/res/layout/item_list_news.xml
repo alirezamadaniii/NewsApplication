@@ -10,7 +10,7 @@
 >
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_300sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginStart="@dimen/_4sdp"
         android:layout_marginEnd="@dimen/_4sdp"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:fontFamily="@font/shabnam"
+                android:fontFamily="@font/shabnam_fd"
                 android:paddingEnd="@dimen/_6sdp"
                 android:text="1402/02/13 - 9:25"
                 app:layout_constraintBottom_toBottomOf="@+id/image_list_news"

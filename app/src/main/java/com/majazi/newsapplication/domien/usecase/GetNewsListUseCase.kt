@@ -6,7 +6,7 @@ import com.majazi.newsapplication.data.utils.ResourceListNews
 import com.majazi.newsapplication.domien.repository.NewsRepository
 
 class GetNewsListUseCase(private val repository: NewsRepository) {
-    suspend fun execute(catId:String,internet: Boolean): ResourceListNews<Data> {
-        return repository.getListNews(catId,internet)
+    suspend fun execute(catId:String,internet: Boolean,page:String,number:String): ResourceListNews<Data> {
+        return repository.getListNews(catId,internet,page,number)
     }
 }

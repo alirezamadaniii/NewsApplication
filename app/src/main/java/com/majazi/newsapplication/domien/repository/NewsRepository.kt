@@ -1,5 +1,6 @@
 package com.majazi.newsapplication.domien.repository
 
+import androidx.paging.PagingData
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
@@ -9,6 +10,7 @@ import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
+import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.data.utils.ResourceItemNews
 import com.majazi.newsapplication.data.utils.ResourceListNews
@@ -19,7 +21,7 @@ interface NewsRepository {
 
     suspend fun getNews(internet:Boolean): ResourceItemNews<ItemNews>
 
-    suspend fun getListNews(catId:String,internet: Boolean):ResourceListNews<Data>
+    suspend fun getListNews(catId:String,internet: Boolean,page:String,number:String): ResourceListNews<Data>
 
     suspend fun getSavedNews():Flow<List<DataSavedList>>
     suspend fun getDetailNews(id:String):Resource<DetailNews>
@@ -46,4 +48,7 @@ interface NewsRepository {
          name:String,
          phone:String
      ):Resource<SendComment>
+
+
+     suspend fun getAppIcon():Resource<TrendingNews>
 }

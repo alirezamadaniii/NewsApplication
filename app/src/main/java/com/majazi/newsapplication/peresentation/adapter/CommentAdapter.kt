@@ -78,7 +78,7 @@ class CommentAdapter : RecyclerView.Adapter<CommentAdapter.MyViewHolder>() {
             }
 
             checkTextSize(itemView.context,binding.tvUsernameComment,binding.tvComment)
-            binding.tvUsernameComment.text = data.user.first_name + data.user.last_name
+            binding.tvUsernameComment.text = data.user.first_name
             binding.tvComment.text = data.comment
             binding.tvDateComment.text = data.date
 

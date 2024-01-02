@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: NewsViewModelFactory
-    @Inject
-    lateinit var factoryNewsList:NewsListViewModelFactory
+
     @Inject
     lateinit var factoryDetailNews:DetailNewsFactory
     @Inject
@@ -45,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var factorySaveNews:SaveNewsViewModelFactory
 
     lateinit var viewModel: NewsViewModel
-    lateinit var newsListViewModel: NewListViewModel
     lateinit var detailNewsViewModel: DetailNewsViewModel
     lateinit var searchNewsViewModel: SearchNewsViewModel
     lateinit var saveNewsViewModel: SaveNewsViewModel
@@ -76,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
 
         viewModel = ViewModelProvider(this,factory)[NewsViewModel::class.java]
-        newsListViewModel = ViewModelProvider(this,factoryNewsList)[NewListViewModel::class.java]
         detailNewsViewModel = ViewModelProvider(this,factoryDetailNews)[DetailNewsViewModel::class.java]
         searchNewsViewModel = ViewModelProvider(this,factorySearchNews)[SearchNewsViewModel::class.java]
         saveNewsViewModel = ViewModelProvider(this,factorySaveNews)[SaveNewsViewModel::class.java]

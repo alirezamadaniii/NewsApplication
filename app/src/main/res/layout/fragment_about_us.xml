@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:fontFamily="@font/shabnam_bold"
         android:text="درباره ما"
-        android:textColor="@color/black"
+        style="@style/TEXT"
         android:textSize="@dimen/_22sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

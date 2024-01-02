@@ -14,10 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentSettingBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class SettingFragment : Fragment() {

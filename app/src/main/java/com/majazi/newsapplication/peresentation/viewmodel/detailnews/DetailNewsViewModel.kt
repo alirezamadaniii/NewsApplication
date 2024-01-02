@@ -96,7 +96,7 @@ class DetailNewsViewModel(
 
 
 
-    fun signInUser(signInUser: SignInUser) =viewModelScope.launch(Dispatchers.Main) {
+    fun signInUser(signInUser: SignInUser) = viewModelScope.launch(Dispatchers.Main) {
         signInUserUseCase.execute(signInUser)
     }
 

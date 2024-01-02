@@ -26,9 +26,12 @@ interface ApiService {
     ): Response<HomeNews>
 
     @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
-    @GET("post-by-category/{cat-id}")
+    @GET("post-by-category/{cat-id}/{page}/{number}")
     suspend fun getNewsList(
-        @Path(value = "cat-id", encoded = true) catId: String, @Query("lang") language: String
+        @Path(value = "cat-id", encoded = true) catId: String,
+        @Path(value = "page", encoded = true) page: String,
+        @Path(value = "number", encoded = true) number: String,
+        @Query("lang") language: String
     ): Response<NewsList>
 
 

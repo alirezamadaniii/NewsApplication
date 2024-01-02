@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentSavedNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.SavedNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
@@ -31,9 +33,10 @@ class SavedNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).newsListViewModel
+//        viewModel = (activity as MainActivity).newsListViewModel
         viewModelSaveNews = (activity as MainActivity).saveNewsViewModel
         savedNewsAdapter = (activity as MainActivity).savedNewsAdapter
+        getAppIcon()
         viewNewsList()
         removeNews()
     }
@@ -58,4 +61,12 @@ class SavedNewsFragment : Fragment() {
 
     }
 
+    private fun getAppIcon(){
+        val appIcon:String? = SaveSharedP.fetch(requireContext(),"app_icon")
+        if (!appIcon.isNullOrEmpty()){
+            Glide.with(binding.shapeableImageView.context)
+                .load(appIcon)
+                .into(binding.shapeableImageView)
+        }
+    }
 }

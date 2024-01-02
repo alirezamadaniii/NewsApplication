@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:fontFamily="@font/shabnam_bold"
         android:textSize="@dimen/_22sdp"
-        android:textColor="@color/black"
+        style="@style/TEXT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
