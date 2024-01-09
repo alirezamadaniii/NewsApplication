@@ -170,16 +170,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progress_send_comment"-->
-<!--                android:layout_width="20dp"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:layout_marginStart="@dimen/_8sdp"-->
-<!--                android:indeterminateTint="@color/custom_red"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintEnd_toEndOf="@+id/txt_input_layout"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/appCompatImageButton" />-->
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

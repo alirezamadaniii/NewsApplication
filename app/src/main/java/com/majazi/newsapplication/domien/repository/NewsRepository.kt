@@ -1,12 +1,14 @@
 package com.majazi.newsapplication.domien.repository
 
-import androidx.paging.PagingData
+import com.majazi.newsapplication.data.model.Category
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
+import com.majazi.newsapplication.data.model.getuser.GetUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.interestpost.InterestPost
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
@@ -28,8 +30,6 @@ interface NewsRepository {
 
     suspend fun saveNewsToSaved(data: DataSavedList)
 
-//    suspend fun getNewsFromDb():Flow<List<Data>>
-
     suspend fun getNewsFromSearch(search:String):Resource<Search>
 
     suspend fun getComment(id: String): Resource<Comment>
@@ -37,6 +37,7 @@ interface NewsRepository {
     suspend fun deleteNews(data: DataSavedList)
 
     suspend fun getTrendingNews(internet: Boolean):ResourceTrending<Post>
+
 
     suspend fun signInUser(signInUser: SignInUser)
 
@@ -51,4 +52,16 @@ interface NewsRepository {
 
 
      suspend fun getAppIcon():Resource<TrendingNews>
+
+
+     suspend fun userAuth(name: String,phone: String):Resource<GetUser>
+
+     suspend fun getInterestPosts(userId: String,categoryId: String):Resource<InterestPost>
+
+     suspend fun addCounter(category: Category)
+
+     suspend fun getCounter(categoryId: Int):Flow<Int>
+
+    suspend fun getAllCounter():Flow<List<Category>>
+
 }

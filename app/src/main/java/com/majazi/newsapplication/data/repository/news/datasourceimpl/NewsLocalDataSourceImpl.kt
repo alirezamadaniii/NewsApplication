@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.data.repository.news.datasourceimpl
 
 import com.majazi.newsapplication.data.db.NewsDao
+import com.majazi.newsapplication.data.model.Category
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
@@ -19,6 +20,9 @@ class NewsLocalDataSourceImpl(
         dao.saveNews(data)
     }
 
+    override suspend fun deleteNewsToDB() {
+        return dao.deleteAllNews()
+    }
 
 
     override suspend fun getNewsFromDb(catId:String): List<Data> {
@@ -42,6 +46,10 @@ class NewsLocalDataSourceImpl(
         return dao.getCategoryList()
     }
 
+    override suspend fun deleteNewsList() {
+        return dao.deleteNewsList()
+    }
+
     override suspend fun deleteNews(data: DataSavedList) {
         return dao.deleteNews(data)
     }
@@ -56,12 +64,28 @@ class NewsLocalDataSourceImpl(
         return dao.getTradingNewsFromDb()
     }
 
+    override suspend fun deleteTrendingNews() {
+        return dao.deleteTradingNewsFromDb()
+    }
+
     override suspend fun signInUser(signInUser: SignInUser) {
         return dao.signInUser(signInUser)
     }
 
     override fun getUser(): Flow<SignInUser> {
         return dao.getUser()
+    }
+
+    override suspend fun addCounter(category: Category) {
+        return dao.addCounter(category)
+    }
+
+    override suspend fun getCounter(categoryId: Int):Flow<Int> {
+        return dao.getCounter(categoryId)
+    }
+
+    override suspend fun getAllCounter(): Flow<List<Category>> {
+        return dao.getAllCounter()
     }
 
 

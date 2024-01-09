@@ -1,18 +1,15 @@
 package com.majazi.newsapplication.data.repository.news
 
-import android.util.Log
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import com.majazi.newsapplication.data.NewsPagingSource
+import com.majazi.newsapplication.data.model.Category
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
+import com.majazi.newsapplication.data.model.getuser.GetUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
+import com.majazi.newsapplication.data.model.interestpost.InterestPost
 import com.majazi.newsapplication.data.model.newslist.Data
-import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.Post
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
@@ -31,11 +28,11 @@ class NewsRepositoryImpl(
     private val localDataSource: NewsLocalDataSource
 ):NewsRepository {
     override suspend fun getNews(internet:Boolean): ResourceItemNews<ItemNews> {
-            return ResourceItemNews.Success(getCategoryFromDb(internet))
+            return ResourceItemNews.Success(getCategory(internet))
     }
 
     override suspend fun getListNews(catId:String,internet: Boolean,page:String,number:String): ResourceListNews<Data> {
-        return ResourceListNews.Success(getNewsListFromDb(catId,internet,page, number))
+        return ResourceListNews.Success(getNewsList(catId,internet,page, number))
 
     }
 
@@ -52,14 +49,6 @@ class NewsRepositoryImpl(
     }
 
 
-//    override suspend fun saveNews(data: Data) {
-//        localDataSource.saveNewsToDB(data)
-//    }
-
-//    override suspend fun getNewsFromDb(): Flow<List<Data>> {
-//        return localDataSou rce.getNewsFromDb()
-//    }
-
     override suspend fun getNewsFromSearch(search: String): Resource<Search> {
         return responseToResourceSearch(remoteDataSource.getNewsFromSearch(search))
     }
@@ -74,8 +63,11 @@ class NewsRepositoryImpl(
     }
 
     override suspend fun getTrendingNews(internet: Boolean): ResourceTrending<Post> {
-        return ResourceTrending.Success(getTreadingFromDb(internet))
+        return ResourceTrending.Success(getTreading(internet))
     }
+
+
+
 
     override suspend fun signInUser(signInUser: SignInUser) {
         return localDataSource.signInUser(signInUser)
@@ -99,8 +91,30 @@ class NewsRepositoryImpl(
         return responseToResourceAppIcon(remoteDataSource.getAppIcon())
     }
 
+    override suspend fun userAuth(name: String, phone: String): Resource<GetUser> {
+        return responseToResourceUserAuth(remoteDataSource.userAuth(name, phone))
+    }
 
-    private fun responseToResourceSendComment(response: Response<SendComment>):Resource<SendComment>{
+    override suspend fun getInterestPosts(
+        userId: String,
+        categoryId: String
+    ): Resource<InterestPost> {
+        return responseToResourceInterestPost(remoteDataSource.interestPosts(userId, categoryId))
+    }
+
+    override suspend fun addCounter(category: Category) {
+        localDataSource.addCounter(category)
+    }
+
+    override suspend fun getCounter(categoryId: Int): Flow<Int> {
+        return localDataSource.getCounter(categoryId)
+    }
+
+    override suspend fun getAllCounter(): Flow<List<Category>> {
+        return localDataSource.getAllCounter()
+    }
+
+    private fun responseToResourceInterestPost(response: Response<InterestPost>):Resource<InterestPost>{
         if (response.isSuccessful){
             response.body()?.let {result->
                 return Resource.Success(result)
@@ -111,13 +125,23 @@ class NewsRepositoryImpl(
     }
 
 
-    private fun responseToResourceNewsList(response: Response<NewsList>):Resource<NewsList>{
+    private fun responseToResourceUserAuth(response: Response<GetUser>):Resource<GetUser>{
         if (response.isSuccessful){
             response.body()?.let {result->
                 return Resource.Success(result)
             }
         }
         return Resource.Error(response.message())
+
+    }
+    private fun responseToResourceSendComment(response: Response<SendComment>):Resource<SendComment>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+
     }
 
 
@@ -158,123 +182,53 @@ class NewsRepositoryImpl(
     }
 
 
-    private suspend fun getCategoryNewsFromApi():List<ItemNews>{
-        lateinit var categoryList:List<ItemNews>
-        try {
-            val response = remoteDataSource.getNews()
-            val body = response.body()
-            if (body!=null){
-                categoryList = body.data
-            }
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        return categoryList
+
+    private suspend fun getCategory(internet: Boolean):List<ItemNews>{
+       return if (internet){
+           val list = remoteDataSource.getNews()
+           if (localDataSource.getCategoryFromDb().size>=10){
+               localDataSource.deleteNewsList()
+           }
+           localDataSource.saveCategoryToDb(list.body()?.data!!)
+           list.body()?.data!!
+
+       }else{
+           localDataSource.getCategoryFromDb()
+       }
     }
 
 
-    private suspend fun getCategoryFromDb(internet: Boolean):List<ItemNews>{
-        lateinit var categoryList:List<ItemNews>
-        try {
-           categoryList = localDataSource.getCategoryFromDb()
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        if (categoryList.size>0){
-            return if (internet){
-                categoryList =getCategoryNewsFromApi()
-                localDataSource.saveCategoryToDb(categoryList)
-                categoryList
-            }else{
-                categoryList
-            }
 
+
+    private suspend fun getTreading(internet: Boolean):List<Post>{
+        return if (internet){
+            val list = remoteDataSource.getTrendingNews()
+            if (localDataSource.getTrendingNews().size>=5){
+                localDataSource.deleteTrendingNews()
+            }
+            localDataSource.saveTrendingNewsToDb(list.body()?.data!!.post.subList(0,4))
+            list.body()?.data!!.post
         }else{
-            categoryList =getCategoryNewsFromApi()
-            localDataSource.saveCategoryToDb(categoryList)
-
+            localDataSource.getTrendingNews()
         }
-        return categoryList
     }
 
 
 
 
-    private suspend fun getTradingNewsFromApi():List<Post>{
-        lateinit var categoryList:List<Post>
-        try {
-            val response = remoteDataSource.getTrendingNews()
-            val body = response.body()
-            if (body!=null){
-                categoryList = body.data.post
+    private suspend fun getNewsList(catId:String, internet: Boolean,page:String,number:String):List<Data>{
+        return if (internet){
+            val list = remoteDataSource.getNewsList(catId, page, number)
+            if (localDataSource.getNewsFromDb(catId).size>=100){
+                localDataSource.deleteNewsToDB()
             }
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        return categoryList
-    }
-
-
-    private suspend fun getTreadingFromDb(internet: Boolean):List<Post>{
-        lateinit var categoryList:List<Post>
-        try {
-            categoryList = localDataSource.getTrendingNews()
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        if (categoryList.size>0){
-            return if (internet){
-                categoryList =getTradingNewsFromApi()
-                localDataSource.saveTrendingNewsToDb(categoryList)
-                categoryList
-            }else{
-                categoryList
-            }
+            localDataSource.saveNewsToDB(list.body()?.data!!.subList(0,10))
+            list.body()?.data!!
         }else{
-            categoryList =getTradingNewsFromApi()
-            localDataSource.saveTrendingNewsToDb(categoryList)
-
+            localDataSource.getNewsFromDb(catId)
         }
-        return categoryList
     }
 
 
-    private suspend fun getNewsListFromApi(catId:String,page:String,number:String):List<Data>{
-        lateinit var categoryList:List<Data>
-        try {
-            val response = remoteDataSource.getNewsList(catId,page, number)
-            val body = response.body()
-            if (body!=null){
-                categoryList = body.data
-            }
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        return categoryList
-    }
-
-
-    private suspend fun getNewsListFromDb(catId:String, internet: Boolean,page:String,number:String):List<Data>{
-        lateinit var categoryList:List<Data>
-        try {
-            categoryList = localDataSource.getNewsFromDb(catId)
-        }catch (e:Exception){
-            Log.i("TAG", "getCategoryNewsFromApi: ${e.message}")
-        }
-        if (categoryList.size>0){
-            return if (internet){
-                categoryList =getNewsListFromApi(catId, page, number)
-                localDataSource.saveNewsToDB(categoryList)
-                categoryList
-            }else{
-                categoryList
-            }
-        }else{
-            categoryList =getNewsListFromApi(catId,page,number)
-            localDataSource.saveNewsToDB(categoryList)
-
-        }
-        return categoryList
-    }
 
 }

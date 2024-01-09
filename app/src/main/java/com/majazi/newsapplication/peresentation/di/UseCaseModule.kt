@@ -2,15 +2,20 @@ package com.majazi.newsapplication.peresentation.di
 
 import com.majazi.newsapplication.domien.repository.NewsRepository
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetAllCounterUseCase
 import com.majazi.newsapplication.domien.usecase.GetAppIconUseCase
+import com.majazi.newsapplication.domien.usecase.GetCategoryUseCase
 import com.majazi.newsapplication.domien.usecase.GetCommentUseCase
 import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetInterestPostsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetTrendingNewsUseCase
+import com.majazi.newsapplication.domien.usecase.GetUserAuthUseCase
 import com.majazi.newsapplication.domien.usecase.GetUserUseCase
+import com.majazi.newsapplication.domien.usecase.SaveCounterUseCase
 import com.majazi.newsapplication.domien.usecase.SaveNewsUseCase
 import com.majazi.newsapplication.domien.usecase.SendCommentUseCase
 import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
@@ -132,4 +137,46 @@ class UseCaseModule {
         return GetAppIconUseCase(newsRepository)
     }
 
+
+    @Singleton
+    @Provides
+    fun provideUserAuthUseCase(
+        newsRepository: NewsRepository
+    ):GetUserAuthUseCase{
+        return GetUserAuthUseCase(newsRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideInterestPostCase(
+        newsRepository: NewsRepository
+    ):GetInterestPostsUseCase{
+        return GetInterestPostsUseCase(newsRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddCounterCase(
+        newsRepository: NewsRepository
+    ):SaveCounterUseCase{
+        return SaveCounterUseCase(newsRepository)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideGetCounterCase(
+        newsRepository: NewsRepository
+    ):GetCategoryUseCase{
+        return GetCategoryUseCase(newsRepository)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideGetAllCounterCase(
+        newsRepository: NewsRepository
+    ):GetAllCounterUseCase{
+        return GetAllCounterUseCase(newsRepository)
+    }
 }

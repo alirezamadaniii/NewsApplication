@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,12 +28,14 @@ import com.majazi.newsapplication.databinding.FragmentDetailNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.CommentAdapter
 import com.majazi.newsapplication.peresentation.adapter.DetailNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class DetailNewsFragment : Fragment() {
     private lateinit var binding: FragmentDetailNewsBinding
     private val args: DetailNewsFragmentArgs by navArgs()
-    private lateinit var viewModel: DetailNewsViewModel
+    private val viewModel: DetailNewsViewModel by viewModels()
     private lateinit var detailNewsAdapter: DetailNewsAdapter
     private lateinit var commentAdapter: CommentAdapter
     private lateinit var player: Player
@@ -53,7 +56,6 @@ class DetailNewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getBundle()
-        viewModel = (activity as MainActivity).detailNewsViewModel
         detailNewsAdapter = (activity as MainActivity).detailNewsAdapter
         commentAdapter = (activity as MainActivity).commentAdapter
         viewNewsList()

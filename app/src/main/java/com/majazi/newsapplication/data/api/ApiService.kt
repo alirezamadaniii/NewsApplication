@@ -3,7 +3,9 @@ package com.majazi.newsapplication.data.api
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
+import com.majazi.newsapplication.data.model.getuser.GetUser
 import com.majazi.newsapplication.data.model.homenews.HomeNews
+import com.majazi.newsapplication.data.model.interestpost.InterestPost
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
@@ -71,4 +73,20 @@ interface ApiService {
         @Field("phone") phone:String
     ): Response<SendComment>
 
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @FormUrlEncoded
+    @POST("getUserId")
+    suspend fun userAuth(
+        @Field("name") name:String,
+        @Field("phone") phone:String,
+    ): Response<GetUser>
+
+    @Headers("apiKey: f3J^cagO#tA#dhCifH7siqjD)gCZVy#i")
+    @FormUrlEncoded
+    @POST("getInterestPosts")
+    suspend fun getInterestPosts(
+        @Field("user_id") userId:String,
+        @Field("category_id") categoryId:String,
+    ): Response<InterestPost>
 }

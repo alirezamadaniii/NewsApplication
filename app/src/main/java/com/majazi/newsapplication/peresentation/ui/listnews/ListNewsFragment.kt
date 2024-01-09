@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -15,15 +16,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.bumptech.glide.Glide
-import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
+import com.majazi.newsapplication.data.model.Category
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentListNewsBinding
-import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
+import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -31,15 +30,10 @@ import kotlinx.coroutines.launch
 class ListNewsFragment : Fragment() {
     private lateinit var binding:FragmentListNewsBinding
     private val args : ListNewsFragmentArgs by navArgs()
-    private  val viewModel: NewListViewModel by viewModels()
-    private lateinit var newsAdapter: NewsListAdapter
-    private var page = 1
-    private var isScrolling = false
-    private var isLoading = false
-    private var isLastPage = false
-    private var pages = 0
-
+    private val viewModel: NewListViewModel by viewModels()
+    private val homeViewModel: NewsViewModel by viewModels()
     private lateinit var explorerAdapter: PassengerListAdapter
+    private var number:Int = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,13 +48,12 @@ class ListNewsFragment : Fragment() {
 
         getAppIcon()
         getBundle()
-//        viewModel = (activity as MainActivity).newsListViewModel
-        newsAdapter = (activity as MainActivity).newsListAdapter
-
+        addCounter()
         viewNewsList()
         backPressed()
 
-        newsAdapter.setOnItemClick {
+
+        explorerAdapter.setOnItemClick {
             val bundle =Bundle().apply {
                 putString("id",it.id.toString())
             }
@@ -68,11 +61,22 @@ class ListNewsFragment : Fragment() {
                 R.id.action_listNewsFragment_to_detailNewsFragment,
                 bundle
             )
+            homeViewModel.addCounter(Category(getBundle().toInt(),number))
         }
 
-        newsAdapter.setOnSavedButtonClick {
+        explorerAdapter.setOnSavedButtonClick {
             viewModel.saveNews(it)
         }
+    }
+
+    private fun addCounter() {
+        homeViewModel.getCounter(getBundle().toInt()).observe(viewLifecycleOwner){ot->
+            number = ot+1
+        }
+
+
+
+
 
     }
 
@@ -92,41 +96,35 @@ class ListNewsFragment : Fragment() {
 
 
     private fun viewNewsList() {
-         viewModel.getNewsList(getBundle(),"2")
-
-        explorerAdapter = PassengerListAdapter(requireContext())
-
+        explorerAdapter = PassengerListAdapter()
         binding.recyListNews.adapter =
             explorerAdapter.withLoadStateFooter(footer = DefaultLoadStateAdapter { explorerAdapter.retry() })
-
         explorerAdapter.addLoadStateListener { combined ->
-
             binding.apply {
                 pbSupportChannel.isVisible = combined.refresh is LoadState.Loading
                 pbSupportChannel.isInvisible =
                     combined.refresh is LoadState.NotLoading || combined.refresh is LoadState.Error
             }
-
             binding.apply {
-//                            refreshLayout.isRefreshing = false
-//                            loadingBackground.visibility = View.GONE
                 loadingPb.visibility = View.GONE
             }
-
+        }
+        explorerAdapter.setOnItemClick {
 
         }
-
-
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getNewsList(getBundle(),"5").collect { list ->
+            viewModel.getNewsList(getBundle(),"10").collect { list ->
                 explorerAdapter.submitData(list)
-
-
             }
         }
 
-
-
+        viewModel.isInternetAvailable.observe(viewLifecycleOwner){
+            if (!it){
+                Toast.makeText(activity,
+                    "کاربر گرامی شما به اینترنت متصل نیستید",
+                    Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun getAppIcon(){
@@ -137,8 +135,6 @@ class ListNewsFragment : Fragment() {
                 .into(binding.shapeableImageView)
         }
     }
-
-
 
 
 

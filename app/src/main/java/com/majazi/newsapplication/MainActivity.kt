@@ -17,36 +17,13 @@ import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.NewsListAdapter
 import com.majazi.newsapplication.peresentation.adapter.SavedNewsAdapter
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
-import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsFactory
-import com.majazi.newsapplication.peresentation.viewmodel.detailnews.DetailNewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModelFactory
-import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewsListViewModelFactory
-import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModelFactory
-import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
-import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModelFactory
+
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: NewsViewModelFactory
-
-    @Inject
-    lateinit var factoryDetailNews:DetailNewsFactory
-    @Inject
-    lateinit var factorySearchNews: SearchNewsViewModelFactory
-    @Inject
-    lateinit var factorySaveNews:SaveNewsViewModelFactory
-
-    lateinit var viewModel: NewsViewModel
-    lateinit var detailNewsViewModel: DetailNewsViewModel
-    lateinit var searchNewsViewModel: SearchNewsViewModel
-    lateinit var saveNewsViewModel: SaveNewsViewModel
 
 
     @Inject
@@ -72,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
         initBottomNavigation()
-
-        viewModel = ViewModelProvider(this,factory)[NewsViewModel::class.java]
-        detailNewsViewModel = ViewModelProvider(this,factoryDetailNews)[DetailNewsViewModel::class.java]
-        searchNewsViewModel = ViewModelProvider(this,factorySearchNews)[SearchNewsViewModel::class.java]
-        saveNewsViewModel = ViewModelProvider(this,factorySaveNews)[SaveNewsViewModel::class.java]
     }
 
 

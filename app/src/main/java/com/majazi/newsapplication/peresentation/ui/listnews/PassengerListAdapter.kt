@@ -17,11 +17,11 @@ import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
 import java.lang.NullPointerException
 
-class PassengerListAdapter(private val context: Context):
+class PassengerListAdapter:
     PagingDataAdapter<Data, PassengerListAdapter.PassengerViewHolder>(diffCallback = HOME_ADAPTER_COMPARATOR) {
 
 
-
+    private var stateSavedButton = false
     override fun onBindViewHolder(holder: PassengerViewHolder, position: Int) {
         val item: Data? = getItem(position)
         holder.bind(item!!)
@@ -35,7 +35,7 @@ class PassengerListAdapter(private val context: Context):
 
     }
 
-    class PassengerViewHolder(val binding: ItemListNewsBinding) :RecyclerView.ViewHolder(binding.root){
+    inner class PassengerViewHolder(val binding: ItemListNewsBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(itemNews: Data){
             try {
                 Glide.with(binding.imageListNews.context)
@@ -49,36 +49,52 @@ class PassengerListAdapter(private val context: Context):
             binding.tvHeder.text = itemNews.title
             binding.tvDate.text = itemNews.created
 
-//            binding.root.setOnClickListener {
-//                onItemClick?.let {
-//                    it(itemNews)
-//                }
-//            }
-//
-//            binding.imbSaveNews.setOnClickListener {
-//                stateSavedButton = if (!stateSavedButton){
-//                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_24)
-//                    true
-//                }else{
-//                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_border_24)
-//                    false
-//                }
-//
-//                onSavedButtonClick?.let {
-//                    val data= DataSavedList(itemNews.created,itemNews.id,itemNews.image,itemNews.title)
-//                    it(data)
-//                }
-//            }
-        }
-        private fun checkTextSize(context: Context, tvHeader: TextView, tvDate: TextView) {
-            var textSize:String?= SaveSharedP.fetch(context,"size_text")
-            if (textSize.equals("")){
-                textSize = "14"
+            binding.root.setOnClickListener {
+                onItemClick?.let {
+                    it(itemNews)
+                }
             }
-            tvHeader.textSize = textSize?.toFloat()!!
-            tvDate.textSize = (textSize.toFloat())-4
+
+            binding.imbSaveNews.setOnClickListener {
+                stateSavedButton = if (!stateSavedButton){
+                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_24)
+                    true
+                }else{
+                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_border_24)
+                    false
+                }
+
+                onSavedButtonClick?.let {
+                    val data= DataSavedList(itemNews.created,itemNews.id,itemNews.image,itemNews.title)
+                    it(data)
+                }
+            }
         }
+
     }
+
+
+    private var onItemClick :((Data)->Unit)?=null
+    private var onSavedButtonClick :((DataSavedList)->Unit)?=null
+    private fun checkTextSize(context: Context, tvHeader: TextView, tvDate: TextView) {
+        var textSize:String?= SaveSharedP.fetch(context,"size_text")
+        if (textSize.equals("")){
+            textSize = "14"
+        }
+        tvHeader.textSize = textSize?.toFloat()!!
+        tvDate.textSize = (textSize.toFloat())-4
+    }
+
+
+
+
+    fun setOnItemClick(listener:(Data)->Unit){
+        onItemClick = listener
+    }
+    fun setOnSavedButtonClick(listener:(DataSavedList)->Unit){
+        onSavedButtonClick = listener
+    }
+
 
 
     companion object {

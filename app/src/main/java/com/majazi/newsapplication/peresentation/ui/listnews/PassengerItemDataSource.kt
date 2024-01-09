@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.domien.usecase.GetNewsListUseCase
-import com.majazi.newsapplication.domien.usecase.GetNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -12,7 +11,8 @@ import kotlinx.coroutines.withContext
 class PassengerItemDataSource
     (private val getNewsUseCase: GetNewsListUseCase,
      private val catId:String,
-     private val number:String
+     private val number:String,
+     private val internet:Boolean
             ):PagingSource<Int,Data>() {
 
     private var requestContents: List<Data>? = null
@@ -35,7 +35,7 @@ class PassengerItemDataSource
                 val currentLoadingPage = params.key ?: 1
 
                 val requestedResponse =
-                    getNewsUseCase.execute(catId,true, currentLoadingPage.toString(),number)
+                    getNewsUseCase.execute(catId,internet, currentLoadingPage.toString(),number)
 
                 requestedResponse.let { requestContents = it.data }
 

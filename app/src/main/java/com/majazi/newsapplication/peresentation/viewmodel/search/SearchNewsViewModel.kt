@@ -11,10 +11,13 @@ import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.domien.usecase.GetSearchNewsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchNewsViewModel(
+@HiltViewModel
+class SearchNewsViewModel @Inject constructor(
     private val app :Application,
     private val getSearchNewsUseCase: GetSearchNewsUseCase
 ):AndroidViewModel(app) {
@@ -36,7 +39,7 @@ class SearchNewsViewModel(
     }
 
     @Suppress("DEPRECATION")
-    fun isInternetAvailable(context: Context): Boolean {
+    private fun isInternetAvailable(context: Context): Boolean {
         var result = false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

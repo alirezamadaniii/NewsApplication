@@ -3,7 +3,9 @@ package com.majazi.newsapplication.data.repository.news.datasource
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
+import com.majazi.newsapplication.data.model.getuser.GetUser
 import com.majazi.newsapplication.data.model.homenews.HomeNews
+import com.majazi.newsapplication.data.model.interestpost.InterestPost
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
@@ -30,4 +32,9 @@ interface NewsRemoteDataSource {
     ):Response<SendComment>
 
     suspend fun getAppIcon():Response<TrendingNews>
+
+    suspend fun userAuth(name: String,phone: String):Response<GetUser>
+
+
+    suspend fun interestPosts(userId: String,categoryId: String):Response<InterestPost>
 }

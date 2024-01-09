@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.domien.usecase.DeleteNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetNewsFromDbUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SaveNewsViewModel(
+@HiltViewModel
+class SaveNewsViewModel @Inject constructor(
     private val deleteNewsUseCase: DeleteNewsUseCase,
     private val getSavedNewsUseCase:GetNewsFromDbUseCase
     ):ViewModel() {

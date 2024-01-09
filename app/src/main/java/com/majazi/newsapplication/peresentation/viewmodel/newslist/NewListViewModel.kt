@@ -28,12 +28,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewListViewModel @Inject constructor(
+    private val app: Application,
     private val getNewsListUseCase: GetNewsListUseCase,
     private val saveNewsUseCase: SaveNewsUseCase
-) : ViewModel(){
+) : AndroidViewModel(app){
 
     val newsList :MutableLiveData<ResourceListNews<Data>> = MutableLiveData()
-    val isInternetAvailable :MutableLiveData<String> = MutableLiveData()
+    val isInternetAvailable :MutableLiveData<Boolean> = MutableLiveData()
 
     fun getNewsList(catId:String,number:String) : Flow<PagingData<Data>> {
 //        newsList.postValue(ResourceListNews.Loading())
@@ -50,17 +51,34 @@ class NewListViewModel @Inject constructor(
 //            newsList.postValue(ResourceListNews.Error(e.message.toString()))
 //        }
 
-        var handleRequest = Pager(
-            config = PagingConfig(
-                pageSize = 8
-            ), pagingSourceFactory = {
-                PassengerItemDataSource(
-                    getNewsListUseCase,catId,number
-                )
-            }
-        ).flow.flowOn(Dispatchers.IO)
-            .cachedIn(viewModelScope)
-        return handleRequest
+        if (isInternetAvailable(app)){
+            isInternetAvailable.postValue(true)
+            var handleRequest = Pager(
+                config = PagingConfig(
+                    pageSize = 10
+                ), pagingSourceFactory = {
+                    PassengerItemDataSource(
+                        getNewsListUseCase,catId,number,true
+                    )
+                }
+            ).flow.flowOn(Dispatchers.IO)
+                .cachedIn(viewModelScope)
+            return handleRequest
+
+        }else{
+            isInternetAvailable.postValue(false)
+            var handleRequest = Pager(
+                config = PagingConfig(
+                    pageSize = 10
+                ), pagingSourceFactory = {
+                    PassengerItemDataSource(
+                        getNewsListUseCase,catId,number,false
+                    )
+                }
+            ).flow.flowOn(Dispatchers.IO)
+                .cachedIn(viewModelScope)
+            return handleRequest
+        }
 
     }
 

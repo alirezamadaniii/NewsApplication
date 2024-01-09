@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
@@ -19,13 +20,14 @@ import com.majazi.newsapplication.data.utils.Resource
 import com.majazi.newsapplication.databinding.FragmentSearchBinding
 import com.majazi.newsapplication.peresentation.adapter.SearchNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.search.SearchNewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var binding:FragmentSearchBinding
-    private lateinit var viewModel:SearchNewsViewModel
+    private val viewModel:SearchNewsViewModel by viewModels()
     private lateinit var adapter: SearchNewsAdapter
 
     override fun onCreateView(
@@ -39,7 +41,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).searchNewsViewModel
         adapter = (activity as MainActivity).searchNewsAdapter
         backPressed()
         voiceSearch()
@@ -114,7 +115,7 @@ class SearchFragment : Fragment() {
                 is Resource.Error ->{
                     hideProgressBar()
                     response.message?.let {
-                        if (!it.equals("Unprocessable Content")){
+                        if (it != "Unprocessable Content"){
                             Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
                         }
 

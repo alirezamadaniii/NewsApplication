@@ -19,17 +19,19 @@ import com.majazi.newsapplication.domien.usecase.GetDetailNewsUseCase
 import com.majazi.newsapplication.domien.usecase.GetUserUseCase
 import com.majazi.newsapplication.domien.usecase.SendCommentUseCase
 import com.majazi.newsapplication.domien.usecase.SignInUserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailNewsViewModel(
+@HiltViewModel
+class DetailNewsViewModel @Inject constructor(
     private val app:Application,
     private val getDetailNewsUseCase: GetDetailNewsUseCase,
     private val getCommentUseCase: GetCommentUseCase,
     private val signInUserUseCase: SignInUserUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val sendCommentUseCase: SendCommentUseCase
-
 ):AndroidViewModel(app) {
     val news:MutableLiveData<Resource<DetailNews>> = MutableLiveData()
     val comment:MutableLiveData<Resource<Comment>> = MutableLiveData()

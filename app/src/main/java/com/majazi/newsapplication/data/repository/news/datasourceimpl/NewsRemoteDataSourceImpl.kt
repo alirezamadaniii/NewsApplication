@@ -4,7 +4,9 @@ import com.majazi.newsapplication.data.api.ApiService
 import com.majazi.newsapplication.data.model.detailnews.DetailNews
 import com.majazi.newsapplication.data.model.detailnews.comment.Comment
 import com.majazi.newsapplication.data.model.detailnews.comment.sendcomment.SendComment
+import com.majazi.newsapplication.data.model.getuser.GetUser
 import com.majazi.newsapplication.data.model.homenews.HomeNews
+import com.majazi.newsapplication.data.model.interestpost.InterestPost
 import com.majazi.newsapplication.data.model.newslist.NewsList
 import com.majazi.newsapplication.data.model.search.Search
 import com.majazi.newsapplication.data.model.trendingnews.TrendingNews
@@ -47,6 +49,14 @@ class NewsRemoteDataSourceImpl(private val apiService: ApiService):NewsRemoteDat
 
     override suspend fun getAppIcon(): Response<TrendingNews> {
         return apiService.getTrendingNews()
+    }
+
+    override suspend fun userAuth(name: String, phone: String): Response<GetUser> {
+        return apiService.userAuth(name, phone)
+    }
+
+    override suspend fun interestPosts(userId: String, categoryId: String): Response<InterestPost> {
+        return apiService.getInterestPosts(userId,categoryId)
     }
 
 }

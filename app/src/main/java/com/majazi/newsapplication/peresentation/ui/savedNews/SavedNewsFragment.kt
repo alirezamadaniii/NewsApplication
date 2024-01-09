@@ -6,21 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentSavedNewsBinding
 import com.majazi.newsapplication.peresentation.adapter.SavedNewsAdapter
-import com.majazi.newsapplication.peresentation.viewmodel.newslist.NewListViewModel
 import com.majazi.newsapplication.peresentation.viewmodel.savenews.SaveNewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class SavedNewsFragment : Fragment() {
     private lateinit var binding: FragmentSavedNewsBinding
     private lateinit var savedNewsAdapter: SavedNewsAdapter
-    private lateinit var viewModel: NewListViewModel
-    private lateinit var viewModelSaveNews: SaveNewsViewModel
+    private val viewModelSaveNews: SaveNewsViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +34,6 @@ class SavedNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel = (activity as MainActivity).newsListViewModel
-        viewModelSaveNews = (activity as MainActivity).saveNewsViewModel
         savedNewsAdapter = (activity as MainActivity).savedNewsAdapter
         getAppIcon()
         viewNewsList()
@@ -44,7 +43,7 @@ class SavedNewsFragment : Fragment() {
 
     private fun viewNewsList() {
         viewModelSaveNews.getSavedNews().observe(viewLifecycleOwner) { response ->
-            if (response.size>0){
+            if (response.isNotEmpty()){
                 binding.recySavedNews.adapter = savedNewsAdapter
                 savedNewsAdapter.differ.submitList(response)
             }else{
