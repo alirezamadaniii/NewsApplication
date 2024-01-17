@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.majazi.newsapplication.MainActivity
 import com.majazi.newsapplication.R
@@ -283,7 +284,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        setupSpannedGridLayout()
+        binding.recyHome.layoutManager =GridLayoutManager(requireContext(),3)
         binding.recyHome.adapter = newsAdapter
     }
 
