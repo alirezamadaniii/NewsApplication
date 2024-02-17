@@ -7,7 +7,7 @@ class SaveSharedP {
 
     companion object{
         private lateinit var sharedPreferences: SharedPreferences
-        lateinit var editor: SharedPreferences.Editor
+        private lateinit var editor: SharedPreferences.Editor
 
 
 

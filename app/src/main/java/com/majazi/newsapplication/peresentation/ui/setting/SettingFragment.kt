@@ -1,5 +1,7 @@
 package com.majazi.newsapplication.peresentation.ui.setting
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,7 +32,7 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        showVersionApk()
         setSizeText()
         onclick()
         nightModeButtonState()
@@ -95,6 +97,8 @@ class SettingFragment : Fragment() {
 
 
 
+
+
 //        binding.tvAboutUs.setOnClickListener{
 //            findNavController().navigate(R.id.action_settingFragment_to_aboutUsFragment)
 //        }
@@ -102,6 +106,18 @@ class SettingFragment : Fragment() {
 //        binding.tvContactUs.setOnClickListener {
 //            findNavController().navigate(R.id.action_settingFragment_to_contactUsFragment)
 //        }
+
+    }
+
+    private fun showVersionApk() {
+        try {
+            val pInfo: PackageInfo =
+                requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0)
+            val version:String? = pInfo.versionName
+            binding.tvVersion.text ="ورژن "+version.toString()
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
 }

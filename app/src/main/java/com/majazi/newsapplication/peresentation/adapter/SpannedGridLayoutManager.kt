@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.majazi.newsapplication.R
 import java.util.ArrayList
+import kotlin.math.ceil
 import kotlin.math.floor
 
 class SpannedGridLayoutManager  : RecyclerView.LayoutManager {
@@ -487,7 +488,7 @@ class SpannedGridLayoutManager  : RecyclerView.LayoutManager {
     // adjust to spanned rows
     private val minimumFirstVisibleRow: Int
         get() {
-            val maxDisplayedRows = Math.ceil((height.toFloat() / cellHeight).toDouble()).toInt() + 1
+            val maxDisplayedRows = ceil((height.toFloat() / cellHeight).toDouble()).toInt() + 1
             if (totalRows < maxDisplayedRows) return 0
             val minFirstRow = totalRows - maxDisplayedRows
             // adjust to spanned rows

@@ -6,7 +6,6 @@ import com.majazi.newsapplication.data.model.detailnews.comment.SignInUser
 import com.majazi.newsapplication.data.model.homenews.ItemNews
 import com.majazi.newsapplication.data.model.newslist.Data
 import com.majazi.newsapplication.data.model.trendingnews.Post
-import com.majazi.newsapplication.data.model.trendingnews.TNews
 import kotlinx.coroutines.flow.Flow
 
 interface NewsLocalDataSource {

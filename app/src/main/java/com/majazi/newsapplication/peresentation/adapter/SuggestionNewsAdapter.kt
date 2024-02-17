@@ -1,16 +1,14 @@
 package com.majazi.newsapplication.peresentation.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.majazi.newsapplication.R
-import com.majazi.newsapplication.data.model.DataSavedList
 import com.majazi.newsapplication.data.model.interestpost.Data
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.ItemListNewsBinding
@@ -19,7 +17,6 @@ import java.lang.NullPointerException
 class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsViewHolder>() {
 
 
-    private var stateSavedButton = false
 
     private val callback = object : DiffUtil.ItemCallback<Data>() {
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
@@ -57,9 +54,8 @@ class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsView
         fun bind(itemNews: Data) {
             try {
                 Glide.with(binding.imageListNews.context)
-                    .load("https://hormoz.ir/public/"+itemNews.image.thumbnail)
+                    .load("https://hormoz.ir/public/"+itemNews.image.og_image)
                     .into(binding.imageListNews)
-                Log.i("TAG", "bind: "+itemNews.image.thumbnail)
 
             } catch (e: NullPointerException) {
                 e.printStackTrace()
@@ -75,26 +71,12 @@ class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsView
                 }
             }
 
-            binding.imbSaveNews.setOnClickListener {
-                stateSavedButton = if (!stateSavedButton) {
-                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_24)
-                    true
-                } else {
-                    binding.imbSaveNews.setImageResource(R.drawable.baseline_bookmark_border_24)
-                    false
-                }
+            binding.imbSaveNews.visibility =View.GONE
 
-                onSavedButtonClick?.let {
-//                    val data =
-//                        DataSavedList(itemNews.createdAt, itemNews.id, itemNews.image.ogImage, itemNews.title)
-//                    it(data)
-                }
-            }
         }
     }
 
     private var onItemClick: ((Data) -> Unit)? = null
-    private var onSavedButtonClick: ((DataSavedList) -> Unit)? = null
 
 
     private fun checkTextSize(context: Context, tvHeader: TextView, tvDate: TextView) {
@@ -110,7 +92,4 @@ class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsView
         onItemClick = listener
     }
 
-    fun setOnSavedButtonClick(listener: (DataSavedList) -> Unit) {
-        onSavedButtonClick = listener
-    }
 }

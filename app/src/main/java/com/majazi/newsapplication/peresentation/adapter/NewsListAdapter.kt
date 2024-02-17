@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -54,17 +55,17 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>() {
 
     inner class  NewsViewHolder(val binding: ItemListNewsBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(itemNews: Data){
-            try {
+
+
                 Glide.with(binding.imageListNews.context)
                     .load(itemNews.image.mediumImage)
                     .into(binding.imageListNews)
-            }catch (e:NullPointerException){
-                e.printStackTrace()
-            }
+
 
             checkTextSize(itemView.context,binding.tvHeder,binding.tvDate)
             binding.tvHeder.text = itemNews.title
             binding.tvDate.text = itemNews.created
+
 
             binding.root.setOnClickListener {
                 onItemClick?.let {

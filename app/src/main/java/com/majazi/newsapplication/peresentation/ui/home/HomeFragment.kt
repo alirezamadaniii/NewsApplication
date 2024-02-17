@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,10 +24,11 @@ import com.majazi.newsapplication.data.utils.ResourceTrending
 import com.majazi.newsapplication.data.utils.SaveSharedP
 import com.majazi.newsapplication.databinding.FragmentHomeBinding
 import com.majazi.newsapplication.peresentation.adapter.HomeNewsAdapter
-import com.majazi.newsapplication.peresentation.adapter.SpannedGridLayoutManager
 import com.majazi.newsapplication.peresentation.adapter.SuggestionNewsAdapter
 import com.majazi.newsapplication.peresentation.viewmodel.home.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -65,44 +67,51 @@ class HomeFragment : Fragment() {
         }
         getAppIcon()
         initRecyclerView()
-        viewNewsList()
-        trendingNews()
-        userAuth()
-        getInterestPost()
+
+        lifecycleScope.launch {
+            val categoryList = async { viewNewsList() }
+            val interestPost = async { getInterestPost() }
+            val trendingNews = async { trendingNews() }
+            val userAuth = async { userAuth() }
+            categoryList.await()
+            interestPost.await()
+            trendingNews.await()
+            userAuth.await()
+        }
+
+
     }
 
     private fun getInterestPost() {
         val category1 = JSONObject()
         val category2 = JSONObject()
         val category3 = JSONObject()
-        viewModel.getAllCounter().observe(viewLifecycleOwner){response->
+        viewModel.getAllCounter().observe(viewLifecycleOwner) { response ->
             try {
-
-
                 category1.put("category_id", response[0].category_id)
-                category1.put("count", response[0].count)
+                category1.put("count", 10)
 
             } catch (e: JSONException) {
-                Toast.makeText(requireContext(),"عملیات با خطا مواجه شد",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "عملیات با خطا مواجه شد", Toast.LENGTH_LONG).show()
                 e.printStackTrace()
             }
 
             try {
                 category2.put("category_id", response[1].category_id)
-                category2.put("count", response[1].count)
+                category2.put("count", 7)
 
             } catch (e: JSONException) {
-                Toast.makeText(requireContext(),"عملیات با خطا مواجه شد",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "عملیات با خطا مواجه شد", Toast.LENGTH_LONG).show()
                 e.printStackTrace()
             }
 
 
             try {
                 category3.put("category_id", response[2].category_id)
-                category3.put("count", response[2].count)
+                category3.put("count", 3)
 
             } catch (e: JSONException) {
-                Toast.makeText(requireContext(),"عملیات با خطا مواجه شد",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "عملیات با خطا مواجه شد", Toast.LENGTH_LONG).show()
                 e.printStackTrace()
             }
 
@@ -114,23 +123,30 @@ class HomeFragment : Fragment() {
             studentsObj.put("category", jsonArray)
 
             val jsonStr = studentsObj.toString()
-            Log.i("TAG", "getIjkhjnterestPost: $jsonStr")
-            viewModel.getInterestPost("146",jsonStr)
-            viewModel.interestPost.observe(viewLifecycleOwner){response->
-                when (response) {
+            val androidId = systemID()
+            viewModel.getInterestPost(androidId, jsonStr)
+            viewModel.interestPost.observe(viewLifecycleOwner) { responses ->
+                when (responses) {
                     is Resource.Success -> {
-                        response.data.let {
+                        responses.data.let {
+                            binding.tvSuggestion.visibility = View.VISIBLE
                             suggestionNewsAdapter = SuggestionNewsAdapter()
                             binding.recySuggestion.adapter = suggestionNewsAdapter
                             suggestionNewsAdapter.differ.submitList(it?.data)
-                        }
 
+                            suggestionNewsAdapter.setOnItemClick {
+                                val bundle = Bundle().apply {
+                                    putString("id", it.id.toString())
+                                }
+                                findNavController().navigate(
+                                    R.id.action_homeFragment_to_detailNewsFragment,
+                                    bundle
+                                )
+                            }
+                        }
                     }
 
                     is Resource.Error -> {
-                        response.message?.let {
-                            Log.i("TAG", "trendingNews: $it")
-                        }
                     }
 
                     is Resource.Loading -> {}
@@ -142,27 +158,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun userAuth() {
-        val userAuth = SaveSharedP.fetch(requireContext(),"user_auth")
-        if (userAuth.isNullOrEmpty()){
-            val androidId = Settings.Secure.getString(
-                context?.contentResolver,
-                Settings.Secure.ANDROID_ID)
+        val userAuth = SaveSharedP.fetch(requireContext(), "user_auth")
+        if (userAuth.isNullOrEmpty()) {
+            val androidId = systemID()
             viewModel.userAuth("android", androidId)
             viewModel.userAuthUseCase.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Success -> {
                         response.data.let {
-                            SaveSharedP.data(requireContext(),"user_auth",
+                            SaveSharedP.data(
+                                requireContext(), "user_auth",
                                 it?.message?.userId.toString()
                             )
                         }
                     }
 
-                    is Resource.Error -> {
-                        response.message?.let {
-                            Log.i("TAG", "trendingNews: $it")
-                        }
-                    }
+                    is Resource.Error -> {}
 
                     is Resource.Loading -> {}
                 }
@@ -177,7 +188,6 @@ class HomeFragment : Fragment() {
         viewModel.trendingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ResourceTrending.Success -> {
-
                     response.data.let {
                         var textSize: String? = SaveSharedP.fetch(requireContext(), "size_text")
                         if (textSize.equals("")) {
@@ -194,11 +204,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                is ResourceTrending.Error -> {
-                    response.message?.let {
-                        Log.i("TAG", "trendingNews: $it")
-                    }
-                }
+                is ResourceTrending.Error -> {}
 
                 is ResourceTrending.Loading -> {}
             }
@@ -210,15 +216,15 @@ class HomeFragment : Fragment() {
         viewModel.news.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ResourceItemNews.Success -> {
-                    hideProgressBar()
                     response.data.let {
                         newsAdapter.differ.submitList(it)
                     }
+                    binding.progressBar.visibility = View.GONE
                 }
 
                 is ResourceItemNews.Error -> {
                     response.message?.let {
-                        if (it.equals("lateinit property categoryList has not been initialized")) {
+                        if (it == "lateinit property categoryList has not been initialized") {
                             Toast.makeText(
                                 activity,
                                 "مشکل در ارتباط با سرور",
@@ -229,7 +235,7 @@ class HomeFragment : Fragment() {
                 }
 
                 is ResourceItemNews.Loading -> {
-                    showProgressBar()
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }
@@ -252,7 +258,6 @@ class HomeFragment : Fragment() {
             Glide.with(binding.shapeableImageView.context)
                 .load(appICon)
                 .into(binding.shapeableImageView)
-            Log.i("TAG", "getAppIcon: $appICon")
         }
         viewModel.getAppIcon()
         viewModel.appIcon.observe(viewLifecycleOwner) { response ->
@@ -268,7 +273,7 @@ class HomeFragment : Fragment() {
 
                 is Resource.Error -> {
                     response.message?.let {
-                        if (it.equals("lateinit property categoryList has not been initialized")) {
+                        if (it == "lateinit property categoryList has not been initialized") {
                             Toast.makeText(
                                 activity,
                                 "مشکل در ارتباط با سرور",
@@ -284,18 +289,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        binding.recyHome.layoutManager =GridLayoutManager(requireContext(),3)
+        binding.recyHome.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recyHome.adapter = newsAdapter
     }
 
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
-    }
 
     private fun onclick() {
         binding.imbSearch.setOnClickListener {
@@ -303,22 +300,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-    private fun setupSpannedGridLayout() {
-        val manager = SpannedGridLayoutManager(
-            object : SpannedGridLayoutManager.GridSpanLookup {
-                override fun getSpanInfo(position: Int): SpannedGridLayoutManager.SpanInfo {
-                    return if (position % 12 == 0 || position % 12 == 7) {
-                        SpannedGridLayoutManager.SpanInfo(1, 1)
-                    } else {
-                        SpannedGridLayoutManager.SpanInfo(1, 1)
-                    }
-                }
-            },
-            3,
-            1f
+    private fun systemID(): String {
+        return Settings.Secure.getString(
+            context?.contentResolver,
+            Settings.Secure.ANDROID_ID
         )
-        binding.recyHome.layoutManager = manager
     }
+
 
 }

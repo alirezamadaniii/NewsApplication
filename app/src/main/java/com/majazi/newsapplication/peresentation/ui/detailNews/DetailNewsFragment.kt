@@ -1,5 +1,6 @@
 package com.majazi.newsapplication.peresentation.ui.detailNews
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -61,7 +62,7 @@ class DetailNewsFragment : Fragment() {
         viewNewsList()
         showComment()
         backPressed()
-        getUserData()
+        checkUser()
         shareButton()
     }
 
@@ -83,59 +84,40 @@ class DetailNewsFragment : Fragment() {
     }
 
 
-    private fun getUserData() {
+    @SuppressLint("HardwareIds")
+    private fun checkUser() {
         viewModel.getUser().observe(viewLifecycleOwner) { db ->
 
             binding.txtInputLayout.setEndIconOnClickListener { _ ->
                 //check be sing in user
                 try {
-                    if (db.username.isEmpty()) {
-//                        val dialog =
-//                            requireContext().dialog(R.layout.dialog_sign_in, requireView(), true)
-//                        dialog.findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
-//                            val username =
-//                                dialog.findViewById<EditText>(R.id.user_name).text.toString()
-//                            val email = dialog.findViewById<EditText>(R.id.email).text.toString()
-//                            if (username.isEmpty() || email.isEmpty()) {
-//                                Toast.makeText(
-//                                    activity,
-//                                    "لطفا فیلدهای بالا را به دقت پر کنید",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                            }
-//                        }
-
-                    } else {
+                    if (db.username.isNotEmpty())
                         viewModel.sendCommentNews(
                             binding.edtComment.text.toString(),
                             getBundle(),
                             db.username,
                             Settings.Secure.getString(
                                 context?.contentResolver,
-                                Settings.Secure.ANDROID_ID)
+                                Settings.Secure.ANDROID_ID
+                            )
                         )
-                        viewModel.sendComment.observe(viewLifecycleOwner) { response ->
-                            when (response) {
-                                is Resource.Success -> {
-
-                                    binding.edtComment.text?.clear()
-
-                                    showComment()
-                                    binding.scroll.scrollTo(0, binding.scroll.bottom)
-                                    binding.recyComment.requestFocus()
-                                }
-
-                                is Resource.Error -> {
-
-                                    binding.edtComment.text?.clear()
-                                }
-
-                                is Resource.Loading -> {
-
-                                }
+                    viewModel.sendComment.observe(viewLifecycleOwner) { response ->
+                        when (response) {
+                            is Resource.Success -> {
+                                binding.edtComment.text?.clear()
+                                showComment()
+                                binding.scroll.scrollTo(0, binding.scroll.bottom)
+                                binding.recyComment.requestFocus()
                             }
+
+                            is Resource.Error -> {
+                                binding.edtComment.text?.clear()
+                            }
+
+                            is Resource.Loading -> {}
                         }
                     }
+
                 } catch (e: Exception) {
                     val dialog =
                         requireContext().dialog(R.layout.dialog_sign_in, requireView(), true)
@@ -194,7 +176,7 @@ class DetailNewsFragment : Fragment() {
                                 .load(it.image.og_image)
                                 .into(binding.imgHeaderNews)
                         } catch (e: Exception) {
-                            Log.i("TAG", "viewNewsList: ${e.message}")
+                            e.printStackTrace()
                         }
 
                         binding.recyDetail.adapter = detailNewsAdapter
@@ -207,7 +189,6 @@ class DetailNewsFragment : Fragment() {
                     hideProgressBar()
                     response.message?.let {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
-                        Log.i("TAG", "viewNewsList2q: $it")
                     }
                 }
 
@@ -218,22 +199,23 @@ class DetailNewsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView(html: String) {
         //set text size
-        var textSize:String? = SaveSharedP.fetch(requireContext(),"size_text")
-        val theme :String? = SaveSharedP.fetch(requireContext(),"night_mode")
-        val textColor:String?
-        val backgroundColor:String?
+        var textSize: String? = SaveSharedP.fetch(requireContext(), "size_text")
+        val theme: String? = SaveSharedP.fetch(requireContext(), "night_mode")
+        val textColor: String?
+        val backgroundColor: String?
 
-        if (theme.equals("true")){
+        if (theme.equals("true")) {
             textColor = "#FFFFFFFF"
-            backgroundColor="#171717"
-        }else{
+            backgroundColor = "#171717"
+        } else {
             Log.i("TAG", "setupWebView: $theme")
             textColor = "#171717"
-            backgroundColor="#FFFFFFFF"
+            backgroundColor = "#FFFFFFFF"
         }
-        if (textSize.equals("")){
+        if (textSize.equals("")) {
             textSize = "16"
         }
         binding.tvUserComment.textSize = textSize?.toFloat()!!
@@ -259,7 +241,7 @@ class DetailNewsFragment : Fragment() {
                 is Resource.Success -> {
                     response.data?.let {
                         binding.recyComment.adapter = commentAdapter
-                        val  linearLayoutManager = LinearLayoutManager(activity)
+                        val linearLayoutManager = LinearLayoutManager(activity)
                         linearLayoutManager.reverseLayout = true
                         binding.recyComment.layoutManager = linearLayoutManager
                         commentAdapter.differ.submitList(it.data)
@@ -271,6 +253,7 @@ class DetailNewsFragment : Fragment() {
                         Toast.makeText(activity, "Error : $it", Toast.LENGTH_LONG).show()
                     }
                 }
+
                 is Resource.Loading -> {}
             }
         }
@@ -293,7 +276,7 @@ class DetailNewsFragment : Fragment() {
                 detailNewsAdapter.release()
             }
         } catch (e: Exception) {
-            Log.i("TAG", "onDestroy: ${e.message}")
+            e.printStackTrace()
         }
     }
 

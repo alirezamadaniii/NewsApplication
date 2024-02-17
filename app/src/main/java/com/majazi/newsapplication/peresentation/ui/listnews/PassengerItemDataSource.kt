@@ -43,7 +43,7 @@ class PassengerItemDataSource
 
                 prevKey = if (currentLoadingPage == 1) null else currentLoadingPage - 1
                 nextKey = if (lastPageSize <= 4) null else {
-                    delay(1000)
+                    delay(500)
                     currentLoadingPage + 1
                 }
 

@@ -91,17 +91,31 @@
                     app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/materialTextView2"
+                    android:id="@+id/tv_suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:fontFamily="@font/shabnam_bold"
                     android:text="پیشنهادی بر اساس علاقه شما"
+                    android:visibility="gone"
                     android:textColor="@color/custom_red2"
                     android:textSize="@dimen/_16sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recy_home" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/empty_suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="لیست اخبار خالی است"
+                    android:fontFamily="@font/shabnam_light"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_suggestion" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recy_suggestion"
@@ -113,20 +127,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_suggestion" />
 
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="?attr/actionBarSize"
                     android:background="?attr/back_progress"
                     android:indeterminateTint="@color/custom_red"
                     android:padding="170dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

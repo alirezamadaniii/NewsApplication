@@ -3,6 +3,7 @@ package com.majazi.newsapplication.peresentation.ui.listnews
 import android.content.Context
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -38,6 +39,8 @@ class PassengerListAdapter:
     inner class PassengerViewHolder(val binding: ItemListNewsBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(itemNews: Data){
             try {
+                Log.i("TAG", "bindwq: "+itemNews.image.mediumImage)
+
                 Glide.with(binding.imageListNews.context)
                     .load(itemNews.image.mediumImage)
                     .into(binding.imageListNews)

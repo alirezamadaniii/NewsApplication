@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
 
 
     @Inject
-    lateinit var newsListAdapter: NewsListAdapter
-    @Inject
     lateinit var newsAdapter: HomeNewsAdapter
     @Inject
     lateinit var detailNewsAdapter:DetailNewsAdapter
