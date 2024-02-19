@@ -7,7 +7,7 @@ data class InterestPost(
     @Json(name = "data")
     val `data`: List<Data>,
     @Json(name = "message")
-    val message: List<Any>,
+    val message: String,
     @Json(name = "success")
     val success: Boolean
 )

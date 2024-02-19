@@ -3,7 +3,9 @@ package com.majazi.newsapplication.data.model.interestpost
 
 import com.squareup.moshi.Json
 
-data class X1(
-    @Json(name = "text")
-    val text: Text
+data class InterestedImage(
+
+    @Json(name = "medium_image")
+    val medium_image: String,
+
 )

@@ -17,9 +17,9 @@ data class Data(
     @Json(name = "content")
     val content: String,
     @Json(name = "contents")
-    val contents: Contents,
-    @Json(name = "created_at")
-    val createdAt: String,
+    val contents: Any,
+    @Json(name = "created")
+    val created: String,
     @Json(name = "editor_picks")
     val editorPicks: Int,
     @Json(name = "editor_picks_order")
@@ -31,7 +31,7 @@ data class Data(
     @Json(name = "id")
     val id: Int,
     @Json(name = "image")
-    val image: ImageXX,
+    val image: InterestedImage,
     @Json(name = "image_id")
     val imageId: Int,
     @Json(name = "language")
@@ -63,7 +63,7 @@ data class Data(
     @Json(name = "scheduled")
     val scheduled: Int,
     @Json(name = "scheduled_date")
-    val scheduledDate: String,
+    val scheduledDate: Any,
     @Json(name = "short_link")
     val shortLink: String,
     @Json(name = "slider")

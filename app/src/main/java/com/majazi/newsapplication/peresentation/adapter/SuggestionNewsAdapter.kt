@@ -1,6 +1,7 @@
 package com.majazi.newsapplication.peresentation.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,8 +54,9 @@ class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsView
         RecyclerView.ViewHolder(binding.root) {
         fun bind(itemNews: Data) {
             try {
+                Log.i("TAG", "bind: "+itemNews.toString())
                 Glide.with(binding.imageListNews.context)
-                    .load("https://hormoz.ir/public/"+itemNews.image.og_image)
+                    .load("https://hormoz.ir/public/"+itemNews.image.medium_image)
                     .into(binding.imageListNews)
 
             } catch (e: NullPointerException) {
@@ -63,7 +65,7 @@ class SuggestionNewsAdapter: RecyclerView.Adapter<SuggestionNewsAdapter.NewsView
 
             checkTextSize(itemView.context, binding.tvHeder, binding.tvDate)
             binding.tvHeder.text = itemNews.title
-            binding.tvDate.text = itemNews.createdAt
+            binding.tvDate.text = itemNews.created
 
             binding.root.setOnClickListener {
                 onItemClick?.let {

@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -129,6 +130,8 @@ class HomeFragment : Fragment() {
                 when (responses) {
                     is Resource.Success -> {
                         responses.data.let {
+                            Log.i("TAG", "getInterestPsdsaost: "+it?.data.toString())
+
                             binding.tvSuggestion.visibility = View.VISIBLE
                             suggestionNewsAdapter = SuggestionNewsAdapter()
                             binding.recySuggestion.adapter = suggestionNewsAdapter
@@ -147,6 +150,7 @@ class HomeFragment : Fragment() {
                     }
 
                     is Resource.Error -> {
+                        Log.i("TAG", "getInterestPsdsaost: "+responses?.message.toString())
                     }
 
                     is Resource.Loading -> {}
